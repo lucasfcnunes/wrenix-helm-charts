@@ -1,0 +1,12 @@
+{{- if and .Values.headscale.certmanager.enabled (.Capabilities.APIVersions.Has "cert-manager.io/v1/Certificate") }}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "headscale.fullname" . }}
+spec:
+  secretName: {{ include "headscale.fullname" . }}-cert
+  dnsNames:
+    {{- toYaml .Values.headscale.certmanager.dnsNames | nindent 4 }}
+  issuerRef:
+    {{- toYaml .Values.headscale.certmanager.issuerRef | nindent 4 }}
+{{- end }}

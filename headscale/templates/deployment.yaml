@@ -1,0 +1,119 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "headscale.fullname" . }}
+  labels:
+    {{- include "headscale.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "headscale.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        config-hash: {{ toYaml .Values.headscale.config | sha256sum | trunc 32 }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "headscale.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "headscale.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            - "headscale"
+            - "serve"
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port.http }}
+              protocol: TCP
+            - name: metrics
+              containerPort: {{ .Values.service.port.metrics }}
+              protocol: TCP
+            - name: grpc
+              containerPort: {{ .Values.service.port.grpc }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTPS
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTPS
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: config
+              mountPath: "/etc/headscale"
+              readOnly: true
+            - name: keys
+              mountPath: "/etc/headscale/secrets"
+              readOnly: true
+            {{- if .Values.headscale.certmanager.enabled }}
+            - name: certs
+              mountPath: "/etc/headscale/certs"
+              readOnly: true
+            {{- end }}
+            - name: "data"
+              mountPath: "/var/lib/headscale"
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: config
+          secret:
+            secretName: {{ include "headscale.fullname" . }}
+            items:
+             - key: "config.yaml"
+               path: "config.yaml"
+        - name: keys
+          secret:
+            secretName: {{ default (print ( include "headscale.fullname" . ) "-keys") $.Values.headscale.keys.existingSecret | quote }}
+            items:
+             - key: "wireguard.key"
+               path: "wireguard.key"
+             - key: "noise.key"
+               path: "noise.key"
+        {{- if .Values.headscale.certmanager.enabled }}
+        - name: certs
+          secret:
+            secretName: {{ include "headscale.fullname" . }}-cert
+            items:
+             - key: "tls.crt"
+               path: "tls.crt"
+             - key: "tls.key"
+               path: "tls.key"
+        {{- end }}
+        - name: "data"
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ default .Values.persistence.existingClaim (include "headscale.fullname" .) }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}

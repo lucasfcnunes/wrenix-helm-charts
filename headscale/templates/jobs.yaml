@@ -1,0 +1,122 @@
+{{ if and .Values.headscale.keys.create (not .Values.headscale.keys.existingSecret ) }}
+{{ $name := (print ( include "headscale.fullname" . ) "-keys") }}
+{{ $secretName := (print ( include "headscale.fullname" . ) "-keys") }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  annotations:
+    helm.sh/resource-policy: keep
+  name: {{ $name }}
+type: Opaque
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ $name }}
+  labels:
+    app.kubernetes.io/component: keys-job
+    {{- include "headscale.labels" . | nindent 4 }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ $name }}
+  labels:
+    app.kubernetes.io/component: keys-job
+    {{- include "headscale.labels" . | nindent 4 }}
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    resourceNames:
+      - {{ $secretName }}
+    verbs:
+      - get
+      - update
+      - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ $name }}
+  labels:
+    app.kubernetes.io/component: keys-job
+    {{- include "headscale.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ $name }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ $name }}
+    namespace: {{ .Release.Namespace }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- include "headscale.labels" . | nindent 4 }}
+spec:
+  template:
+    spec:
+      restartPolicy: "Never"
+      serviceAccount: {{ $name }}
+      containers:
+       - name: upload-key
+         image: bitnami/kubectl
+         command:
+          - sh
+          - -c
+          - | 
+            # check if key already exists
+            key=$(kubectl get secret {{ $secretName }} -o jsonpath="{.data['wireguard.key']}" 2> /dev/null)
+            [ $? -ne 0 ] && echo "Failed to get existing secret" && exit 1
+            [ -n "$key" ] && echo "Key already created, exiting." && exit 0
+            # wait for wireguard key
+            while [ ! -f /etc/headscale/secrets/wireguard.key ]; do
+              echo "Waiting for wireguard key.."
+              sleep 5;
+            done
+            # update secret
+            kubectl patch secret {{ $secretName }} -p "{\"data\":{\"wireguard.key\":\"$(base64 /etc/headscale/secrets/wireguard.key | tr -d '\n')\"}}"
+            kubectl patch secret {{ $secretName }} -p "{\"data\":{\"noise.key\":\"$(base64 /etc/headscale/secrets/noise.key | tr -d '\n')\"}}"
+            [ $? -ne 0 ] && echo "Failed to update secret." && exit 1
+            echo "Signing key successfully created."
+         volumeMounts:
+          - mountPath: /etc/headscale/secrets
+            name: secrets
+            readOnly: true
+       - name: generate-key
+         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+         imagePullPolicy: {{ .Values.image.pullPolicy }}
+         command:
+          - sh 
+          - -c
+          - |
+            set -e
+            /bin/headscale generate private-key | tail -1 | sed 's/privkey://' > /etc/headscale/secrets/wireguard.key
+            chown 1001:1001 /etc/headscale/secrets/wireguard.key
+            /bin/headscale generate private-key | tail -1 | sed 's/privkey://' > /etc/headscale/secrets/noise.key
+            chown 1001:1001 /etc/headscale/secrets/noise.key
+         volumeMounts:
+          - name: config
+            mountPath: "/etc/headscale"
+            readOnly: true
+          - mountPath: "/etc/headscale/secrets"
+            name: secrets
+      volumes:
+       - name: config
+         secret:
+           secretName: {{ include "headscale.fullname" . }}
+           items:
+            - key: "config.yaml"
+              path: "config.yaml"
+       - name: secrets
+         emptyDir: {}
+  parallelism: 1
+  completions: 1
+  backoffLimit: 1
+{{ end }}

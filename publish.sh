@@ -21,7 +21,7 @@ for p in * ; do
   #  should be increased?
   tag="${p}-v${v}"
   # check if a old version exists
-  if [ -n $lastTag ]; then
+  if [ ! $lastTag == '' ]; then
   
     # check if changes since new version happen
     changes=$(git diff "${lastTag}" -- "${p}" | wc -l);

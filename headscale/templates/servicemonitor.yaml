@@ -12,9 +12,6 @@ spec:
   endpoints:
     - port: metrics
       path: /metrics
-      {{- if .Values.headscale.certmanager.enabled }}
-      scheme: https
-      {{- end }}
   selector:
     matchLabels:
       {{- include "headscale.selectorLabels" . | nindent 6 }}

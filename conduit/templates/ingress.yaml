@@ -58,4 +58,23 @@ spec:
               {{- end }}
           {{- end }}
     {{- end }}
+    {{- if and .Values.wellknown.enabled }}
+    - host: {{ .Values.conduit.server_name }}
+      http:
+       paths:
+         - path: /.well-known/matrix/server
+           pathType: Prefix
+           backend:
+             service:
+               name: {{ include "conduit.fullname" . }}-wellknown
+               port:
+                 name: http
+         - path: /.well-known/matrix/client
+           pathType: Prefix
+           backend:
+             service:
+               name: {{ include "conduit.fullname" . }}-wellknown
+               port:
+                 name: http
+    {{- end }}
 {{- end }}

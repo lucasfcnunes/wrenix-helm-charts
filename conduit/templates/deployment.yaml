@@ -8,9 +8,12 @@ spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       {{- include "conduit.selectorLabels" . | nindent 6 }}
+      type: conduit
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -19,6 +22,7 @@ spec:
       {{- end }}
       labels:
         {{- include "conduit.selectorLabels" . | nindent 8 }}
+        type: conduit
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -58,14 +62,20 @@ spec:
               value: "/var/lib/matrix-conduit"
             - name: "CONDUIT_DATABASE_BACKEND"
               value: "rocksdb"
-            - name: "CONDUIT_ALLOW_REGISTRATION"
-              value: {{ .Values.conduit.allowRegistration | quote }}
-            - name: "CONDUIT_ALLOW_FEDERATION"
-              value: {{ .Values.conduit.allowFederation | quote }}
             - name: "CONDUIT_ALLOW_CHECK_FOR_UPDATE"
               value: "false"
+            - name: "CONDUIT_ALLOW_REGISTRATION"
+              value: {{ .Values.conduit.allowRegistration | quote }}
+            - name: "CONDUIT_ALLOW_ENCRYPTION"
+              value: {{ .Values.conduit.allowEncryption | quote }}
+            - name: "CONDUIT_ALLOW_FEDERATION"
+              value: {{ .Values.conduit.allowFederation | quote }}
+            - name: "CONDUIT_ALLOW_ROOM_CREATION"
+              value: {{ .Values.conduit.allowRoomCreation | quote }}
+            - name: "CONDUIT_ALLOW_UNSTABLE_ROOM_VERSIONS"
+              value: {{ .Values.conduit.allowUnstableRoomVersions | quote }}
             - name: "CONDUIT_TRUSTED_SERVERS"
-              value: {{ toJSON .Values.conduit.trustedServers | quote }}
+              value: {{ toJson .Values.conduit.trustedServers | quote }}
             - name: "CONDUIT_MAX_REQUEST_SIZE"
               value: {{ .Values.conduit.maxRequestSize | quote }}
             {{- with .Values.conduit.maxConcurrentRequests }}
@@ -74,6 +84,14 @@ spec:
             {{- end }}
             {{- with .Values.conduit.log }}
             - name: "CONDUIT_LOG"
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.conduit.registrationToken }}
+            - name: "CONDUIT_REGISTRATION_TOKEN"
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.conduit.wellKnownClient }}
+            - name: "CONDUIT_WELL_KNOWN_CLIENT"
               value: {{ . | quote }}
             {{- end }}
           volumeMounts:

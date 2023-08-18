@@ -1,0 +1,72 @@
+{{- if .Values.wellknown.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "conduit.fullname" . }}-wellknown
+  labels:
+    {{- include "conduit.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "conduit.selectorLabels" . | nindent 6 }}
+      type: wellknown
+  template:
+    metadata:
+      {{- with .Values.wellknown.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "conduit.selectorLabels" . | nindent 8 }}
+        type: wellknown
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "conduit.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.wellknown.podSecurityContext | nindent 8 }}
+      containers:
+        - name: wellknown
+          securityContext:
+            {{- toYaml .Values.wellknown.securityContext | nindent 12 }}
+          image: "{{ .Values.wellknown.image.repository }}:{{ .Values.wellknown.image.tag }}"
+          imagePullPolicy: {{ .Values.wellknown.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.wellknown.containerPort }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: "data"
+              mountPath: "/usr/share/nginx/html/.well-known/matrix/"
+      {{- with .Values.wellknown.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.wellknown.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.wellknown.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: "data"
+          configMap:
+            name: {{ include "conduit.fullname" . }}-wellknown
+{{- end }}

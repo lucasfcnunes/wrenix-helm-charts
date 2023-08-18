@@ -26,14 +26,51 @@ serviceAccount:
 conduit:
   server_name: "your.server.name"
   allowRegistration: false
+  allowEncryption: true
   allowFederation: true
+  allowRoomCreation: true
+  allowUnstableRoomVersions: true
   trustedServers:
     - "matrix.org"
-  maxRequestSize: "20_000_000" # in bytes, ~20 MB
+  maxRequestSize: "20000000" # in bytes, ~20 MB
   # maxConcurrentRequests: 100
   maxConcurrentRequests:
   # log: "warn,rocket=off,_=off,sled=off"
   log:
+  registrationToken:
+  wellKnownClient: "your.server.name"
+
+wellknown:
+  enabled: true
+  image:
+    repository: nginx
+    pullPolicy: IfNotPresent
+    tag: "1.25"
+
+  replicaCount: 1
+  podAnnotations: []
+  podSecurityContext: {}
+  securityContext: {}
+  containerPort: 80
+  env: []
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+  service:
+    type: ClusterIP
+    port: 8080
+    annotations: {}
+
+  # TO EDIT:
+  server:
+    "m.server": "your.server.name:443"
+  client:  
+    "m.homeserver":
+      "base_url": "https://your.server.name/" 
+    "org.matrix.msc3575.proxy":
+      "url": "https://your.server.name/" 
 
 podAnnotations: {}
 
@@ -50,7 +87,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
+  port: 6167
 
 ingress:
   enabled: false

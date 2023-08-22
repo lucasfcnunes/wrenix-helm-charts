@@ -58,6 +58,18 @@ headscale:
     ## Use already defined certificates:
     tls_cert_path: "/etc/headscale/certs/tls.crt"
     tls_key_path: "/etc/headscale/certs/tls.key"
+    derp:
+      server:
+        enabled: true
+        region_id: 999
+        region_code: "headscale"
+        region_name: "Headscale Embedded DERP"
+        stun_listen_addr: "0.0.0.0:3478"
+      urls: []
+      # - https://controlplane.tailscale.com/derpmap/default
+      paths: []
+      # auto_update_enabled: true
+      update_frequency: 24h
 
 prometheus:
   servicemonitor:
@@ -135,6 +147,11 @@ service:
     http: 8080
     metrics: 9090
     grpc: 50443
+  derp:
+    # just if headscale.config.derp.server.enabled
+    type: LoadBalancer
+    annotations:
+    port: 3478
 
 ingress:
   enabled: false

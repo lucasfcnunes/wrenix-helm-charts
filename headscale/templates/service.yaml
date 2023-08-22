@@ -25,3 +25,25 @@ spec:
       name: grpc
   selector:
     {{- include "headscale.selectorLabels" . | nindent 4 }}
+{{- if .Values.headscale.config.derp.server.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "headscale.fullname" . }}-derp
+  labels:
+    {{- include "headscale.labels" . | nindent 4 }}
+  {{- with .Values.service.derp.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4}}
+  {{- end }}
+spec:
+  type: {{ .Values.service.derp.type }}
+  ports:
+    - port: {{ .Values.service.derp.port }}
+      targetPort: derp
+      protocol: UDP
+      name: derp
+  selector:
+    {{- include "headscale.selectorLabels" . | nindent 4 }}
+{{- end }}

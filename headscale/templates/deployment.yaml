@@ -47,6 +47,11 @@ spec:
             - name: grpc
               containerPort: {{ .Values.service.port.grpc }}
               protocol: TCP
+            {{- if .Values.headscale.config.derp.server.enabled }}
+            - name: derp
+              containerPort: {{ .Values.service.derp.port }}
+              protocol: UDP
+            {{- end }}
           livenessProbe:
             httpGet:
               path: /health

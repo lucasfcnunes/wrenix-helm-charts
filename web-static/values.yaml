@@ -15,14 +15,89 @@ nameOverride: ""
 fullnameOverride: ""
 
 data:
-  args:
-    - "--index"
-    - "index.html"
-    - "-F"
-    - "-D"
-    - "-l"
-    - "/html"
-  hostPath: "/tmp/a"
+  # -- Which path to serve
+  path: "/data"
+  # -- Be verbose, includes emitting access logs
+  verbose: false
+  # -- Normally, when miniserve serves a directory, it creates a listing for that directory. However, if a directory contains this file, miniserve will serve that file instead.
+  index: "index.html"
+  # -- Activate SPA (Single Page Application) mode
+  spa: false
+  # -- Activate Pretty URLs mode
+  prettyURLs: false
+  # -- Set authentication. Currently supported formats: username:password, username:sha256:hash,
+  #            username:sha512:hash (e.g. joe:123,
+  #            joe:sha256:a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3)
+  auth: ""
+  # -- Use a specific route prefix
+  routePrefix: ""
+  # -- Hide symlinks in listing and prevent them from being followed
+  noSymlinks: false
+  # -- Show hidden files
+  hidden: false
+  # -- Default color scheme
+  colorScheme: "squirrel"
+  # -- Default color scheme
+  colorSchemeDark: "archlinux"
+  # -- Enable QR code display
+  qrcode: false
+  upload:
+    # -- Enable file uploading (and optionally specify for which directory)
+    allowedDir: ""
+    # -- Enable creating directories
+    mkdir: false
+    # -- Specify uploadable media types: possible values image, audio, video
+    mediaType: ""
+    # -- Directly specify the uploadable media type expression
+    rawMediaType: ""
+    # -- Enable overriding existing files during file upload
+    overwriteFiles: false
+  enable:
+    # -- Enable uncompressed tar archive generation
+    tar: false
+    # -- Enable gz-compressed tar archive generation
+    tarGZ: false
+    # -- Enable zip archive generation
+    # WARNING: Zipping large directories can result in out-of-memory exception because zip generation is done in memory and cannot be sent on the fly
+    zip: false
+  # -- List directories first
+  dirsFirst: true
+  # -- Shown instead of host in page title and heading
+  title: ""
+  # -- Visualize symlinks in directory listing
+  showSymlinkInfo: false
+  # -- Hide version footer
+  hideVersionFooter: true
+  # -- Hide theme selector
+  hideThemeSelector: false
+  # -- If enabled, display a wget command to recursively download the current directory
+  showWGETFooter: true
+  # -- Enable README.md rendering in directories
+  readme: false
+  # -- used for commandline flags
+  args: []
+
+persistence:
+  enabled: false
+  annotations: {}
+  ## data Persistent Volume Storage Class
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  ##   GKE, AWS & OpenStack)
+  ##
+  # storageClass: "-"
+
+  ## A manually managed Persistent Volume and Claim
+  ## Requires persistence.enabled: true
+  ## If defined, PVC must be created manually before volume will be bound
+  # existingClaim:
+
+  ## use container hostPatch or an PV if you set storageClass to manual
+  # hostPath: 
+  accessMode: ReadWriteOnce
+  size: 1Gi
 
 serviceAccount:
   # Specifies whether a service account should be created

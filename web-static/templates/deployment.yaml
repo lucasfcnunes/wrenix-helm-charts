@@ -13,10 +13,11 @@ spec:
       {{- include "web-static.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
+        hash-config: "{{ toYaml .Values.data | sha256sum | trunc 32 }}"
+        {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- end }}
       labels:
         {{- include "web-static.selectorLabels" . | nindent 8 }}
     spec:
@@ -33,8 +34,13 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "web-static.fullname" . }}
+          {{- with .Values.data.args }}
           args:
-            {{- toYaml .Values.data.args | nindent 12 }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -50,8 +56,8 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-            - name: "html"
-              mountPath: "/html"
+            - name: "data"
+              mountPath: "/data"
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -65,6 +71,15 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
-        - name: "html"
+        - name: "data"
+          {{- if .Values.persistence.enabled }}
+          {{-   if and .Values.persistence.hostPath (ne .Values.persistence.storageClass "manual" ) }}
           hostPath:
-            path: {{ .Values.data.hostPath }}
+            path: {{ .Values.persistence.hostPath }}
+          {{-   else }}
+          persistentVolumeClaim:
+            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "web-static.fullname" . }}{{- end }}
+          {{-   end }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}

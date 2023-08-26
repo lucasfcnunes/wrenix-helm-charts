@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "web-static.fullname" . }}
+  labels:
+    {{- include "web-static.labels" . | nindent 4 }}
+  annotations:
+    hash-config: "{{ toYaml .Values.data | sha256sum | trunc 32 }}"
+data:
+  {{- with .Values.data }}
+  {{ with .path }}
+  MINISERVE_PATH: {{ . | quote }}
+  {{- end }}
+  MINISERVE_VERBOSE: {{ .verbose | quote }}
+  {{- with .index }}
+  MINISERVE_INDEX: {{ . | quote }}
+  {{- end }}
+  MINISERVE_SPA: {{ .spa | quote }}
+  MINISERVE_PRETTY_URLS: {{ .prettyURLs | quote }}
+  MINISERVE_PORT: {{ $.Values.service.port | quote }}
+  {{ with .auth }}
+  MINISERVE_AUTH: {{ . | quote }}
+  {{- end }}
+  # MINISERVE_AUTH_FILE:
+  {{- with .routePrefix }}
+  MINISERVE_ROUTE_PREFIX: {{ . | quote }}
+  {{- end }}
+  # MINISERVE_RANDOM_ROUTE: <- not usefull in k8s
+  MINISERVE_NO_SYMLINKS: {{ .noSymlinks | quote }}
+  MINISERVE_HIDDEN: {{ .hidden | quote }}
+  MINISERVE_COLOR_SCHEME: {{ .colorScheme | quote }}
+  MINISERVE_COLOR_SCHEME_DARK: {{ .colorSchemeDark | quote }}
+  MINISERVE_QRCODE: {{ .qrcode | quote }}
+
+  {{- with .upload }}
+  {{- if .allowedDir }}
+  MINISERVE_ALLOWED_UPLOAD_DIR: {{ .allowedDir | quote }}
+  MINISERVE_MKDIR_ENABLED: {{ .mkdir | quote }}
+  {{- with .mediaType }}
+  MINISERVE_MEDIA_TYPE: {{ . | quote }}
+  {{- end }}
+  {{- with .rawMediaType }}
+  MINISERVE_RAW_MEDIA_TYPE: {{ .rawMediaType | quote }}
+  {{- end }}
+  OVERWRITE_FILES: {{ .overwriteFiles | quote }}
+  {{- end }}
+  {{- end }}
+
+  {{- with .enable }}
+  MINISERVE_ENABLE_TAR: {{ .tar | quote }}
+  MINISERVE_ENABLE_TAR_GZ: {{ .tarGZ | quote }}
+  MINISERVE_ENABLE_ZIP: {{ .zip | quote }}
+  {{- end }}
+
+  MINISERVE_DIRS_FIRST: {{ .dirsFirst | quote }}
+  {{- with .title }}
+  MINISERVE_TITLE: {{ . | quote }}
+  {{- end }}
+  # MINISERVE_HEADER:
+  MINISERVE_SHOW_SYMLINK_INFO: {{ .showSymlinkInfo | quote }}
+  MINISERVE_HIDE_VERSION_FOOTER: {{ .hideVersionFooter | quote }}
+  MINISERVE_HIDE_THEME_SELECTOR: {{ .hideThemeSelector | quote }}
+  MINISERVE_SHOW_WGET_FOOTER: {{ .showWGETFooter | quote }}
+  # MINISERVE_TLS_CERT:
+  # MINISERVE_TLS_KEY:
+  MINISERVE_README: {{ .readme | quote }}
+  {{- end}}

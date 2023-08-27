@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "web-static.fullname" . }}
+  name: {{ include "miniserve.fullname" . }}
   labels:
-    {{- include "web-static.labels" . | nindent 4 }}
+    {{- include "miniserve.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "web-static.selectorLabels" . | nindent 6 }}
+      {{- include "miniserve.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
@@ -19,13 +19,13 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
-        {{- include "web-static.selectorLabels" . | nindent 8 }}
+        {{- include "miniserve.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "web-static.serviceAccountName" . }}
+      serviceAccountName: {{ include "miniserve.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -36,7 +36,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - configMapRef:
-                name: {{ include "web-static.fullname" . }}
+                name: {{ include "miniserve.fullname" . }}
           {{- with .Values.data.args }}
           args:
             {{- toYaml . | nindent 12 }}
@@ -78,7 +78,7 @@ spec:
             path: {{ .Values.persistence.hostPath }}
           {{-   else }}
           persistentVolumeClaim:
-            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "web-static.fullname" . }}{{- end }}
+            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "miniserve.fullname" . }}{{- end }}
           {{-   end }}
           {{- else }}
           emptyDir: {}

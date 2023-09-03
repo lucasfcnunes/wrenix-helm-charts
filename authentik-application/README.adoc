@@ -1,0 +1,51 @@
+= Authentik Application
+
+setup configmap with blueprint for goauthentik and store values in secrets
+
+
+Usage with FluxCD:
+[source,yaml]
+----
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: app-oauth2
+spec:
+  interval: 5m
+  chart:
+    spec:
+      sourceRef:
+        kind: GitRepository
+        name: "wrenix-helm-charts"
+        namespace: "infra"
+      chart: './charts/authentik-application'
+      reconcileStrategy: 'Revision'
+      interval: 1m
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: -1
+    disableWait: true
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: -1
+    disableWait: true
+    force: true
+  values:
+    secret:
+      name: "oidc-auth"
+    blueprint:
+      provider:
+        name: "GitOps"
+        redirectURL: "https://application.domain/oauth2/callback"
+        signingKey: "authentik Self-signed Certificate"
+        scopes:
+          - "email"
+      application:
+        name: "The Application"
+        slug: "app"
+        group: "Infrastructure"
+        launchURL: "https://application.domain/"
+        openInNewTab: True
+----

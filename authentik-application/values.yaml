@@ -1,0 +1,35 @@
+secret:
+  enabled: true
+  name: ""
+  labels: {}
+
+blueprint:
+  authentik:
+    domain: "https://auth.wrenix.eu"
+  labels:
+    goauthentik_blueprint: "1"
+  provider:
+    name: ""
+    authorizationFlow: "default-provider-authorization-implicit-consent"
+    clientType: "confidential"
+    # -- client id - generated if secret enabled
+    clientID:
+    # -- client secret - generated if secret enabled
+    clientSecret:
+    redirectURL: ""
+    # -- Need for non-curve / RSA
+    signingKey: ""
+    # -- Scope
+    scopes:
+  application:
+    name: ""
+    slug: "app-name"
+    policyEngineMode: "any"
+    group: ""
+    launchURL: ""
+    openInNewTab: false 
+    icon: ""
+    description: ""
+    publisher: ""
+  # - additional groups
+  groups: []

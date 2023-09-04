@@ -1,0 +1,7 @@
+apiVersion: v2
+name: jellyfin
+description: The Free Software Media System
+type: application
+
+version: 0.1.1
+appVersion: "10.8.10"

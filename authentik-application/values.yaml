@@ -1,5 +1,4 @@
 secret:
-  enabled: true
   name: ""
   labels: {}
 
@@ -9,6 +8,7 @@ blueprint:
   labels:
     goauthentik_blueprint: "1"
   provider:
+    enabled: true
     name: ""
     authorizationFlow: "default-provider-authorization-implicit-consent"
     clientType: "confidential"
@@ -24,6 +24,8 @@ blueprint:
   application:
     name: ""
     slug: "app-name"
+    # -- uuid for bindPolicyID for group - if not set generated on secret for be stable (or groups: [] filled)
+    bindPolicyID:
     policyEngineMode: "any"
     group: ""
     launchURL: ""
@@ -31,5 +33,10 @@ blueprint:
     icon: ""
     description: ""
     publisher: ""
-  # - additional groups
+  # -- additional groups
+  # example:
+  #   - slug: "app: grafana-admin"
+  #     parent: "app: infra"
+  #     bindID: uuid
+  #
   groups: []

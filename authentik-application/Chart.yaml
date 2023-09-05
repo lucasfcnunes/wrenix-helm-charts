@@ -3,4 +3,4 @@ name: authentik-application
 description: A Chart to deploy a secret for the authentik blueprint-sidecar
 type: application
 
-version: 0.1.1
+version: 0.2.0

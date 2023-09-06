@@ -14,7 +14,8 @@ spec:
           - path: "/outpost.goauthentik.io/"
             pathType: Prefix
             backend:
-              name: {{ .Values.blueprint.provider.proxy.ingress.backend | quote }}
-              port:
-                name: http
+              service:
+                name: {{ .Values.blueprint.provider.proxy.ingress.backend | quote }}
+                port:
+                  name: http
 {{- end }}

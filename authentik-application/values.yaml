@@ -11,16 +11,28 @@ blueprint:
     enabled: true
     name: ""
     authorizationFlow: "default-provider-authorization-implicit-consent"
-    clientType: "confidential"
-    # -- client id - generated if secret enabled
-    clientID:
-    # -- client secret - generated if secret enabled
-    clientSecret:
-    redirectURL: ""
-    # -- Need for non-curve / RSA
-    signingKey: ""
-    # -- Scope
-    scopes:
+    type: "oidc" # or proxy
+    # used for oidc provider
+    oidc:
+      clientType: "confidential"
+      # -- client id - generated if secret enabled
+      clientID:
+      # -- client secret - generated if secret enabled
+      clientSecret:
+      redirectURL: ""
+      # -- Need for non-curve / RSA
+      signingKey: ""
+      # -- Scope
+      scopes:
+    # -- used for proxy provider
+    proxy:
+      externalHost:
+      # -- not yet supported
+      ingress:
+         enabled: false
+         domain:
+         # service backend
+         backend: authentik 
   application:
     name: ""
     slug: "app-name"

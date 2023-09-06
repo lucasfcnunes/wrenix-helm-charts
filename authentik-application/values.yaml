@@ -27,6 +27,8 @@ blueprint:
     # -- used for proxy provider
     proxy:
       externalHost:
+      skipPathRegex: ""
+      cookieDomain: ""
       # -- not yet supported
       ingress:
          enabled: false

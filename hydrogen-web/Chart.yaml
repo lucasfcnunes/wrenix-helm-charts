@@ -4,5 +4,5 @@ description: A Helm Chart to install hydrogen-web (a nextgen Matrix Webclient)
 
 type: application
 
-version: 0.1.1
+version: 0.1.2
 appVersion: "0.4.1"

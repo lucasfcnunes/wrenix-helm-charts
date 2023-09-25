@@ -1,0 +1,74 @@
+{{- if .Values.job.enabled }}
+---
+apiVersion: "batch/v1"
+kind: "Job"
+metadata:
+  name: "{{ include "postgresql.fullname" . }}-bootstrap"
+  labels:
+    {{- include "postgresql.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": "post-install,post-upgrade"
+    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
+spec:
+  backoffLimit: 4
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}                                                                                                             
+      annotations:                                                                                                                                   
+        {{- toYaml . | nindent 8 }}                                                                                                                  
+      {{- end }}                                                                                                                                     
+      labels:                                                                                                                                        
+        {{- include "postgresql.selectorLabels" . | nindent 8 }}
+    spec:
+      restartPolicy: Never
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "postgresql.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: "psql"
+          securityContext:                                                                                                                           
+            {{- toYaml .Values.securityContext | nindent 12 }}                                                                                       
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"                   
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: "PGHOST"
+              value: {{ include "postgresql.fullname" . | quote }}
+            - name: "PGPORT"
+              value: {{ .Values.service.port | quote }}
+            - name: "PGUSER"
+              value: {{ .Values.postgres.user | quote }}
+            - name: "PGPASSWORD"
+              value: {{ .Values.postgres.password | quote }}
+          command:
+            - "/bin/sh"
+            - "-c"
+            - "cd /bootstrap/ && ./_run"
+          resources:                                                                                   
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: "/bootstrap/"
+              name: "bootstrap"
+              readOnly: true
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: "bootstrap"
+          secret:
+            secretName: {{ include "postgresql.fullname" . }}-job
+            defaultMode: 0550
+{{- end }}
+

@@ -1,0 +1,16 @@
+---
+apiVersion: "v2"
+name: "postgresql"
+description: "A Helm chart for running PostgreSQL (Postgres) database"
+type: "application"
+version: "0.1.0"
+appVersion: "16.0-alpine3.18"
+
+keywords:
+  - "postgresql"
+  - "postgres"
+  - "database"
+  - "sql"
+
+annotations:
+  category: "Database"

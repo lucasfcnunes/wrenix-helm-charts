@@ -1,0 +1,115 @@
+# Default values for postgresql.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  registry: docker.io
+  repository: postgres
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 5432
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+## Enable persistence using Persistent Volume Claims
+## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+##
+persistence:
+  enabled: true
+  annotations: {}
+  ## Persistent Volume Storage Class
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  ##   GKE, AWS & OpenStack)
+  ##
+  # storageClass: "-"
+
+  ## A manually managed Persistent Volume and Claim
+  ## Requires persistence.enabled: true
+  ## If defined, PVC must be created manually before volume will be bound
+  # existingClaim:
+
+  ## Do not create an PVC, direct use hostPath in Pod
+  # hostPath: 
+  accessMode: ReadWriteOnce
+  size: 1Gi
+
+# PostgreSQL configuration.
+postgres:
+  # -- Database user.
+  user: "postgres"
+  # -- Database password.
+  password: "SUPERSTRONGPW"
+
+
+# This job bootstrap the database server with databases and users.
+job:
+  # -- Enable database bootstrapping.
+  enabled: true
+  # -- Amount of retries while waiting for postgresql server is available.
+  retries: 60
+  # -- Time to wait in each wait in each iteration until postgresql server is available.
+  wait: 5
+  # -- Bootstrap users into postgresql server. When users already exists, they will stay untouched.
+  #
+  # users:
+  #   username: RandomPassword0#"
+  users: {}
+
+  # -- Bootstrap databases into postgresql server. When databases already exists, they will stay untouched.
+  #
+  # databases:
+  #  "name_of_database":
+  #    owner: "existing_user_which_will_get_grant"
+  #    additionalParams: "" # Optional
+  databases: {}
+
+

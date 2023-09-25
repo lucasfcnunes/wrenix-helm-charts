@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+RETRIES={{ .Values.job.retries }}
+until psql -c "select 1" > /dev/null 2>&1 || [ $RETRIES -eq "0" ]; do
+  echo "Waiting {{ .Values.job.wait }}s for postgres server, $((RETRIES--)) remaining attempts..."
+  sleep {{ .Values.job.wait }}
+done
+if [ ${RETRIES} -eq "0" ]; then
+  echo "Maximum wait attempts exceeded, aborting".
+  exit 1;
+fi
+
+set -e
+for script in *.sh; do
+  echo "**** execute script ${script}"
+  ./${script}
+done
+

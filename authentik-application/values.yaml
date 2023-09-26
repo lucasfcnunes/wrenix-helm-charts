@@ -48,9 +48,10 @@ blueprint:
     description: ""
     publisher: ""
   # -- additional groups
+  #  disable any groups by set groups: [] (to a slice)
   # example:
   #   - slug: "app: grafana-admin"
   #     parent: "app: infra"
   #     bindID: uuid
   #
-  groups: []
+  groups:

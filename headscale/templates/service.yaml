@@ -4,10 +4,14 @@ metadata:
   name: {{ include "headscale.fullname" . }}
   labels:
     {{- include "headscale.labels" . | nindent 4 }}
-  {{- with .Values.service.annotations }}
   annotations:
-    {{- toYaml . | nindent 4}}
-  {{- end }}
+    {{- if (.Capabilities.APIVersions.Has "traefik.io/v1alpha1/ServersTransport") }}
+    "traefik.ingress.kubernetes.io/service.serversscheme": "https"
+    "traefik.ingress.kubernetes.io/service.serverstransport": {{ printf "%s-%s@kubernetescrd" .Release.Namespace (include "headscale.fullname" .) | quote }}
+    {{- end }}
+    {{- with .Values.service.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   type: {{ .Values.service.type }}
   ports:

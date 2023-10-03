@@ -70,6 +70,7 @@ headscale:
       paths: []
       # auto_update_enabled: true
       update_frequency: 24h
+    disable_check_updates: true
 
 prometheus:
   servicemonitor:

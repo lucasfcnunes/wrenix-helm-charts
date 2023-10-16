@@ -14,14 +14,17 @@ spec:
   template:
     metadata:
       annotations:
-        config-icons: {{ toYaml .Values.bot.icons | sha256sum | trunc 32}}
-        config-colors: {{ toYaml .Values.bot.colors | sha256sum | trunc 32}}
-        config-templates: {{ toYaml .Values.bot.templates | sha256sum | trunc 32}}
+        config-icons: {{ toYaml .Values.bot.icons | sha256sum }}
+        config-colors: {{ toYaml .Values.bot.colors | sha256sum }}
+        config-templates: {{ toYaml .Values.bot.template | sha256sum }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
         {{- include "alertmanager-matrix.selectorLabels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:

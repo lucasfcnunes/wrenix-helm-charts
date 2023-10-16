@@ -21,6 +21,9 @@ spec:
       {{- end }}
       labels:
         {{- include "conduit.selectorLabels" . | nindent 8 }}
+        {{- with .Values.wellknown.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
         type: wellknown
     spec:
       {{- with .Values.imagePullSecrets }}

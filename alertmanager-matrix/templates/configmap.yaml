@@ -4,9 +4,9 @@ kind: ConfigMap
 metadata:
   name: {{ include "alertmanager-matrix.fullname" . }}
   annotations:
-    config-icons: {{ toYaml .Values.bot.icons | sha256sum | trunc 32}}
-    config-colors: {{ toYaml .Values.bot.colors | sha256sum | trunc 32}}
-    config-templates: {{ toYaml .Values.bot.templates | sha256sum | trunc 32}}
+    config-icons: {{ toYaml .Values.bot.icons | sha256sum }}
+    config-colors: {{ toYaml .Values.bot.colors | sha256sum }}
+    config-templates: {{ toYaml .Values.bot.template | sha256sum }}
 data:
   icon.yaml: |
     {{- toYaml .Values.bot.icons  | nindent 4 }}

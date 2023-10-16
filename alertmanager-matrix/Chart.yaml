@@ -2,7 +2,7 @@ apiVersion: v2
 name: alertmanager-matrix
 description: Service for managing and receiving Alertmanager alerts on Matrix
 type: application
-version: 0.1.2
+version: 0.1.3
 appVersion: "latest"
 keywords:
   - matrix

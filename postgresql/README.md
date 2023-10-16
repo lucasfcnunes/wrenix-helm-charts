@@ -1,6 +1,6 @@
 # postgresql
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 16.0-alpine3.18](https://img.shields.io/badge/AppVersion-16.0--alpine3.18-informational?style=flat-square)
+![Version: 0.1.1](https://img.shields.io/badge/Version-0.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 16.0-alpine3.18](https://img.shields.io/badge/AppVersion-16.0--alpine3.18-informational?style=flat-square)
 
 A Helm chart for running PostgreSQL (Postgres) database
 
@@ -27,6 +27,7 @@ A Helm chart for running PostgreSQL (Postgres) database
 | persistence.enabled | bool | `true` |  |
 | persistence.size | string | `"1Gi"` |  |
 | podAnnotations | object | `{}` |  |
+| podLabels | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
 | postgres.password | string | `"SUPERSTRONGPW"` | Database password. |
 | postgres.user | string | `"postgres"` | Database user. |

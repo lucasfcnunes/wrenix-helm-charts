@@ -1,6 +1,6 @@
 # conduit
 
-![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.6.0](https://img.shields.io/badge/AppVersion-0.6.0-informational?style=flat-square)
+![Version: 0.2.1](https://img.shields.io/badge/Version-0.2.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.6.0](https://img.shields.io/badge/AppVersion-0.6.0-informational?style=flat-square)
 
 Conduit is a simple, fast and reliable chat server powered by Matrix.
 
@@ -44,6 +44,7 @@ Conduit is a simple, fast and reliable chat server powered by Matrix.
 | persistence.enabled | bool | `true` |  |
 | persistence.size | string | `"1Gi"` |  |
 | podAnnotations | object | `{}` |  |
+| podLabels | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
 | replicaCount | int | `1` |  |
 | resources | object | `{}` |  |
@@ -65,6 +66,7 @@ Conduit is a simple, fast and reliable chat server powered by Matrix.
 | wellknown.image.tag | string | `"1.25"` |  |
 | wellknown.nodeSelector | object | `{}` |  |
 | wellknown.podAnnotations | list | `[]` |  |
+| wellknown.podLabels | object | `{}` |  |
 | wellknown.podSecurityContext | object | `{}` |  |
 | wellknown.replicaCount | int | `1` |  |
 | wellknown.resources | object | `{}` |  |

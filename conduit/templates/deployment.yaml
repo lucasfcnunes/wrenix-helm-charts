@@ -22,6 +22,9 @@ spec:
       {{- end }}
       labels:
         {{- include "conduit.selectorLabels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
         type: conduit
     spec:
       {{- with .Values.imagePullSecrets }}

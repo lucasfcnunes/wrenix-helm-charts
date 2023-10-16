@@ -1,6 +1,6 @@
 # hydrogen-web
 
-![Version: 0.1.2](https://img.shields.io/badge/Version-0.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.4.1](https://img.shields.io/badge/AppVersion-0.4.1-informational?style=flat-square)
+![Version: 0.1.3](https://img.shields.io/badge/Version-0.1.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.4.1](https://img.shields.io/badge/AppVersion-0.4.1-informational?style=flat-square)
 
 A Helm Chart to install hydrogen-web (a nextgen Matrix Webclient)
 
@@ -36,6 +36,7 @@ A Helm Chart to install hydrogen-web (a nextgen Matrix Webclient)
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |
+| podLabels | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
 | replicaCount | int | `1` |  |
 | resources | object | `{}` |  |

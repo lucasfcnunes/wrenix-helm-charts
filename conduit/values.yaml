@@ -48,6 +48,7 @@ wellknown:
     tag: "1.25"
 
   replicaCount: 1
+  podLabels: {}
   podAnnotations: []
   podSecurityContext: {}
   securityContext: {}
@@ -72,6 +73,7 @@ wellknown:
     "org.matrix.msc3575.proxy":
       "url": "https://your.server.name/" 
 
+podLabels: {}
 podAnnotations: {}
 
 podSecurityContext: {}

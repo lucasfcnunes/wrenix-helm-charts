@@ -20,6 +20,9 @@ spec:
         confighash: {{ .Values.hydrogen | toYaml | sha256sum | trunc 32 }}
       labels:
         {{- include "hydrogen-web.selectorLabels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:

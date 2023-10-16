@@ -1,5 +1,7 @@
 #/bin/sh
 
+helm-docs
+
 HELM_REPO=${HELM_REPO:-oci://codeberg.org/wrenix/helm-charts}
 
 for p in * ; do

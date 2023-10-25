@@ -1,0 +1,83 @@
+prometheus:
+  scrape:
+    # -- labels on ScrapeConfig
+    labels:
+      prometheus: "default"
+  probe:
+    # -- labels on Probe
+    labels:
+      prometheus: "default"
+
+scrapes:
+  - # -- name of scrape
+    name: nodes
+    # -- groups with targets
+    groups:
+      de:
+        - "ber.de.local:9100"
+        - "fra.de.local:9100"
+        - "ham.de.local:9100"
+      ie:
+        - "dub.ie.local:9100"
+        - "ork.ie.local:9100"
+  - # -- name of scrape
+    name: minio
+    # -- metric path on scrape
+    metricsPath: /minio/v2/metrics/node
+    # -- schema on scrape
+    scheme: http
+    auth:
+      # -- basic auth username
+      username:
+      # -- basic auth password
+      password:
+      # -- bearer token
+      token:
+    # -- groups with targets
+    groups:
+      de:
+        - "fra.de.s3.local:9000"
+        - "ham.de.s3.local:9000"
+      ie:
+        - "dub.ie.s3.local:9000"
+
+# -- prober for each the following probes are created (multiside probes)
+prober:
+  - # -- name of prober
+    name: "local"
+    # -- spec of prober (like url, path, scheme ...)
+    spec:
+      url: "prometheus-blackbox-exporter:9115"
+      path: "/probe"
+
+probes:
+  - # -- probe module (suffix with _ipv4 and ipv6 if enabled)
+    module: http_2xx
+    # -- name of probe
+    name: http
+    # -- setup one for ipv4 (see module and his suffix)
+    ipv4: true
+    # -- setup one for ipv6 (see module and his suffix)
+    ipv6: true
+    # -- groups with targets
+    groups:
+      framasoft:
+        - framasoft.org
+        - degooglisons-internet.org
+        - framapiaf.org
+        - framatube.org
+
+  - # -- probe module (suffix with _ipv4 and ipv6 if enabled)
+    module: http_2xx
+    # -- name of probe
+    name: http-ipv4
+    # -- setup one for ipv4 (see module and his suffix)
+    ipv4: true
+    # -- setup one for ipv6 (see module and his suffix)
+    ipv6: false
+    # -- groups with targets
+    groups:
+      digitalcourage:
+        - digitalcourage.de
+        - nuudel.digitalcourage.de
+        - digitalcourage.social

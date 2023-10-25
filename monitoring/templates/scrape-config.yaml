@@ -1,0 +1,59 @@
+{{- range $scrape := $.Values.scrapes }}
+{{ $secretName := printf "monitoring-scrape-%s" $scrape.name }}
+{{- with $scrape.auth }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ $secretName }}
+data:
+  {{- with .token }}
+  token: {{ . | b64enc }}
+  {{- end }}
+  {{- with .username }}
+  username: {{ . | b64enc }}
+  {{- end }}
+  {{- with .password }}
+  password: {{ . | b64enc }}
+  {{- end }}
+{{- end }}
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: monitoring-{{ $scrape.name }}
+  labels:
+    {{- toYaml $.Values.prometheus.scrape.labels | nindent 4 }}
+spec:
+  {{- with $scrape.scheme }}
+  scheme: {{ . | quote }}
+  {{- end }}
+  {{- with $scrape.metricsPath }}
+  metricsPath: {{ . | quote }}
+  {{- end }}
+  {{- if $scrape.auth }}
+  {{- if $scrape.auth.token }}
+  authorization:
+    type: "Bearer"
+    credentials:
+      name: {{ $secretName }}
+      key: token
+  {{- else }}
+  basicAuth:
+    username:
+      name: {{ $secretName }}
+      key: username
+    password:
+      name: {{ $secretName }}
+      key: password
+  {{- end }}
+  {{- end }}
+  staticConfigs:
+    {{- range $groupName, $group := $scrape.groups }}
+    - labels:
+        group: {{ $groupName }}
+        scrape: {{ $scrape.name }}
+      targets:
+        {{- toYaml $group | nindent 8 }}
+    {{- end }}
+{{- end }}

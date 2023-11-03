@@ -2,7 +2,7 @@
 
 HELM_REPO=${HELM_REPO:-oci://codeberg.org/wrenix/helm-charts}
 
-helm-docs -t ./README.md.gotmpl
+helm-docs -t ./README.md.gotmpl -t _docs.gotmpl
 
 for p in * ; do
   if [ ! -d $p ]; then

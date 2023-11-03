@@ -1,0 +1,64 @@
+{{ define "chart.prerequirements" -}}
+## Pre-Requirement
+Usage of https://github.com/goauthentik/helm/pull/146
+
+## or manual:
+Install authentik with this `values.yaml`:
+```yaml
+serviceAccount:
+  create: true
+
+additionalContainers:
+  - name: sidecar-blueprints
+    image: "ghcr.io/kiwigrid/k8s-sidecar:1.25.1"
+    env:
+      - name: "FOLDER"
+        value: "/blueprints/sidecar"
+      - name: "LABEL"
+        value: "goauthentik_blueprint"
+      - name: "LABEL_VALUE"
+        value: "1"
+      # - name: "NAMESPACE"
+      #   value: "ALL"
+      - name: "RESOURCE"
+        value: "both"
+      - name: "UNIQUE_FILENAMES"
+        value: "true"
+    volumeMounts:
+      - name: sidecar-blueprints
+        mountPath: /blueprints/sidecar
+
+volumeMounts:
+  - name: sidecar-blueprints
+    mountPath: /blueprints/sidecar
+
+volumes:
+  - name: sidecar-blueprints
+    emptyDir: {}
+```
+
+And create an Role and bind them on to the ServiceAccount to read secrets:
+```yaml
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: authentik-blueprint-sidecar
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps", "secrets"]
+    verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: authentik-blueprint-sidecar
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: authentik-blueprint-sidecar
+subjects:
+  - kind: ServiceAccount
+    name: authentik
+```
+{{- end }}

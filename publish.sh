@@ -2,13 +2,14 @@
 
 HELM_REPO=${HELM_REPO:-oci://codeberg.org/wrenix/helm-charts}
 
+helm-docs -t ./README.md.gotmpl
+
 for p in * ; do
   if [ ! -d $p ]; then
     continue;
   fi
 
   echo "${p}:";
-  helm-docs -t ../README.md.gotmpl
 
   # last pkg  
   lastTag=$(git tag -l "${p}-v*" | tail -1)

@@ -16,8 +16,8 @@ blueprint:
     enabled: true
     name: ""
     authorizationFlow: "default-provider-authorization-implicit-consent"
-    # -- type of application connection, current support: oidc and proxy
-    type: "oidc" # or proxy
+    # -- type of application connection, current support: oidc, saml and proxy
+    type: "oidc"
     oidc:
       clientType: "confidential"
       # -- client id - generated if secret enabled
@@ -29,6 +29,7 @@ blueprint:
       signingKey: ""
       # -- Scope
       scopes:
+    saml:
     proxy:
       externalHost:
       skipPathRegex: ""

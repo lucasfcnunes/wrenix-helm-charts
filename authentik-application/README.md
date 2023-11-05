@@ -121,7 +121,8 @@ helm uninstall authentik-application-release
 | blueprint.provider.proxy.ingress.domain | string | `nil` | domain of application (where outpost should be deployed) |
 | blueprint.provider.proxy.ingress.enabled | bool | `false` | deploy ingress on application domain for e.g. logout (WIP) |
 | blueprint.provider.proxy.skipPathRegex | string | `""` |  |
-| blueprint.provider.type | string | `"oidc"` | type of application connection, current support: oidc and proxy |
+| blueprint.provider.saml | string | `nil` |  |
+| blueprint.provider.type | string | `"oidc"` | type of application connection, current support: oidc, saml and proxy |
 | secret.labels | object | `{}` | label of secret to store generated secret |
 | secret.name | string | `""` | name of secret to store generated secret (like clientI) |
 

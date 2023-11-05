@@ -60,3 +60,19 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+needs argument:
+  root: $.Values
+  name: 
+  default:
+  overwrite:
+*/}}
+{{- define "authentik-application.staticValue" -}}
+{{- $ := get . "root" }}
+{{- $secretName := $.Values.secret.name | default (include "authentik-application.fullname" $) }}
+{{- $secretObj := (lookup "v1" "Secret" $.Release.Namespace $secretName) | default dict }}
+{{- $secretData := (get $secretObj "data") | default dict }}
+{{- $valueCoded := (get $secretData .name) | default (.default | b64enc) }}
+{{- .overwrite | default ($valueCoded | b64dec) }}
+{{- end }}

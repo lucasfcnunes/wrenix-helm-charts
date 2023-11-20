@@ -3,6 +3,6 @@ name: grampsweb
 description: A Helm chart for gramps web
 
 type: application
-version: 0.1.0
+version: 0.1.1
 
 appVersion: "23.11.0"

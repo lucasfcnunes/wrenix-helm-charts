@@ -1,0 +1,8 @@
+apiVersion: v2
+name: grampsweb
+description: A Helm chart for gramps web
+
+type: application
+version: 0.1.0
+
+appVersion: "23.11.0"

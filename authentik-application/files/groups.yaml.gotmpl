@@ -1,5 +1,6 @@
 {{- $bindPolicyID := get . "bindPolicyID" }}
 {{- with get . "root" }}
+{{- $ = . }}
 {{- if (not (kindIs "slice" .Values.blueprint.groups)) }}
 
 - model: authentik_core.group

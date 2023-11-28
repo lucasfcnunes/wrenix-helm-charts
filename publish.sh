@@ -5,6 +5,12 @@ HELM_REPO=${HELM_REPO:-oci://codeberg.org/wrenix/helm-charts}
 helm-docs -t ./README.md.gotmpl -t _docs.gotmpl
 
 for p in * ; do
+  if \
+    [ $p == "alertmanager-matrix" ] || \
+    [ $p == "alertmanager-ntfy" ] \
+    ; then
+    continue
+  fi
   if [ ! -d $p ]; then
     continue;
   fi
@@ -30,7 +36,7 @@ for p in * ; do
     if [ "$changes" -gt "0" ]; then
       # check / lint if version was increased correct
       if [ "$tag" == "$lastTag" ]; then
-        echo "changed helmchart should create new pkg"
+        echo "changed helmchart should create new pkg - diff line count has:"
         echo $(git diff "${lastTag}" -- "${p}" | wc -l);
         exit 1
       fi

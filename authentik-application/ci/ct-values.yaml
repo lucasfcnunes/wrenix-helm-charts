@@ -1,0 +1,5 @@
+
+blueprint:
+  groups:
+    - slug: "app: grafana-admin"
+      bindID: uuid

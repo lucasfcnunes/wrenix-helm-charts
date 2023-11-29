@@ -7,7 +7,15 @@ helm-docs -t ./README.md.gotmpl -t _docs.gotmpl
 for p in * ; do
   if \
     [ $p == "alertmanager-matrix" ] || \
-    [ $p == "alertmanager-ntfy" ] \
+    [ $p == "alertmanager-ntfy" ] || \
+    [ $p == "conduit" ] || \
+    [ $p == "forgejo-runner" ] || \
+    [ $p == "headscale" ] || \
+    [ $p == "headscale-ui" ] || \
+    [ $p == "hydrogen-web" ] || \
+    [ $p == "miniserve" ] || \
+    [ $p == "monitoring" ] || \
+    [ "1" != "1" ] \
     ; then
     continue
   fi

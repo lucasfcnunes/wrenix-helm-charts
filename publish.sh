@@ -6,7 +6,6 @@ helm-docs -t ./README.md.gotmpl -t _docs.gotmpl
 
 for p in * ; do
   if \
-    [ $p == "alertmanager-matrix" ] || \
     [ $p == "alertmanager-ntfy" ] || \
     [ $p == "conduit" ] || \
     [ $p == "forgejo-runner" ] || \
@@ -15,6 +14,7 @@ for p in * ; do
     [ $p == "hydrogen-web" ] || \
     [ $p == "miniserve" ] || \
     [ $p == "monitoring" ] || \
+    [ $p == "postgresql" ] || \
     [ "1" != "1" ] \
     ; then
     continue

@@ -1,0 +1,41 @@
+{{- with .Values.logging }}
+{{- if .enabled }}
+---
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: Flow
+metadata:
+  name: {{ include "alertmanager-matrix.fullname" $ }}
+spec:
+  match:
+    - select:
+        labels:
+          {{- include "alertmanager-matrix.selectorLogLabels" $ | nindent 10 }}
+        container_names:
+          - "{{ $.Chart.Name }}"
+  filters:
+    - parser: 
+        reserve_data: true
+        remove_key_name_field: true
+        parse: 
+          type: "multi_format"
+          patterns:
+            - format: "regexp"
+              expression: '^(?<time>\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2})\s(?<message>.*)'
+              time_key: "time"
+              time_type: "string"
+              time_format: "%Y/%m/%d %H:%M:%S"
+            - format: "none" 
+    {{- with .additionalFilters }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with .globalOutputRefs }}
+  globalOutputRefs:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .localOutputRefs }}
+  localOutputRefs:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+
+{{- end }}
+{{- end }}

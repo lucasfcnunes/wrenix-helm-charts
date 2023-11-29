@@ -1,6 +1,6 @@
 # alertmanager-matrix
 
-![Version: 0.1.3](https://img.shields.io/badge/Version-0.1.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: 0.1.4](https://img.shields.io/badge/Version-0.1.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 Service for managing and receiving Alertmanager alerts on Matrix
 
@@ -60,7 +60,7 @@ helm uninstall alertmanager-matrix-release
 | bot.messageType | string | `"m.notice"` |  |
 | bot.showLabels | bool | `false` |  |
 | bot.template.html | string | `"{{ range .Alerts }}\n  <font color=\"{{.StatusString|color}}\">\n    {{.StatusString|icon}}\n    <b>{{.StatusString|upper}}</b>\n    {{.AlertName}}:\n  </font>\n  {{.Summary}}\n  {{if ne .Fingerprint \"\"}}\n    ({{.Fingerprint}})\n  {{end}}\n  {{if $.ShowLabels}}\n    <br/>\n    <b>Labels:</b>\n    <code>{{.LabelString}}</code>\n   {{end}}\n   <br/>\n{{- end -}}\n"` |  |
-| bot.template.text | string | `"{{ range .Alerts }}\n  {{.StatusString|icon}}\n  {{.StatusString|upper}}\n  {{.AlertName}}:\n  {{.Summary}}\n  {{if ne .Fingerprint \"\"}}\n    ({{.Fingerprint}})\n  {{end}}\n  {{if $.ShowLabels}}\n    , labels:\n    {{.LabelString}}\n  {{end}}\n  \\n\n{{ end -}}\n"` |  |
+| bot.template.text | string | `"{{ range .Alerts }}\n  {{- .StatusString|icon}} {{ .StatusString|upper }}{{ .AlertName }}: {{ .Summary }} {{ if ne .Fingerprint \"\" -}}\n    ({{.Fingerprint}})\n  {{- end}}\n  {{- if $.ShowLabels -}}\n    , labels:\n    {{- .LabelString}}\n  {{- end }}\n{{ end -}}\n"` |  |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.registry | string | `"docker.io"` |  |
@@ -74,6 +74,11 @@ helm uninstall alertmanager-matrix-release
 | ingress.hosts[0].paths[0].path | string | `"/"` |  |
 | ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | ingress.tls | list | `[]` |  |
+| logging.additionalFilters | list | `[]` | Add other filters to Flow |
+| logging.dedot | string | `nil` | if an filter (here or global) for dedot is active - for disable set `null` |
+| logging.enabled | bool | `false` | Deploy Flow for [Logging-Operator](https://kube-logging.github.io/docs/) |
+| logging.globalOutputRefs | list | `["default"]` | Flows globalOutputRefs for use of ClusterOutputs |
+| logging.localOutputRefs | list | `[]` | Flows localOutputRefs for use of Outputs |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |

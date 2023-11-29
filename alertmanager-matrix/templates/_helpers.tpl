@@ -51,6 +51,19 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
+Selector Log labels
+*/}}
+{{- define "alertmanager-matrix.selectorLogLabels" -}}
+{{- if .Values.logging.dedot }}
+app{{.Values.logging.dedot }}kubernetes{{.Values.logging.dedot }}io/name: {{ include "alertmanager-matrix.name" . }}
+app{{.Values.logging.dedot }}kubernetes{{.Values.logging.dedot }}io/instance: {{ .Release.Name }}
+{{- else }}
+{{ include "alertmanager-matrix.selectorLabels" . }}
+{{- end }}
+{{- end }}
+
+
+{{/*
 Create the name of the service account to use
 */}}
 {{- define "alertmanager-matrix.serviceAccountName" -}}

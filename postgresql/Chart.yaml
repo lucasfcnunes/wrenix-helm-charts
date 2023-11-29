@@ -3,8 +3,8 @@ apiVersion: "v2"
 name: "postgresql"
 description: "A Helm chart for running PostgreSQL (Postgres) database"
 type: "application"
-version: "0.1.1"
-appVersion: "16.0-alpine3.18"
+version: "0.1.2"
+appVersion: "16.1-alpine3.18"
 
 keywords:
   - "postgresql"

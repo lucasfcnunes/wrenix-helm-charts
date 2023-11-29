@@ -14,7 +14,6 @@ for p in * ; do
     [ $p == "hydrogen-web" ] || \
     [ $p == "miniserve" ] || \
     [ $p == "monitoring" ] || \
-    [ $p == "postgresql" ] || \
     [ "1" != "1" ] \
     ; then
     continue

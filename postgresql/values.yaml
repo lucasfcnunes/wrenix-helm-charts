@@ -99,6 +99,10 @@ job:
   retries: 60
   # -- Time to wait in each wait in each iteration until postgresql server is available.
   wait: 5
+  # -- Annotations (usefull to delete job by helm afterwards)
+  annotations:
+    "helm.sh/hook": "post-install,post-upgrade"
+    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
   # -- Bootstrap users into postgresql server. When users already exists, they will stay untouched.
   #
   # users:

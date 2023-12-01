@@ -6,18 +6,21 @@ metadata:
   name: "{{ include "postgresql.fullname" . }}-bootstrap"
   labels:
     {{- include "postgresql.labels" . | nindent 4 }}
+  {{- with .Values.job.annotations }}
   annotations:
-    "helm.sh/hook": "post-install,post-upgrade"
-    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   backoffLimit: 4
   template:
     metadata:
-      {{- with .Values.podAnnotations }}                                                                                                             
-      annotations:                                                                                                                                   
-        {{- toYaml . | nindent 8 }}                                                                                                                  
-      {{- end }}                                                                                                                                     
-      labels:                                                                                                                                        
+      annotations:
+        confighash-users: {{ toYaml .Values.job.users | sha256sum | trunc 32 }}
+        confighash-databases: {{ toYaml .Values.job.databases | sha256sum | trunc 32 }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
         {{- include "postgresql.selectorLabels" . | nindent 8 }}
     spec:
       restartPolicy: Never
@@ -68,7 +71,7 @@ spec:
       volumes:
         - name: "bootstrap"
           secret:
-            secretName: {{ include "postgresql.fullname" . }}-job
+            secretName: {{ include "postgresql.fullname" . }}-bootstrap
             defaultMode: 0550
 {{- end }}
 

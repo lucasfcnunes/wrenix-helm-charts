@@ -1,6 +1,6 @@
 # postgresql
 
-![Version: 0.1.2](https://img.shields.io/badge/Version-0.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 16.1-alpine3.18](https://img.shields.io/badge/AppVersion-16.1--alpine3.18-informational?style=flat-square)
+![Version: 0.1.3](https://img.shields.io/badge/Version-0.1.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 16.1-alpine3.18](https://img.shields.io/badge/AppVersion-16.1--alpine3.18-informational?style=flat-square)
 
 A Helm chart for running PostgreSQL (Postgres) database
 
@@ -37,6 +37,7 @@ helm uninstall postgresql-release
 | image.repository | string | `"postgres"` |  |
 | image.tag | string | `""` |  |
 | imagePullSecrets | list | `[]` |  |
+| job.annotations | object | `{"helm.sh/hook":"post-install,post-upgrade","helm.sh/hook-delete-policy":"before-hook-creation,hook-succeeded"}` | Annotations (usefull to delete job by helm afterwards) |
 | job.databases | object | `{}` | Bootstrap databases into postgresql server. When databases already exists, they will stay untouched.  databases:  "name_of_database":    owner: "existing_user_which_will_get_grant"    additionalParams: "" # Optional |
 | job.enabled | bool | `true` | Enable database bootstrapping. |
 | job.retries | int | `60` | Amount of retries while waiting for postgresql server is available. |

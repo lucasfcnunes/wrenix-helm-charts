@@ -1,6 +1,9 @@
 #/bin/sh
 
 HELM_REPO=${HELM_REPO:-oci://codeberg.org/wrenix/helm-charts}
+COMMIT_SCOPE=${2:-fix}
+COMMIT_MESSAGE=${1:-"update appVersion"}
+
 
 helm-docs -t ./README.adoc.gotmpl -t _docs.gotmpl -o README.adoc
 
@@ -63,8 +66,10 @@ for p in * ; do
   helm package "${p}"
   helm push "${p}-${v}.tgz" "${HELM_REPO}";
 
+  git add "${p}/"
+  git commit -m "${COMMIT_SCOPE}(${p}): ${COMMIT_MESSAGE}"
   git tag "${tag}" --no-sign;
-  git push --tags;
+  git push --tags origin main;
 
   echo
 done

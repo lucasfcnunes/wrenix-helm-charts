@@ -51,6 +51,8 @@ spec:
               mountPath: /certs
             - name: runner-data
               mountPath: /data
+            - name: runner-cache
+              mountPath: /data/.cache
         - name: dind
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -69,6 +71,8 @@ spec:
             {{- end }}
       volumes:
         - name: docker-certs
+          emptyDir: {}
+        - name: runner-cache
           emptyDir: {}
         - name: runner-data
           secret:

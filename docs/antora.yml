@@ -1,0 +1,8 @@
+name: wrenix-helm
+title: "WrenIX's Helm charts"
+version:
+  main: latest
+
+nav:
+  - modules/ROOT/nav.adoc
+  - modules/charts/nav.adoc

@@ -2,19 +2,26 @@
 
 HELM_REPO=${HELM_REPO:-oci://codeberg.org/wrenix/helm-charts}
 
-helm-docs -t ./README.md.gotmpl -t _docs.gotmpl
+helm-docs -t ./README.adoc.gotmpl -t _docs.gotmpl -o README.adoc
+
+./docs/modules/charts/generate.sh
 
 for p in * ; do
   if \
+    [ $p == "alertmanager-matrix" ] || \
     [ $p == "alertmanager-ntfy" ] || \
+    [ $p == "authentik-application" ] || \
     [ $p == "conduit" ] || \
-    [ $p == "forgejo-runner" ] || \
+    [ $p == "grampsweb" ] || \
     [ $p == "headscale" ] || \
     [ $p == "headscale-ui" ] || \
     [ $p == "hydrogen-web" ] || \
+    [ $p == "jellyfin" ] || \
     [ $p == "miniserve" ] || \
     [ $p == "monitoring" ] || \
-    [ "1" != "1" ] \
+    [ $p == "ntfy" ] || \
+    [ $p == "postgresql" ] || \
+    [ $p == "docs" ] \
     ; then
     continue
   fi

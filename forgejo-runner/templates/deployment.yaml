@@ -30,13 +30,25 @@ spec:
       serviceAccountName: {{ include "forgejo-runner.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: make-config-writeable
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: [ "/bin/cp", "/etc/runner/.runner", "/data/.runner" ]
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: runner-data
+              mountPath: /data
+            - name: runner-config
+              mountPath: /etc/runner
       containers:
         - name: runner
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: [ "/bin//forgejo-runner", "daemon" ]
+          command: [ "/bin/forgejo-runner", "daemon" ]
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
@@ -51,8 +63,6 @@ spec:
               mountPath: /certs
             - name: runner-data
               mountPath: /data
-            - name: runner-cache
-              mountPath: /data/.cache
         - name: dind
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -72,9 +82,9 @@ spec:
       volumes:
         - name: docker-certs
           emptyDir: {}
-        - name: runner-cache
-          emptyDir: {}
         - name: runner-data
+          emptyDir: {}
+        - name: runner-config
           secret:
             secretName: {{ .Values.runner.config.existingSecret | default (print ( include "forgejo-runner.fullname" . ) "-config") | quote }}
         {{- with .Values.volumes }}

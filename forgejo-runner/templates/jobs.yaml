@@ -62,6 +62,8 @@ metadata:
     {{- include "forgejo-runner.labels" . | nindent 4 }}
   annotations:
     config-hash: {{ toYaml .Values.runner.config | sha256sum }}
+    "helm.sh/hook": "pre-install,pre-upgrade"
+    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
 stringData:
   CONFIG_NAME: {{ .Values.runner.config.name | quote }}
   CONFIG_INSTANCE: {{ .Values.runner.config.instance | quote }}
@@ -74,7 +76,7 @@ metadata:
   labels:
     {{- include "forgejo-runner.labels" . | nindent 4 }}
   annotations:
-    "helm.sh/hook": "post-install,post-upgrade"
+    "helm.sh/hook": "pre-install,pre-upgrade"
     "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
 spec:
   template:

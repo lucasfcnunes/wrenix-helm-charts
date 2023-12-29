@@ -13,11 +13,11 @@ for p in * ; do
   if \
     [ $p == "alertmanager-matrix" ] || \
     [ $p == "alertmanager-ntfy" ] || \
-    [ $p == "authentik-application" ] || \
     [ $p == "conduit" ] || \
     [ $p == "grampsweb" ] || \
     [ $p == "headscale" ] || \
     [ $p == "headscale-ui" ] || \
+    [ $p == "forgejo-runner" ] || \
     [ $p == "jellyfin" ] || \
     [ $p == "miniserve" ] || \
     [ $p == "monitoring" ] || \

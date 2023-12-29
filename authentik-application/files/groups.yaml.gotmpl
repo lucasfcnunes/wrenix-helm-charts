@@ -41,6 +41,7 @@
   identifiers:
     pk: {{ $group.bindID | quote }}
   attrs:
+    pk: {{ $group.bindID | quote }}
     group: !KeyOf {{ $group.slug | quote}}
     order: 10
     target: !Find [authentik_core.Application, [slug, {{ $.Values.blueprint.application.slug }}]]

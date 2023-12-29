@@ -1,6 +1,20 @@
 {{- $clientID := get . "clientID" }}
 {{- $clientSecret := get . "clientSecret" }}
 {{- with get . "root" }}
+
+{{- range .Values.blueprint.provider.oidc.scopes }}
+{{- if .expression }}
+- model: authentik_providers_oauth2.ScopeMapping
+  identifiers:
+    name: {{ .name | quote }}
+  state: present
+  attrs:
+    name: {{ .name | quote }}
+    scope_name: {{ .scope_name }}
+    expression: {{ .expression | quote }}
+{{- end }}
+{{- end }}
+
 - model: authentik_providers_oauth2.OAuth2Provider
   id: {{ .Values.blueprint.provider.name | default (include "authentik-application.fullname" .) }}
   identifiers:
@@ -22,7 +36,7 @@
     {{- with .scopes }}
     property_mappings:
       {{- range . }}
-      - !Find [authentik_providers_oauth2.ScopeMapping, [scope_name, {{ . }}]]
+      - !Find [authentik_providers_oauth2.ScopeMapping, [name, {{ .name | quote }}]]
       {{- end }}
     {{- end }}
     {{- end }}

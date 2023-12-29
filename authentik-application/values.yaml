@@ -29,6 +29,9 @@ blueprint:
       signingKey: ""
       # -- Scope
       scopes:
+        # - name:
+        #   scope_name:
+        #   expression:
     saml:
     proxy:
       externalHost:

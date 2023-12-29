@@ -2,7 +2,7 @@
 
 = forgejo-runner
 
-image::https://img.shields.io/badge/Version-0.1.2-informational?style=flat-square[Version: 0.1.2]
+image::https://img.shields.io/badge/Version-0.1.4-informational?style=flat-square[Version: 0.1.4]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-3.2.0-informational?style=flat-square[AppVersion: 3.2.0]
 
@@ -129,7 +129,7 @@ helm uninstall forgejo-runner-release
 
 | kubectl.image.tag
 | string
-| `"1.27.7"`
+| `"1.28.5"`
 |
 
 | nameOverride

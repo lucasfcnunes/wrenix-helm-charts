@@ -2,7 +2,7 @@
 
 = hydrogen-web
 
-image::https://img.shields.io/badge/Version-0.1.3-informational?style=flat-square[Version: 0.1.3]
+image::https://img.shields.io/badge/Version-0.1.4-informational?style=flat-square[Version: 0.1.4]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-0.4.1-informational?style=flat-square[AppVersion: 0.4.1]
 
@@ -114,7 +114,7 @@ helm uninstall hydrogen-web-release
 
 | image.repository
 | string
-| `"ghcr.io/vector-im/hydrogen-web"`
+| `"ghcr.io/element-hq/hydrogen-web"`
 |
 
 | image.tag

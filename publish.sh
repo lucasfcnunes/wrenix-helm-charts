@@ -18,7 +18,6 @@ for p in * ; do
     [ $p == "grampsweb" ] || \
     [ $p == "headscale" ] || \
     [ $p == "headscale-ui" ] || \
-    [ $p == "hydrogen-web" ] || \
     [ $p == "jellyfin" ] || \
     [ $p == "miniserve" ] || \
     [ $p == "monitoring" ] || \

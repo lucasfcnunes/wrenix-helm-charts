@@ -1,6 +1,8 @@
 #!/bin/sh
 ROOT_DIR="./docs/modules/charts/"
 
+rm "${ROOT_DIR}/pages/"*".adoc"
+
 echo "* charts" > "${ROOT_DIR}/nav.adoc"
 for name in * ; do
   if \

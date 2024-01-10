@@ -1,0 +1,856 @@
+# Default values for stalwart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+global:
+  image:
+    # -- if set it will overwrite all registry entries
+    registry:
+    # -- if set it will overwrite all pullPolicy
+    pullPolicy:
+
+replicaCount: 1
+
+image:
+  registry: docker.io
+  repository: stalwartlabs/mail-server
+  pullPolicy: IfNotPresent
+  # -- Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+
+##
+# Configuration of stalwart mail-server
+# defaults taken from: https://github.com/stalwartlabs/mail-server/tree/6aeadb9cda301ec5f210d8e8390515e6292592fa/resources/config
+#
+# files import completed:
+#   - config.toml
+#   - common/*.toml
+#   - imap/*.toml
+#
+##
+config:
+
+
+  ##
+  # macros
+  ##
+
+  # -- macros (from: config.toml)
+  macros:
+    host: "__HOST__"
+    default_domain: "__DOMAIN__"
+    default_directory: "memory"
+    default_store: "sqlite"
+
+
+  ##
+  # global
+  ##
+
+  global:
+    shared-map:
+      # -- global shared-map capacity (from: common/server.toml)
+      capacity: 10
+      # -- global shared-map shard (from: common/server.toml)
+      shard: 32
+
+    # -- global thead-pool (from: common/server.toml)
+    thread-pool:
+
+    # -- global tracing (from: common/tracing.toml)
+    tracing:
+      method: "stdout"
+      level: "info"
+
+
+  ##
+  # server
+  ##
+
+  server:
+    # -- server hostname (from: common/server.toml)
+    hostname: "%{HOST}%"
+
+    security:
+      # -- server security blocked-networks (from: common/server.toml)
+      blocked-networks: {}
+      # -- server security fail2ban (from: common/server.toml)
+      fail2ban: "100/1d"
+
+    run-as:
+      # -- server run-as user (from: common/server.toml)
+      user: "stalwart-mail"
+      # -- server run-as group (from: common/server.toml)
+      group: "stalwart-mail"
+
+    socket:
+      # -- server socket nodelay (from: common/server.toml)
+      nodelay: true
+      # -- server socket reuse-addr (from: common/server.toml)
+      reuse-addr: true
+      # -- server socket reuse-port (from: common/server.toml)
+      reuse-port: false
+      # -- server socket backlog (from: common/server.toml)
+      backlog: 1024
+      # -- server socket ttl (from: common/server.toml)
+      ttl: 3600
+      # -- server socket send-buffer-size (from: common/server.toml)
+      send-buffer-size: 65535
+      # -- server socket recv-buffer-size (from: common/server.toml)
+      recv-buffer-size: 65535
+      # -- server socket linger (from: common/server.toml)
+      linger: 1
+      # -- server socket tos (from: common/server.toml)
+      tos: 1
+
+    tls:
+      # -- server tls enable (from: common/tls.toml)
+      enable: true
+      # -- server tls implicit (from: common/tls.toml)
+      implicit: false
+      # -- server tls timeout (from: common/tls.toml)
+      timeout: "1m"
+      # -- server tls certificate (from: common/tls.toml)
+      certificate: "default"
+      # -- server tls acme (from: common/tls.toml)
+      # example: "letsencrypt"
+      acme:
+      # -- server tls sni (from: common/tls.toml)
+      # example: [{subject: "", certificate: ""}]
+      sni:
+      # -- server tls protocols (from: common/tls.toml)
+      # example: ["TLSv1.2", "TLSv1.3"]
+      protocols:
+      # -- server tls #ciphers (from: common/tls.toml)
+      # example: [ "TLS13_AES_256_GCM_SHA384", "TLS13_AES_128_GCM_SHA256",
+      #            "TLS13_CHACHA20_POLY1305_SHA256", "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
+      #            "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256", "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256",
+      #            "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384", "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+      #            "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256"]
+      ciphers:
+      # -- server tls ignore-client-order (from: common/tls.toml)
+      ignore-client-order: true
+
+    # -- server listener
+    listener:
+      smtp:
+        protocol: "smtp"
+        bind: ["[::]:25"]
+      smtp-submission:
+        protocol: "smtp"
+        bind: ["[::]:587"]
+      smtps:
+        protocol: "smtp"
+        bind: ["[::]:465"]
+        tls:
+          implicit: true
+
+      # -- server listener with name imap (from: imap/listener.toml)
+      imap:
+        bind: ["[::]:143"]
+        protocol: "imap"
+
+      # -- server listener with name imaps (from: imap/listener.toml)
+      imaps:
+        bind: ["[::]:993"]
+        protocol: "imap"
+        tls:
+          implicit: true
+
+      # -- server listener with name sieve (from: imap/listener.toml)
+      sieve:
+        bind: ["[::]:4190"]
+        protocol: "managesieve"
+        tls:
+          implicit: true
+
+      # -- jmap/listener.yaml
+      http:
+        protocol: "jmap"
+        bind: ["[::]:80"]
+        url: "https://%{HOST}%"
+
+
+  ##
+  # sieve
+  ##
+
+  sieve:
+    untrusted:
+      # -- sieve untrusted disable-capabilities (from: common/sieve.toml)
+      disable-capabilities: []
+      # -- sieve untrusted notification-uris (from: common/sieve.toml)
+      notification-uris: ["mailto"]
+      # -- sieve untrusted protected-headers (from: common/sieve.toml)
+      protected-headers: ["Original-Subject", "Original-From", "Received", "Auto-Submitted"]
+
+      limits:
+        # -- sieve untrusted limit name-length (from: common/sieve.toml)
+        name-length: 512
+        # -- sieve untrusted limit max-scripts (from: common/sieve.toml)
+        max-scripts: 256
+        # -- sieve untrusted limit script-size (from: common/sieve.toml)
+        script-size: 102400
+        # -- sieve untrusted limit string-length (from: common/sieve.toml)
+        string-length: 4096
+        # -- sieve untrusted limit variable-name-length (from: common/sieve.toml)
+        variable-name-length: 32
+        # -- sieve untrusted limit variable-size (from: common/sieve.toml)
+        variable-size: 4096
+        # -- sieve untrusted limit nested-blocks (from: common/sieve.toml)
+        nested-blocks: 15
+        # -- sieve untrusted limit nested-tests (from: common/sieve.toml)
+        nested-tests: 15
+        # -- sieve untrusted limit nested-foreverypart (from: common/sieve.toml)
+        nested-foreverypart: 3
+        # -- sieve untrusted limit match-variables (from: common/sieve.toml)
+        match-variables: 30
+        # -- sieve untrusted limit local-variables (from: common/sieve.toml)
+        local-variables: 128
+        # -- sieve untrusted limit header-size (from: common/sieve.toml)
+        header-size: 1024
+        # -- sieve untrusted limit includes (from: common/sieve.toml)
+        includes: 3
+        # -- sieve untrusted limit nested-includes (from: common/sieve.toml)
+        nested-includes: 3
+        # -- sieve untrusted limit cpu (from: common/sieve.toml)
+        cpu: 5000
+        # -- sieve untrusted limit redirects (from: common/sieve.toml)
+        redirects: 1
+        # -- sieve untrusted limit received-headers (from: common/sieve.toml)
+        received-headers: 10
+        # -- sieve untrusted limit outgoing-messages (from: common/sieve.toml)
+        outgoing-messages: 3
+
+      vacation:
+        # -- sieve untrusted vacation default-subject (from: common/sieve.toml)
+        default-subject: "Automated reply"
+        # -- sieve untrusted vacation subject-prefix (from: common/sieve.toml)
+        subject-prefix: "Auto: "
+
+      default-expiry:
+        # -- sieve untrusted default-expiry vacation (from: common/sieve.toml)
+        vacation: "30d"
+        # -- sieve untrusted default-expiry duplicate (from: common/sieve.toml)
+        duplicate: "7d"
+
+    trusted:
+      # -- sieve trusted from-name (from: common/sieve.toml)
+      from-name: "Automated Message"
+      # -- sieve trusted from-addr (from: common/sieve.toml)
+      from-addr: "no-reply@%{DEFAULT_DOMAIN}%"
+      # -- sieve trusted return-path (from: common/sieve.toml)
+      return-path: ""
+      # -- sieve trusted hostname (from: common/sieve.toml)
+      hostname: "%{HOST}%"
+      # -- sieve trusted no-capability-check (from: common/sieve.toml)
+      no-capability-check: true
+      # -- sieve trusted sign (from: common/sieve.toml)
+      sign: ["rsa"]
+
+      limits:
+        # -- sieve trusted limits redirects (from: common/sieve.toml)
+        redirects: 3
+        # -- sieve trusted limits out-messages (from: common/sieve.toml)
+        out-messages: 5
+        # -- sieve trusted limits received-headers (from: common/sieve.toml)
+        received-headers: 50
+        # -- sieve trusted limits cpu (from: common/sieve.toml)
+        cpu: 1048576
+        # -- sieve trusted limits nested-includes (from: common/sieve.toml)
+        nested-includes: 5
+        # -- sieve trusted limits duplicate-expiry (from: common/sieve.toml)
+        duplicate-expiry: "7d"
+
+      scripts:
+        # -- sieve trusted scripts connect (from: common/sieve.toml)
+        connect:
+        # -- sieve trusted scripts ehlo (from: common/sieve.toml)
+        ehlo:
+        # -- sieve trusted scripts mail (from: common/sieve.toml)
+        mail:
+
+  ##
+  # storage
+  ##
+
+  storage:
+    # -- storage data (from: common/store.toml)
+    data: "%{DEFAULT_STORE}%"
+    # -- storage fts (from: common/store.toml)
+    # BROKEN / TODO
+    # see: https://github.com/stalwartlabs/mail-server/issues/211
+    fts: "%{DEFAULT_STORE}%"
+    # -- storage blob (from: common/store.toml)
+    blob: "%{DEFAULT_STORE}%"
+    # -- storage lookup (from: common/store.toml)
+    lookup: "%{DEFAULT_STORE}%"
+    # -- storage directory (from: common/store.toml)
+    directory: "%{DEFAULT_DIRECTORY}%"
+    encryption:
+      # -- storage encryption enable (from: common/store.toml)
+      enable: true
+      # -- storage encryption append (from: common/store.toml)
+      append: false
+    spam:
+      # -- storage spam header (from: common/store.toml)
+      header: "X-Spam-Status: Yes"
+    # BROKEN / TODO
+    # should be fts:
+    # see: https://github.com/stalwartlabs/mail-server/issues/211
+    fts-table-duplicated-workaround:
+      # -- storage - fts - default-language (from: common/store.toml)
+      default-language: "en"
+    cluster:
+      # -- storage - cluster - node-id (from: common/store.toml)
+      node-id:
+
+
+  ##
+  # ACME
+  ##
+
+  acme:
+    # -- acme with name letsencrypt (from: common/tls.toml)
+    letsencrypt:
+      # -- acme directory (from: common/tls.toml)
+      directory: "https://acme-v02.api.letsencrypt.org/directory"
+      # -- acme contact (from: common/tls.toml)
+      contact: ["postmaster@%{DEFAULT_DOMAIN}%"]
+      # -- acme cache (from: common/tls.toml)
+      cache: "/opt/stalwart-mail/etc/acme"
+      # -- acme port (from: common/tls.toml)
+      port: 443
+      # -- acme renew-before (from: common/tls.toml)
+      renew-before: "30d"
+
+  ##
+  # certificate
+  ##
+
+  certificate:
+    # -- certificate with name default (from: common/tls.toml)
+    default:
+      # -- certificate cert (from: common/tls.toml)
+      cert: "file:///opt/stalwart-mail/etc/certs/tls.crt"
+      # -- certificate private-key (from: common/tls.toml)
+      private-key: "file:///opt/stalwart-mail/etc/certs/tls.key"
+
+
+  ##
+  # directory
+  ##
+
+  directory:
+
+    # -- directory - with name memory (from: directory/internal.yaml)
+    memory:
+      type: memory
+      # -- overwrite me, if not wanted
+      disable: false
+      options:
+        catch-all: true
+        subaddressing: true
+      principals:
+        - type: "admin"
+          description: "Superuser"
+          name: "admin"
+          secret: "changeme"
+          mail:
+            - "postmaster@%{DEFAULT_DOMAIN}%"
+
+
+  ##
+  # store
+  ##
+
+  store:
+
+    # -- store - with name sqlite
+    sqlite:
+      type: "sqlite"
+      # -- overwrite me, if not wanted
+      disable: false
+      path: "/data/index.sqlite3"
+      purge:
+        frequency: "0 3 *"
+      query:
+        name: "SELECT name, type, secret, description, quota FROM accounts WHERE name = ? AND active = true"
+        members: "SELECT member_of FROM group_members WHERE name = ?"
+        recipients: "SELECT name FROM emails WHERE address = ?"
+        emails: "SELECT address FROM emails WHERE name = ? AND type != 'list' ORDER BY type DESC, address ASC"
+        verify: "SELECT address FROM emails WHERE address LIKE '%' || ? || '%' AND type = 'primary' ORDER BY address LIMIT 5"
+        expand: "SELECT p.address FROM emails AS p JOIN emails AS l ON p.name = l.name WHERE p.type = 'primary' AND l.address = ? AND l.type = 'list' ORDER BY p.address LIMIT 50"
+        domains: "SELECT 1 FROM emails WHERE address LIKE '%@' || ? LIMIT 1"
+
+    # -- store - with name fs
+    fs:
+      type: "fs"
+      # -- overwrite me, if not wanted
+      disable: false
+      path: "/data/blobs"
+      depth: 2
+      purge:
+        frequency: "0 3 *"
+
+
+  ##
+  # OAuth
+  ##
+
+  oauth:
+
+    # -- oauth - key
+    key: "__OAUTH_KEY__"
+
+    # -- oauth - auth
+    auth:
+      max-attempts: 3
+
+    # -- oauth - expiry
+    expiry:
+      user-code: "30m"
+      auth-code: "10m"
+      token: "1h"
+      refresh-token: "30d"
+      refresh-token-renew: "4d"
+
+    # -- oauth - cache
+    cache:
+      size: 128
+
+
+  ##
+  # SMTP configuration (smtp/*.yaml)
+  ##
+
+
+  ##
+  # query (from: smtp/queue.yaml)
+  ##
+
+  queue:
+    # -- queue-path
+    path: "/data/queue"
+    # -- queue-hash
+    hash: 64
+
+    # -- queue-schedule
+    schedule:
+      retry: ["2m", "5m", "10m", "15m", "30m", "1h", "2h"]
+      notify: ["1d", "3d"]
+      expire: "5d"
+
+    # -- queue-outbound
+    outbound:
+      # hostname: "%{HOST}%"
+      next-hop:
+        - if: "rcpt-domain"
+          in-list: "%{DEFAULT_DIRECTORY}%/domains"
+          then: "local"
+        - else: false
+      ip-strategy: "ipv4-then-ipv6"
+      tls:
+        dane: "optional"
+        mta-sts: "optional"
+        starttls: "require"
+        allow-invalid-certs: false
+      limits:
+        mx: 7
+        multihomed: 2
+      timeouts:
+        connect: "3m"
+        greeting: "3m"
+        tls: "2m"
+        ehlo: "3m"
+        mail-from: "3m"
+        rcpt-to: "3m"
+        data: "10m"
+        mta-sts: "2m"
+
+
+  ##
+  # Report (from: smtp/report.yaml)
+  ##
+
+  report:
+    # -- report-path
+    path: "/data/reports"
+    # -- report-hash
+    hash: 64
+    # submitter: "%{HOST}%"
+
+    # -- report-analysis
+    analysis:
+      addresses: ["dmarc@*", "abuse@*", "postmaster@*"]
+      forward: true
+      # store: "/data/incoming"
+
+    # -- report-dsn
+    dsn:
+      from-name: "Mail Delivery Subsystem"
+      from-address: "MAILER-DAEMON@%{DEFAULT_DOMAIN}%"
+      sign: ["rsa"]
+
+    # -- report-dkim
+    dkim:
+      from-name: "Report Subsystem"
+      from-address: "noreply-dkim@%{DEFAULT_DOMAIN}%"
+      subject: "DKIM Authentication Failure Report"
+      sign: ["rsa"]
+      send: "1/1d"
+
+    # -- report-spf
+    spf:
+      from-name: "Report Subsystem"
+      from-address: "noreply-spf@%{DEFAULT_DOMAIN}%"
+      subject: "SPF Authentication Failure Report"
+      send: "1/1d"
+      sign: ["rsa"]
+
+    # -- report-dmarc
+    dmarc:
+      from-name: "Report Subsystem"
+      from-address: "noreply-dmarc@%{DEFAULT_DOMAIN}%"
+      subject: "DMARC Authentication Failure Report"
+      send: "1/1d"
+      sign: ["rsa"]
+      aggregate:
+        from-name: "DMARC Report"
+        from-address: "noreply-dmarc@%{DEFAULT_DOMAIN}%"
+        org-name: "%{DEFAULT_DOMAIN}%"
+        # contact-info: ""
+        send: "daily"
+        # -- default: 25 mb
+        max-size: 26214400
+        sign: ["rsa"]
+
+    # -- report-tls
+    tls:
+      aggregate:
+        from-name: "TLS Report"
+        from-address: "noreply-tls@%{DEFAULT_DOMAIN}%"
+        org-name: "%{DEFAULT_DOMAIN}%"
+        # contact-info: ""
+        send: "daily"
+        # -- default: 25 mb
+        max-size: 26214400
+        sign: ["rsa"]
+
+
+  ##
+  # resolver (from: smtp/resolver.yaml)
+  ##
+
+  resolver:
+    # -- resolver-type
+    type: "system"
+    # -- resolver-preserve-intermediates
+    preserve-intermediates: true
+    # -- resolver-concurrency
+    concurrency: 2
+    # -- resolver-timeout
+    timeout: "5s"
+    # -- resolver-attempts
+    attempts: 2
+    # -- resolver-try-tcp-on-error
+    try-tcp-on-error: true
+    # -- resolver-public-suffix
+    public-suffix:
+      - "https://publicsuffix.org/list/public_suffix_list.dat"
+      - "file:///opt/stalwart-mail/etc/spamfilter/maps/suffix_list.dat.gz"
+
+    # -- resolver-cache
+    cache:
+      txt: 2048
+      mx: 1024
+      ipv4: 1024
+      ipv6: 1024
+      ptr: 1024
+      tlsa: 1024
+      mta-sts: 1024
+
+
+  ##
+  # signature (from: smtp/signature.yaml)
+  ##
+
+  signature:
+    # -- signature-rsa
+    rsa:
+      # public-key: "file://opt/stalwart-mail/etc/dkim/%{DEFAULT_DOMAIN}%.cert"
+      private-key: "file://opt/stalwart-mail/etc/dkim/private.key"
+      domain: "%{DEFAULT_DOMAIN}%"
+      selector: "stalwart"
+      headers: ["From", "To", "Date", "Subject", "Message-ID"]
+      algorithm: "rsa-sha256"
+      canonicalization: "relaxed/relaxed"
+      # expire: "10d"
+      # third-party: ""
+      # third-party-algo: ""
+      # auid: ""
+      set-body-length: false
+      report: true
+
+
+  ##
+  # IMAP
+  ##
+
+  imap:
+    request:
+      # -- imap request max-size (from: imap/settings.toml)
+      max-size: 52428800
+    auth:
+      # -- imap auth max-failures(from: imap/settings.toml)
+      max-failures: 3
+      # -- imap auth allow-plain-text (from: imap/settings.toml)
+      allow-plain-text: false
+    folders:
+      name:
+        # -- imap folders name shared (from: imap/settings.toml)
+        shared: "Shared Folders"
+    timeout:
+      # -- imap timeout authenticated (from: imap/settings.toml)
+      authenticated: "30m"
+      # -- imap timeout anonymous (from: imap/settings.toml)
+      anonymous: "1m"
+      # -- imap timeout idle (from: imap/settings.toml)
+      idle: "30m"
+    rate-limit:
+      # -- imap rate-limit requests (from: imap/settings.toml)
+      requests: "2000/1m"
+      # -- imap rate-limit concurrent (from: imap/settings.toml)
+      concurrent: 6
+    protocol:
+      # -- imap protocol uidplus (from: imap/settings.toml)
+      uidplus: false
+
+
+  ##
+  # JMAP
+  ##
+
+  jmap:
+    # -- jmap-directory (from: jmap/auth.yaml)
+    directory: "%{DEFAULT_DIRECTORY}%"
+    # -- jmap-session (from: jmap/auth.yaml)
+    session:
+      cache:
+        ttl: "1h"
+        size: 100
+      purge:
+        frequency: "0 3 *"
+
+    # -- jmap-protocol (from: jmap/protocol.yaml)
+    protocol:
+      get:
+        max-objects: 500
+      set:
+        max-objects: 500
+      request:
+        max-concurrent: 4
+        max-size: 10000000
+        max-calls: 16
+      query:
+        max-results: 5000
+      upload:
+        max-size: 50000000
+        max-concurrent: 4
+        ttl: "1h"
+        quota:
+          files: 1000
+          size: 50000000
+      changes:
+        max-results: 5000
+
+    # -- jmap-mailbox
+    mailbox:
+      max-depth: 10
+      max-name-length: 255
+
+    # -- jmap-email
+    email:
+      max-attachment-size: 50000000
+      max-size: 75000000
+
+      parse:
+        max-items: 10
+
+    # -- jmap-principal
+    principal:
+      allow-lookups: true
+
+    # -- jmap-push (from: jmap/push.yaml)
+    push:
+      max-total: 100
+      throttle: "1ms"
+      attempts:
+        interval: "1m"
+        max: 3
+      retry:
+        interval: "1s"
+      timeout:
+        request: "10s"
+        verify: "1s"
+
+    # -- jmap-event-source
+    event-source:
+      throttle: "1s"
+
+    # -- jmap-rate-limit (from: jmap/ratelimit.yaml)
+    rate-limit:
+      account: "1000/1m"
+      authentication: "10/1m"
+      anonymous: "100/1m"
+      use-forwarded: true
+      cache:
+        size: 1024
+
+    # -- jmap-web-sockets (from: jmap/websocket.yaml)
+    web-sockets:
+      throttle: "1s"
+      timeout: "10m"
+      heartbeat: "1m"
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  ipFamilies: ["IPv4"]
+  # -- other option is RequireDualStack
+  ipFamilyPolicy: "SingleStack"
+  annotations: {}
+  ports:
+    smtp: 25
+    smtp-submission: 587
+    smtps: 465
+    imap: 143
+    imaps: 993
+    sieve: 4190
+    http: 80
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+traefik:
+  enabled: false
+  ports:
+    http: websecure
+    imaps: imaps
+    smtps: smtps
+
+certificate:
+  # -- not needed if certmanager is used
+  secretName:
+  certmanager:
+    enabled: true
+    issuerRef:
+      group: cert-manager.io
+      kind: ClusterIssuer
+      name: letsencrypt-prod
+    dnsNames:
+      - "chart-example.local"
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+# Additional volumes on the output Deployment definition.
+volumes: []
+# - name: foo
+#   secret:
+#     secretName: mysecret
+#     optional: false
+
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts: []
+# - name: foo
+#   mountPath: "/etc/foo"
+#   readOnly: true
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+persistence:
+  # -- Enable persistence using Persistent Volume Claims
+  # ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+  enabled: true
+  annotations: {}
+  # -- Persistent Volume Storage Class
+  # If defined, storageClassName: <storageClass>
+  # If set to "-", storageClassName: "", which disables dynamic provisioning
+  # If undefined (the default) or set to null, no storageClassName spec is
+  #   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  #   GKE, AWS & OpenStack)
+  storageClass:
+
+  # -- A manually managed Persistent Volume and Claim
+  # Requires persistence.enabled: true
+  # If defined, PVC must be created manually before volume will be bound
+  existingClaim:
+
+  # --  Do not create an PVC, direct use hostPath in Pod
+  hostPath:
+  # --  accessMode
+  accessMode: ReadWriteOnce
+  # -- size
+  size: 10Gi

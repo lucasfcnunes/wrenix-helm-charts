@@ -1,0 +1,21 @@
+{{- if .Values.traefik.enabled }}
+{{- range $port,$entryport := .Values.traefik.ports }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: {{ include "stalwart-mail.fullname" $ }}-{{ $port }}
+spec:
+  entryPoints:
+    - {{ $entryport }}
+  routes:
+    - match: HostSNI(`{{ $.Values.config.macros.host }}`)
+      services:
+        - name: {{ include "stalwart-mail.fullname" $ }}
+          port: {{ $port}}
+          proxyProtocol:
+            version: 2
+  tls:
+    passthrough: true
+{{- end }}
+{{- end }}{{/* end-if .enabled */}}

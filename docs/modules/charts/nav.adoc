@@ -13,3 +13,4 @@
 ** xref:monitoring.adoc[monitoring]
 ** xref:ntfy.adoc[ntfy]
 ** xref:postgresql.adoc[postgresql]
+** xref:stalwart-mail.adoc[stalwart-mail]

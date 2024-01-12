@@ -5,6 +5,16 @@
 image::https://img.shields.io/badge/Version-0.1.3-informational?style=flat-square[Version: 0.1.3]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-16.1-alpine3.18-informational?style=flat-square[AppVersion: 16.1-alpine3.18]
+== Maintainers
+
+.Maintainers
+|===
+| Name | Email | Url
+
+| WrenIX
+|
+| <https://wrenix.eu>
+|===
 
 == Usage
 
@@ -127,10 +137,25 @@ helm uninstall postgresql-release
 | `true`
 |
 
+| persistence.existingClaim
+| string
+| `nil`
+| A manually managed Persistent Volume and Claim Requires persistence.enabled: true If defined, PVC must be created manually before volume will be bound
+
+| persistence.hostPath
+| string
+| `nil`
+| Do not create an PVC, direct use hostPath in Pod
+
 | persistence.size
 | string
 | `"1Gi"`
 |
+
+| persistence.storageClass
+| string
+| `nil`
+| Persistent Volume Storage Class If defined, storageClassName: <storageClass> If set to "-", storageClassName: "", which disables dynamic provisioning If undefined (the default) or set to null, no storageClassName spec is   set, choosing the default provisioner.  (gp2 on AWS, standard on   GKE, AWS & OpenStack)
 
 | podAnnotations
 | object

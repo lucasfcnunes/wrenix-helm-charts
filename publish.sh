@@ -21,8 +21,6 @@ for p in * ; do
     [ $p == "jellyfin" ] || \
     [ $p == "monitoring" ] || \
     [ $p == "ntfy" ] || \
-    [ $p == "postgresql" ] || \
-    [ $p == "stalwart" ] || \
     [ ! -d $p ] || \
     [ ! -f $p/Chart.yaml ] \
     ; then

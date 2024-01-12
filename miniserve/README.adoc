@@ -2,9 +2,9 @@
 
 = miniserve
 
-image::https://img.shields.io/badge/Version-0.3.2-informational?style=flat-square[Version: 0.3.2]
+image::https://img.shields.io/badge/Version-0.3.3-informational?style=flat-square[Version: 0.3.3]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
-image::https://img.shields.io/badge/AppVersion-0.24.0-informational?style=flat-square[AppVersion: 0.24.0]
+image::https://img.shields.io/badge/AppVersion-0.25.0-informational?style=flat-square[AppVersion: 0.25.0]
 
 == Usage
 
@@ -287,10 +287,25 @@ helm uninstall miniserve-release
 | `false`
 |
 
+| persistence.existingClaim
+| string
+| `nil`
+| A manually managed Persistent Volume and Claim Requires persistence.enabled: true If defined, PVC must be created manually before volume will be bound
+
+| persistence.hostPath
+| string
+| `nil`
+|
+
 | persistence.size
 | string
 | `"1Gi"`
 |
+
+| persistence.storageClass
+| string
+| `nil`
+| data Persistent Volume Storage Class If defined, storageClassName: <storageClass> If set to "-", storageClassName: "", which disables dynamic provisioning If undefined (the default) or set to null, no storageClassName spec is   set, choosing the default provisioner.  (gp2 on AWS, standard on   GKE, AWS & OpenStack)
 
 | podAnnotations
 | object
@@ -345,17 +360,17 @@ helm uninstall miniserve-release
 | serviceAccount.annotations
 | object
 | `{}`
-|
+| Annotations to add to the service account
 
 | serviceAccount.create
 | bool
 | `true`
-|
+| Specifies whether a service account should be created
 
 | serviceAccount.name
 | string
 | `""`
-|
+| If not set and create is true, a name is generated using the fullname template
 
 | tolerations
 | list

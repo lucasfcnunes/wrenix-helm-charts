@@ -3,8 +3,12 @@ ROOT_DIR="./docs/modules/charts/"
 
 echo "* charts" > "${ROOT_DIR}/nav.adoc"
 for name in * ; do
-  [ ! -d $name ] && continue
-  [ $name == "docs" ] && continue
+  if \
+    [ ! -d $name ] || \
+    [ ! -f $name/Chart.yaml ] \
+    ; then
+    continue;
+  fi
   ln -sf "../../../../${name}/README.adoc" "${ROOT_DIR}/pages/${name}.adoc";
   echo "** xref:${name}.adoc[${name}]" >> "${ROOT_DIR}/nav.adoc"
 done

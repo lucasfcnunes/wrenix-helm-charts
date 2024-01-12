@@ -19,16 +19,14 @@ for p in * ; do
     [ $p == "headscale-ui" ] || \
     [ $p == "forgejo-runner" ] || \
     [ $p == "jellyfin" ] || \
-    [ $p == "miniserve" ] || \
     [ $p == "monitoring" ] || \
     [ $p == "ntfy" ] || \
     [ $p == "postgresql" ] || \
-    [ $p == "docs" ] \
+    [ $p == "stalwart" ] || \
+    [ ! -d $p ] || \
+    [ ! -f $p/Chart.yaml ] \
     ; then
     continue
-  fi
-  if [ ! -d $p ]; then
-    continue;
   fi
 
   echo "${p}:";

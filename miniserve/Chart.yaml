@@ -2,6 +2,10 @@ apiVersion: v2
 name: miniserve
 description: A Helm chart for Kubernetes
 type: application
-version: 0.3.2
+version: 0.3.3
+icon: https://raw.githubusercontent.com/svenstaro/miniserve/master/data/logo.svg
+maintainers:
+  - name: WrenIX
+    url: https://wrenix.eu
 
-appVersion: "0.24.0"
+appVersion: "0.25.0"

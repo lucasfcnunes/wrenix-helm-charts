@@ -2,7 +2,7 @@ apiVersion: v2
 name: forgejo-runner
 description: Deploy runner for an forgejo instance (default codeberg.org)
 type: application
-version: 0.1.4
+version: 0.1.5
 appVersion: "3.2.0"
 maintainers:
   - name: WrenIX

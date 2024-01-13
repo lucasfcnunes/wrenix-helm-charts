@@ -2,9 +2,19 @@
 
 = conduit
 
-image::https://img.shields.io/badge/Version-0.2.1-informational?style=flat-square[Version: 0.2.1]
+image::https://img.shields.io/badge/Version-0.2.2-informational?style=flat-square[Version: 0.2.2]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-0.6.0-informational?style=flat-square[AppVersion: 0.6.0]
+== Maintainers
+
+.Maintainers
+|===
+| Name | Email | Url
+
+| WrenIX
+|
+| <https://wrenix.eu>
+|===
 
 == Usage
 
@@ -100,7 +110,7 @@ helm uninstall conduit-release
 | conduit.maxRequestSize
 | string
 | `"20000000"`
-|
+| in bytes default 20 MB
 
 | conduit.registrationToken
 | string
@@ -207,10 +217,25 @@ helm uninstall conduit-release
 | `true`
 |
 
+| persistence.existingClaim
+| string
+| `nil`
+| A manually managed Persistent Volume and Claim Requires persistence.enabled: true If defined, PVC must be created manually before volume will be bound
+
+| persistence.hostPath
+| string
+| `nil`
+| Do not create an PVC, direct use hostPath in Pod
+
 | persistence.size
 | string
 | `"1Gi"`
 |
+
+| persistence.storageClass
+| string
+| `nil`
+| Persistent Volume Storage Class If defined, storageClassName: <storageClass> If set to "-", storageClassName: "", which disables dynamic provisioning If undefined (the default) or set to null, no storageClassName spec is   set, choosing the default provisioner.  (gp2 on AWS, standard on   GKE, AWS & OpenStack)
 
 | podAnnotations
 | object

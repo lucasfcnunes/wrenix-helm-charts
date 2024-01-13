@@ -3,7 +3,7 @@ name: conduit
 description: Conduit is a simple, fast and reliable chat server powered by Matrix.
 icon: https://conduit.rs/conduit.svg
 type: application
-version: 0.2.1
+version: 0.2.2
 appVersion: "0.6.0"
 maintainers:
   - name: WrenIX

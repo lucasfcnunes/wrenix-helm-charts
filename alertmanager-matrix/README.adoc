@@ -2,9 +2,19 @@
 
 = alertmanager-matrix
 
-image::https://img.shields.io/badge/Version-0.1.4-informational?style=flat-square[Version: 0.1.4]
+image::https://img.shields.io/badge/Version-0.1.5-informational?style=flat-square[Version: 0.1.5]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square[AppVersion: latest]
+== Maintainers
+
+.Maintainers
+|===
+| Name | Email | Url
+
+| WrenIX
+|
+| <https://wrenix.eu>
+|===
 
 == Usage
 

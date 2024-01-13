@@ -2,7 +2,7 @@ apiVersion: v2
 name: alertmanager-matrix
 description: Service for managing and receiving Alertmanager alerts on Matrix
 type: application
-version: 0.1.4
+version: 0.1.5
 appVersion: "latest"
 maintainers:
   - name: WrenIX

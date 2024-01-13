@@ -9,19 +9,10 @@ helm-docs -t ./README.adoc.gotmpl -t _docs.gotmpl -o README.adoc
 
 ./docs/modules/charts/generate.sh
 
+ct lint || exit 1
+
 for p in * ; do
   if \
-    [ $p == "alertmanager-matrix" ] || \
-    [ $p == "alertmanager-ntfy" ] || \
-    [ $p == "conduit" ] || \
-    [ $p == "grampsweb" ] || \
-    [ $p == "headscale" ] || \
-    [ $p == "headscale-ui" ] || \
-    [ $p == "forgejo-runner" ] || \
-    [ $p == "jellyfin" ] || \
-    [ $p == "monitoring" ] || \
-    [ $p == "ntfy" ] || \
-    [ $p == "postgresql" ] || \
     [ ! -d $p ] || \
     [ ! -f $p/Chart.yaml ] \
     ; then

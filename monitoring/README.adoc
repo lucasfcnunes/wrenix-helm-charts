@@ -2,8 +2,18 @@
 
 = monitoring
 
-image::https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square[Version: 0.1.0]
+image::https://img.shields.io/badge/Version-0.1.1-informational?style=flat-square[Version: 0.1.1]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
+== Maintainers
+
+.Maintainers
+|===
+| Name | Email | Url
+
+| WrenIX
+|
+| <https://wrenix.eu>
+|===
 
 == Usage
 
@@ -41,15 +51,20 @@ helm uninstall monitoring-release
 | `[{"name":"local","spec":{"path":"/probe","url":"prometheus-blackbox-exporter:9115"}}]`
 | prober for each the following probes are created (multiside probes)
 
-| prober[0].name
-| string
-| `"local"`
+| prober[0]
+| object
+| `{"name":"local","spec":{"path":"/probe","url":"prometheus-blackbox-exporter:9115"}}`
 | name of prober
 
 | prober[0].spec
 | object
 | `{"path":"/probe","url":"prometheus-blackbox-exporter:9115"}`
 | spec of prober (like url, path, scheme ...)
+
+| probes[0]
+| object
+| `{"groups":{"framasoft":["framasoft.org","degooglisons-internet.org","framapiaf.org","framatube.org"]},"ipv4":true,"ipv6":true,"module":"http_2xx","name":"http"}`
+| probe module (suffix with _ipv4 and ipv6 if enabled)
 
 | probes[0].groups
 | object
@@ -65,11 +80,6 @@ helm uninstall monitoring-release
 | bool
 | `true`
 | setup one for ipv6 (see module and his suffix)
-
-| probes[0].module
-| string
-| `"http_2xx"`
-| probe module (suffix with _ipv4 and ipv6 if enabled)
 
 | probes[0].name
 | string
@@ -94,7 +104,7 @@ helm uninstall monitoring-release
 | probes[1].module
 | string
 | `"http_2xx"`
-| probe module (suffix with _ipv4 and ipv6 if enabled)
+|
 
 | probes[1].name
 | string
@@ -111,15 +121,15 @@ helm uninstall monitoring-release
 | `{"prometheus":"default"}`
 | labels on ScrapeConfig
 
+| scrapes[0]
+| object
+| `{"groups":{"de":["ber.de.local:9100","fra.de.local:9100","ham.de.local:9100"],"ie":["dub.ie.local:9100","ork.ie.local:9100"]},"name":"nodes"}`
+| name of scrape
+
 | scrapes[0].groups
 | object
 | `{"de":["ber.de.local:9100","fra.de.local:9100","ham.de.local:9100"],"ie":["dub.ie.local:9100","ork.ie.local:9100"]}`
 | groups with targets
-
-| scrapes[0].name
-| string
-| `"nodes"`
-| name of scrape
 
 | scrapes[1].auth.password
 | string
@@ -149,7 +159,7 @@ helm uninstall monitoring-release
 | scrapes[1].name
 | string
 | `"minio"`
-| name of scrape
+|
 
 | scrapes[1].scheme
 | string

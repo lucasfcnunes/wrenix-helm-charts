@@ -2,8 +2,18 @@
 
 = authentik-application
 
-image::https://img.shields.io/badge/Version-0.4.0-informational?style=flat-square[Version: 0.4.0]
+image::https://img.shields.io/badge/Version-0.4.1-informational?style=flat-square[Version: 0.4.1]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
+== Maintainers
+
+.Maintainers
+|===
+| Name | Email | Url
+
+| WrenIX
+|
+| <https://wrenix.eu>
+|===
 
 ## Pre-Requirement
 Usage of https://github.com/goauthentik/helm/pull/146

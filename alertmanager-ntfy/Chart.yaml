@@ -3,5 +3,7 @@ name: alertmanager-ntfy
 description: Receiver for alertmanager to forward to ntfy.sh
 type: application
 version: 0.1.2
-
 appVersion: "0.3.0"
+maintainers:
+  - name: WrenIX
+    url: https://wrenix.eu

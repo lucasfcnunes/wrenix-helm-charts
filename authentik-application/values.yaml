@@ -38,12 +38,12 @@ blueprint:
       skipPathRegex: ""
       cookieDomain: ""
       ingress:
-         # -- deploy ingress on application domain for e.g. logout (WIP)
-         enabled: false
-         # -- domain of application (where outpost should be deployed)
-         domain:
-         # -- service backend to authentik
-         backend: authentik 
+        # -- deploy ingress on application domain for e.g. logout (WIP)
+        enabled: false
+        # -- domain of application (where outpost should be deployed)
+        domain:
+        # -- service backend to authentik
+        backend: authentik
   application:
     # -- application name in menu
     name: ""
@@ -54,7 +54,7 @@ blueprint:
     # url to application
     launchURL: ""
     # -- open application in new tab
-    openInNewTab: false 
+    openInNewTab: false
     # -- icon of application (url)
     icon: ""
     # -- description of application

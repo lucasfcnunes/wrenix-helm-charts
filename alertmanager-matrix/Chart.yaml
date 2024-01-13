@@ -4,6 +4,10 @@ description: Service for managing and receiving Alertmanager alerts on Matrix
 type: application
 version: 0.1.4
 appVersion: "latest"
+maintainers:
+  - name: WrenIX
+    url: https://wrenix.eu
+
 keywords:
   - matrix
   - alertmanager

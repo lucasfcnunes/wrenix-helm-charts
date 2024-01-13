@@ -1,6 +1,9 @@
 apiVersion: v2
 name: monitoring
 description: Deploy helper for probes and scrapeconfig of prometheus-operator
+icon: https://prometheus.io/assets/favicons/android-chrome-192x192.png
 type: application
-
 version: 0.1.0
+maintainers:
+  - name: WrenIX
+    url: https://wrenix.eu

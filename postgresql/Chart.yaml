@@ -2,14 +2,13 @@
 apiVersion: "v2"
 name: "postgresql"
 description: "A Helm chart for running PostgreSQL (Postgres) database"
+icon: https://wiki.postgresql.org/images/a/a4/PostgreSQL_logo.3colors.svg
 type: "application"
 version: "0.1.3"
 appVersion: "16.1-alpine3.18"
-icon: https://wiki.postgresql.org/images/a/a4/PostgreSQL_logo.3colors.svg
 maintainers:
   - name: WrenIX
     url: https://wrenix.eu
-
 
 keywords:
   - "postgresql"

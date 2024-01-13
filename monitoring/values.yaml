@@ -9,8 +9,8 @@ prometheus:
       prometheus: "default"
 
 scrapes:
-  - # -- name of scrape
-    name: nodes
+    # -- name of scrape
+  - name: nodes
     # -- groups with targets
     groups:
       de:
@@ -20,8 +20,8 @@ scrapes:
       ie:
         - "dub.ie.local:9100"
         - "ork.ie.local:9100"
-  - # -- name of scrape
-    name: minio
+    # -- name of scrape
+  - name: minio
     # -- metric path on scrape
     metricsPath: /minio/v2/metrics/node
     # -- schema on scrape
@@ -43,16 +43,16 @@ scrapes:
 
 # -- prober for each the following probes are created (multiside probes)
 prober:
-  - # -- name of prober
-    name: "local"
+    # -- name of prober
+  - name: "local"
     # -- spec of prober (like url, path, scheme ...)
     spec:
       url: "prometheus-blackbox-exporter:9115"
       path: "/probe"
 
 probes:
-  - # -- probe module (suffix with _ipv4 and ipv6 if enabled)
-    module: http_2xx
+    # -- probe module (suffix with _ipv4 and ipv6 if enabled)
+  - module: http_2xx
     # -- name of probe
     name: http
     # -- setup one for ipv4 (see module and his suffix)
@@ -67,8 +67,8 @@ probes:
         - framapiaf.org
         - framatube.org
 
-  - # -- probe module (suffix with _ipv4 and ipv6 if enabled)
-    module: http_2xx
+    # -- probe module (suffix with _ipv4 and ipv6 if enabled)
+  - module: http_2xx
     # -- name of probe
     name: http-ipv4
     # -- setup one for ipv4 (see module and his suffix)

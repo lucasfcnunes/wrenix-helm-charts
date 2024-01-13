@@ -63,7 +63,7 @@ ntfy:
     server:
       domain: null
       addrPrefix: null
-  globalTopicLimit: 15000    
+  globalTopicLimit: 15000
   visitor:
     subscriptionLimit: 30
     attachment:
@@ -93,23 +93,22 @@ persistence:
   # Upload (/var/www/html)
   enabled: false
   annotations: {}
-  ## mobilizon data Persistent Volume Storage Class
-  ## If defined, storageClassName: <storageClass>
-  ## If set to "-", storageClassName: "", which disables dynamic provisioning
-  ## If undefined (the default) or set to null, no storageClassName spec is
-  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
-  ##   GKE, AWS & OpenStack)
-  ##
-  # storageClass: "-"
+  # -- data Persistent Volume Storage Class
+  # If defined, storageClassName: <storageClass>
+  # If set to "-", storageClassName: "", which disables dynamic provisioning
+  # If undefined (the default) or set to null, no storageClassName spec is
+  #   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  #   GKE, AWS & OpenStack)
+  storageClass:
 
-  ## A manually managed Persistent Volume and Claim
-  ## Requires persistence.enabled: true
-  ## If defined, PVC must be created manually before volume will be bound
-  # existingClaim:
+  # -- A manually managed Persistent Volume and Claim
+  # Requires persistence.enabled: true
+  # If defined, PVC must be created manually before volume will be bound
+  existingClaim:
 
-  ## Create a PV on Node with given hostPath
-  ## storageClass has to be manual
-  # hostPath: 
+  # -- Create a PV on Node with given hostPath
+  # storageClass has to be manual
+  hostPath:
   accessMode: ReadWriteOnce
   size: 1Gi
 

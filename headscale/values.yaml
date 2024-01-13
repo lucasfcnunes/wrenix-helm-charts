@@ -20,7 +20,7 @@ headscale:
     create: true
     # -- Use an existing secret
     existingSecret: ""
-  
+
   certmanager:
     enabled: true
     dnsNames:
@@ -34,7 +34,7 @@ headscale:
     metrics_listen_addr: ":9090"
     grpc_listen_addr: ":50443"
 
-    server_url: http://127.0.0.1:8080    
+    server_url: http://127.0.0.1:8080
 
     # SQLite config
     db_type: sqlite3
@@ -51,7 +51,7 @@ headscale:
     # db_user: foo
     # db_pass: bar
     private_key_path: "/etc/headscale/secrets/wireguard.key"
-    noise:    
+    noise:
       private_key_path: "/etc/headscale/secrets/noise.key"
     # # certs
     # use certmanager instatt of internal acme:
@@ -84,28 +84,26 @@ prometheus:
 
 ## Enable persistence using Persistent Volume Claims
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
-##
 persistence:
   # Upload (/var/lib/headscale)
   enabled: false
   annotations: {}
-  ## mobilizon data Persistent Volume Storage Class
-  ## If defined, storageClassName: <storageClass>
-  ## If set to "-", storageClassName: "", which disables dynamic provisioning
-  ## If undefined (the default) or set to null, no storageClassName spec is
-  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
-  ##   GKE, AWS & OpenStack)
-  ##
-  # storageClass: "-"
+  # -- data Persistent Volume Storage Class
+  # If defined, storageClassName: <storageClass>
+  # If set to "-", storageClassName: "", which disables dynamic provisioning
+  # If undefined (the default) or set to null, no storageClassName spec is
+  #   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  #   GKE, AWS & OpenStack)
+  storageClass:
 
-  ## A manually managed Persistent Volume and Claim
-  ## Requires persistence.enabled: true
-  ## If defined, PVC must be created manually before volume will be bound
-  # existingClaim:
+  # --  A manually managed Persistent Volume and Claim
+  # Requires persistence.enabled: true
+  # If defined, PVC must be created manually before volume will be bound
+  existingClaim:
 
-  ## Create a PV on Node with given hostPath
-  ## storageClass has to be manual
-  # hostPath: 
+  # -- Create a PV on Node with given hostPath
+  # storageClass has to be manual
+  hostPath:
   accessMode: ReadWriteOnce
   size: 1Gi
 
@@ -161,7 +159,7 @@ ingress:
   annotations: {}
     # for usage with certmanager (pod certs) and nginx
     # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    # 
+    #
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:

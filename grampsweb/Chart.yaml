@@ -1,8 +1,10 @@
 apiVersion: v2
 name: grampsweb
 description: A Helm chart for gramps web
-
+icon: https://raw.githubusercontent.com/gramps-project/Gramps.js/main/images/icon512.png
 type: application
 version: 0.1.1
-
 appVersion: "23.11.0"
+maintainers:
+  - name: WrenIX
+    url: https://wrenix.eu

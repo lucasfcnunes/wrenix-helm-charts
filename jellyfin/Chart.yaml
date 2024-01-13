@@ -1,7 +1,10 @@
 apiVersion: v2
 name: jellyfin
 description: The Free Software Media System
+icon: https://raw.githubusercontent.com/jellyfin/jellyfin-ux/master/branding/SVG/icon-transparent.svg
 type: application
-
 version: 0.1.4
 appVersion: "10.8.13"
+maintainers:
+  - name: WrenIX
+    url: https://wrenix.eu

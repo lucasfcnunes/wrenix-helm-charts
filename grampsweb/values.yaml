@@ -53,7 +53,7 @@ persistence:
   existingClaim:
 
   # -- Do not create an PVC, direct use hostPath in Pod
-  hostPath: 
+  hostPath:
   accessMode: ReadWriteOnce
   size: 5Gi
 

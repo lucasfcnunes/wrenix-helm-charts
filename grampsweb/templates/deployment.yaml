@@ -38,9 +38,9 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- with .Values.gramps }}
           env:
-            - name: "TREE"
+            - name: "GRAMPSWEB_TREE"
               value: "{{ .tree }}"
-            - name: "BASE_URL"
+            - name: "GRAMPSWEB_BASE_URL"
               value: "{{ .baseURL }}"
           {{- end }}
           envFrom:

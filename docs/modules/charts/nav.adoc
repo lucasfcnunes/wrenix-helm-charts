@@ -4,6 +4,7 @@
 ** xref:authentik-application.adoc[authentik-application]
 ** xref:conduit.adoc[conduit]
 ** xref:forgejo-runner.adoc[forgejo-runner]
+** xref:gotosocial.adoc[gotosocial]
 ** xref:grampsweb.adoc[grampsweb]
 ** xref:headscale.adoc[headscale]
 ** xref:headscale-ui.adoc[headscale-ui]

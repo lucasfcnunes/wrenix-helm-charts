@@ -1,0 +1,13 @@
+gotosocial:
+  metrics:
+    enabled: true
+    auth:
+      enabled: true
+      username: "test"
+      password: "test1234"
+
+prometheus:
+  servicemonitor:
+    enabled: true
+    labels:
+      prometheus: default

@@ -1,0 +1,1 @@
+../../../../gotosocial/README.adoc

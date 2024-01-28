@@ -1,0 +1,24 @@
+{{- if and .Values.gotosocial.metrics.enabled .Values.prometheus.servicemonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "gotosocial.fullname" . }}
+  labels:
+    {{- include "gotosocial.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "gotosocial.selectorLabels" . | nindent 6 }}
+  endpoints:
+    - port: http
+      path: "/metrics"
+      {{- if .Values.gotosocial.metrics.auth.enabled }}
+      basicAuth:
+        username:
+          name: {{ include "gotosocial.fullname" . }}-metrics-auth
+          key: GTS_METRICS_AUTH_USERNAME
+        password:
+          name: {{ include "gotosocial.fullname" . }}-metrics-auth
+          key: GTS_METRICS_AUTH_PASSWORD
+      {{- end }}
+{{- end }}

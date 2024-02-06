@@ -3,7 +3,8 @@ name: miniserve
 description: A Helm chart for Kubernetes
 icon: https://raw.githubusercontent.com/svenstaro/miniserve/master/data/logo.svg
 type: application
-version: 0.3.5
+version: 0.3.6
+# renovate: image=docker.io/svenstaro/miniserve
 appVersion: "0.26.0"
 maintainers:
   - name: WrenIX

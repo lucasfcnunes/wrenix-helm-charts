@@ -5,7 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: ghcr.io/gurucomputing/headscale-ui
+  registry: ghcr.io
+  repository: gurucomputing/headscale-ui
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""

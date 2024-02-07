@@ -61,6 +61,8 @@ spec:
               value: "0.0.0.0"
             - name: "CONDUIT_SERVER_NAME"
               value: {{ .Values.conduit.server_name | quote }}
+            - name: "CONDUIT_CONFIG"
+              value: ""
             - name: "CONDUIT_DATABASE_PATH"
               value: "/var/lib/matrix-conduit"
             - name: "CONDUIT_DATABASE_BACKEND"

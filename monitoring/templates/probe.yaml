@@ -18,9 +18,11 @@ spec:
   targets:
     staticConfig:
       labels:
-        group: {{ $groupName }} 
-        probe: {{ $probe.name }}
         prober: {{ $prober.name }}
+        group: {{ $groupName }} 
+        proto: {{ $proto }}
+        module: {{ $probe.module }}
+        probe: {{ $probe.name }}
       static:
         {{- toYaml $group | nindent 8 }}
 {{- end }}

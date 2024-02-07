@@ -12,7 +12,6 @@ metadata:
   labels:
     {{- toYaml $.Values.prometheus.probe.labels | nindent 4 }}
 spec:
-  jobName: "blackbox-{{ $probe.name }}-{{ $proto }}"
   prober:
     {{- toYaml $prober.spec | nindent 4}}
   module: "{{ $probe.module }}_{{ $proto }}"

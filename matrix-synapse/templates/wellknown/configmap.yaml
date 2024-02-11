@@ -1,0 +1,23 @@
+{{- if .Values.wellknown.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "matrix-synapse.externalname" (dict "root" . "external" "wellknown") }}
+  labels:
+    {{- include "matrix-synapse.labels" . | nindent 4 }}
+    app.kubernetes.io/component: wellknown
+data:
+  server: |-
+    {{- with .Values.wellknown.server }}
+    {{- toJson . | nindent 4 }}
+    {{- else }}
+    {{- dict "m.server" (printf "%s:%d" (.Values.publicServerName | default .Values.serverName) 443) | toJson | nindent 4 }}
+    {{- end }}
+  client: |-
+    {{- with .Values.wellknown.client }}
+    {{- toJson . | nindent 4 }}
+    {{- else }}
+    {{- dict "m.homeserver" (dict "base_url" (printf "https://%s/" (.Values.publicServerName | default .Values.serverName))) | toJson | nindent 4 }}
+    {{- end }}
+{{- end -}}{{/* end-if .wellknown.enabled */}}

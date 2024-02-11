@@ -1,0 +1,139 @@
+{{- $secretName := include "matrix-synapse.workername" (dict "root" . "worker" "signingkey") }}
+
+{{- if .Values.signingkey.job.enabled }}
+{{- if .Values.signingkey.existingSecret }}
+{{- fail "Can't specify both signingkey.job.enabled and signingkey.existingSecret" }}
+{{- end }}
+{{- $name := include "matrix-synapse.workername" (dict "root" . "worker" "signingkey-job") }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ $secretName }}
+  labels:
+    {{- include "matrix-synapse.labels" . | nindent 4 }}
+    app.kubernetes.io/component: signingkey-job
+  annotations:
+    helm.sh/resource-policy: keep
+type: Opaque
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- include "matrix-synapse.labels" . | nindent 4 }}
+    app.kubernetes.io/component: signingkey-job
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- include "matrix-synapse.labels" . | nindent 4 }}
+    app.kubernetes.io/component: signingkey-job
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    resourceNames:
+      - {{ $secretName }}
+    verbs:
+      - get
+      - update
+      - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- include "matrix-synapse.labels" . | nindent 4 }}
+    app.kubernetes.io/component: signingkey-job
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ $name }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ $name }}
+    namespace: {{ .Release.Namespace }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- include "matrix-synapse.labels" . | nindent 4 }}
+    app.kubernetes.io/component: signingkey-job
+  annotations:
+    {{- with .Values.signingkey.job.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  ttlSecondsAfterFinished: 0
+  template:
+    metadata:
+      labels:
+        {{- include "matrix-synapse.labels" . | nindent 8 }}
+        app.kubernetes.io/component: signingkey-job
+    spec:
+      containers:
+        - name: signing-key-generate
+          {{- with .Values.image }}
+          image: "{{ coalesce $.Values.global.image.registry .registry }}/{{ .repository }}:{{ .tag | default (printf "v%s" $.Chart.AppVersion) }}"
+          imagePullPolicy: {{ coalesce $.Values.global.image.pullPolicy .pullPolicy }}
+          {{- end }}
+          command:
+            - sh
+            - -c
+            - |
+              echo "Generating signing key..."
+              if which generate_signing_key.py >/dev/null; then
+                generate_signing_key.py -o /synapse/keys/signing.key
+              else
+                generate_signing_key -o /synapse/keys/signing.key
+              fi
+          resources:
+            {{- toYaml .Values.signingkey.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /synapse/keys
+              name: matrix-synapse-keys
+        - name: signing-key-upload
+          {{- with .Values.signingkey.job.publishImage }}
+          image: "{{ coalesce $.Values.global.image.registry .registry }}/{{ .repository }}:{{ .tag }}"
+          imagePullPolicy: {{ coalesce $.Values.global.image.pullPolicy .pullPolicy }}
+          {{- end }}
+          command:
+            - sh
+            - -c
+            - | 
+              # check if key already exists
+              key=$(kubectl get secret {{ $secretName }} -o jsonpath="{.data['signing.key']}" 2> /dev/null)
+              [ $? -ne 0 ] && echo "Failed to get existing secret" && exit 1
+              [ -n "$key" ] && echo "Key already created, exiting." && exit 0
+              # wait for config
+              while [ ! -f /synapse/keys/signing.key ]; do
+                echo "Waiting for key.."
+                sleep 5;
+              done
+              # update secret
+              kubectl patch secret {{ $secretName }} -p "{\"data\":{\"signing.key\":\"$(base64 /synapse/keys/signing.key | tr -d '\n')\"}}"
+              [ $? -ne 0 ] && echo "Failed to update secret." && exit 1
+              echo "Key successfully created."
+          resources:
+            {{- toYaml .Values.signingkey.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /synapse/keys
+              name: matrix-synapse-keys
+              readOnly: true
+      restartPolicy: Never
+      serviceAccount: {{ $name }}
+      volumes:
+        - name: matrix-synapse-keys
+          emptyDir: {}
+  parallelism: 1
+  completions: 1
+  backoffLimit: 1
+{{- end }}

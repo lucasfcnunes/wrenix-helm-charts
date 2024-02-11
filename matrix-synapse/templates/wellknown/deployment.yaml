@@ -1,0 +1,75 @@
+{{- if .Values.wellknown.enabled }}
+{{- $wkName := include "matrix-synapse.externalname" (dict "root" . "external" "wellknown") -}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $wkName }}
+  labels:
+    {{- include "matrix-synapse.labels" . | nindent 4 }}
+    app.kubernetes.io/component: wellknown
+spec:
+  replicas: {{ .Values.wellknown.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "matrix-synapse.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: wellknown
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print .Template.BasePath "/wellknown/configmap.yaml") . | sha256sum }}
+        {{- with .Values.wellknown.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "matrix-synapse.selectorLabels" . | nindent 8 }}
+        {{- with .Values.wellknown.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        app.kubernetes.io/component: wellknown
+    spec:
+      {{- include "matrix-synapse.imagePullSecrets" . | nindent 6 }}
+      securityContext:
+        {{- toYaml .Values.wellknown.podSecurityContext | nindent 8 }}
+      containers:
+        - name: wellknown
+          securityContext:
+            {{- toYaml .Values.wellknown.securityContext | nindent 12 }}
+          {{- with .Values.wellknown.image }}
+          image: "{{ coalesce $.Values.global.image.registry .registry }}/{{ .repository }}:{{ .tag }}"
+          imagePullPolicy: {{ coalesce $.Values.global.image.pullPolicy .pullPolicy }}
+          {{- end }}
+          ports:
+            - containerPort: {{ .Values.wellknown.containerPort }}
+              name: http
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.wellknown.resources | nindent 12 }}
+          volumeMounts:
+            - name: "data"
+              mountPath: "/usr/share/nginx/html/.well-known/matrix/"
+      {{- with .Values.wellknown.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.wellknown.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.wellknown.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: "data"
+          configMap:
+            name: {{ $wkName }}
+{{- end }}

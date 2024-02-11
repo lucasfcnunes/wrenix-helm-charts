@@ -1,0 +1,20 @@
+{{- if .Values.wellknown.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "matrix-synapse.externalname" (dict "root" . "external" "wellknown") }}
+  labels:
+    {{- include "matrix-synapse.labels" . | nindent 4 }}
+    app.kubernetes.io/component: wellknown
+spec:
+  type: {{ .Values.wellknown.service.type | default "ClusterIP" }}
+  ports:
+    - port: {{ .Values.wellknown.service.port | default 80 }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "matrix-synapse.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: wellknown
+{{- end }}

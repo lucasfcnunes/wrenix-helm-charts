@@ -5,14 +5,13 @@ metadata:
   name: {{ include "conduit.fullname" . }}-wellknown
   labels:
     {{- include "conduit.labels" . | nindent 4 }}
+    app.kubernetes.io/component: wellknown
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
+  replicas: {{ .Values.wellknown.replicaCount }}
   selector:
     matchLabels:
       {{- include "conduit.selectorLabels" . | nindent 6 }}
-      type: wellknown
+      app.kubernetes.io/component: wellknown
   template:
     metadata:
       {{- with .Values.wellknown.podAnnotations }}
@@ -21,10 +20,10 @@ spec:
       {{- end }}
       labels:
         {{- include "conduit.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: wellknown
         {{- with .Values.wellknown.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
-        type: wellknown
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -52,7 +51,7 @@ spec:
               path: /
               port: http
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.wellknown.resources | nindent 12 }}
           volumeMounts:
             - name: "data"
               mountPath: "/usr/share/nginx/html/.well-known/matrix/"

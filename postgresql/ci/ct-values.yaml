@@ -1,0 +1,8 @@
+job:
+  users:
+    user-name: "RandomPassword0#"
+
+  databases:
+   "name_of_database":
+     owner: "existing_user_which_will_get_grant"
+     additionalParams: ""

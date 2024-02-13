@@ -1,0 +1,19 @@
+{{- if .Values.prometheus.podmonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: {{ include "matrix-synapse.fullname" . }}
+  labels:
+    {{- include "matrix-synapse.labels" . | nindent 4 }}
+    {{- with .Values.prometheus.podmonitor.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "matrix-synapse.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: synapse
+  podMetricsEndpoints:
+    - port: metrics
+      path: "/_synapse/metrics"
+{{- end }}

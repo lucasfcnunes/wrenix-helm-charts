@@ -1,0 +1,18 @@
+{{- if .Values.grafana.dashboards.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "matrix-synapse.fullname" . }}-grafana-db
+  labels:
+    {{- include "matrix-synapse.labels" $ | nindent 4 }}
+    {{- with .Values.grafana.dashboards.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with .Values.grafana.dashboards.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+data:
+  {{- ($.Files.Glob "grafana_dashboards/*.json" ).AsConfig | nindent 2 }}
+{{- end }}

@@ -1,0 +1,4 @@
+# Readme
+
+## Changelog from monitoring resources
+- Dashboard: https://github.com/element-hq/synapse/blob/v1.101.0/contrib/grafana/synapse.json

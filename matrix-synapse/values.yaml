@@ -911,3 +911,21 @@ serviceAccount:
   annotations: {}
     # eks.amazonaws.com/role-arn: arn:aws:iam::000000000000:role/matrix-synapse
   # name: non-default-service-name
+
+prometheus:
+  podmonitor:
+    enabled: false
+    labels: {}
+  rules:
+    enabled: false
+    labels: {}
+    defaults:
+      enabled: true
+    additionalRules: []
+
+grafana:
+  dashboards:
+    enabled: false
+    labels:
+      grafana_dashboard: "1"
+    annotations: {}

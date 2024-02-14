@@ -201,17 +201,21 @@ spec:
                 path: signing.key
         - name: tmpconf
           emptyDir: {}
-      {{- if eq $name "media-repository" }}
+        {{- if eq $name "media-repository" }}
         - name: media
-        {{- if $.Values.persistence.enabled }}
+          {{- if $.Values.persistence.hostPath }}
+          hostPath:
+            type: Directory
+            path: {{ .Values.persistence.hostPath | quote }}
+          {{- else if $.Values.persistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ $.Values.persistence.existingClaim | default (include "matrix-synapse.fullname" $) }}
-        {{- else }}
+          {{- else }}
           emptyDir: {}
+          {{- end }}
+        {{- end }}{{/* end-if media-repository */}}
+        {{- with $config.volumes | default $default.volumes }}
+        {{- toYaml . | nindent 8 }}
         {{- end }}
-      {{- end }}
-      {{- with $config.volumes | default $default.volumes }}
-        {{ . | toYaml | nindent 8 }}
-      {{- end }}
 {{- end }}
 {{- end }}

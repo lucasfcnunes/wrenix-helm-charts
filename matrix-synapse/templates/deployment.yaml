@@ -152,9 +152,9 @@ spec:
               mountPath: /synapse/data
             - name: tmpdir
               mountPath: /tmp
-          {{- with .Values.synapse.extraVolumeMounts }}
+            {{- with .Values.synapse.extraVolumeMounts }}
             {{- . | toYaml | nindent 12 }}
-          {{- end }}
+            {{- end }}
           resources:
             {{- toYaml .Values.synapse.resources | nindent 12 }}
       volumes:
@@ -175,30 +175,38 @@ spec:
         - name: tmpdir
           emptyDir: {}
         - name: media
-        {{- $mediaworker := false }}
-        {{- range $worker, $config := .Values.workers }}
+          {{- $mediaworker := false }}
+          {{- range $worker, $config := .Values.workers }}
           {{- if eq $worker "media_repository" }}
-            {{- $mediaworker = ($config.enabled | default false) }}
+          {{- $mediaworker = ($config.enabled | default false) }}
           {{- end }}
-        {{- end }}
-        {{- if and .Values.persistence.enabled (not $mediaworker) }}
+          {{- end }}
+          {{- if $mediaworker }}
+          emptyDir: {}
+          {{- else }}
+          {{- if .Values.persistence.hostPath }}
+          hostPath:
+            type: Directory
+            path: {{ .Values.persistence.hostPath | quote }}
+          {{- else if .Values.persistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.existingClaim | default (include "matrix-synapse.fullname" .) }}
-        {{- else }}
+          {{- else }}
           emptyDir: {}
-        {{- end }}
+          {{- end }}{{/* end-if hostPath+persistent*/}}
+          {{- end }}{{/* end-if not $mediaworker */}}
         {{- with .Values.synapse.extraVolumes }}
-          {{- . | toYaml | nindent 8 }}
+        {{- . | toYaml | nindent 8 }}
         {{- end }}
       {{- with .Values.synapse.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-    {{- with .Values.synapse.affinity }}
+      {{- with .Values.synapse.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.synapse.tolerations }}
+      {{- end }}
+      {{- with .Values.synapse.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
+      {{- end }}

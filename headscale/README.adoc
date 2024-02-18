@@ -2,9 +2,9 @@
 
 = headscale
 
-image::https://img.shields.io/badge/Version-0.2.4-informational?style=flat-square[Version: 0.2.4]
+image::https://img.shields.io/badge/Version-0.2.5-informational?style=flat-square[Version: 0.2.5]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
-image::https://img.shields.io/badge/AppVersion-0.22.3-informational?style=flat-square[AppVersion: 0.22.3]
+image::https://img.shields.io/badge/AppVersion-0.23.0-informational?style=flat-square[AppVersion: 0.23.0]
 == Maintainers
 
 .Maintainers

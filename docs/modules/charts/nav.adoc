@@ -11,6 +11,7 @@
 ** xref:hydrogen-web.adoc[hydrogen-web]
 ** xref:jellyfin.adoc[jellyfin]
 ** xref:matrix-synapse.adoc[matrix-synapse]
+** xref:mautrix-signal.adoc[mautrix-signal]
 ** xref:miniserve.adoc[miniserve]
 ** xref:monitoring.adoc[monitoring]
 ** xref:ntfy.adoc[ntfy]

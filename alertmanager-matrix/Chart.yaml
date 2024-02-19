@@ -2,9 +2,9 @@ apiVersion: v2
 name: alertmanager-matrix
 description: Service for managing and receiving Alertmanager alerts on Matrix
 type: application
-version: 0.1.6
+version: 0.1.7
 # renovate: image=docker.io/silkeh/alertmanager_matrix
-appVersion: "latest"
+appVersion: "0.4.3"
 maintainers:
   - name: WrenIX
     url: https://wrenix.eu

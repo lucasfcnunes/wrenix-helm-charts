@@ -2,9 +2,9 @@
 
 = headscale
 
-image::https://img.shields.io/badge/Version-0.2.5-informational?style=flat-square[Version: 0.2.5]
+image::https://img.shields.io/badge/Version-0.2.6-informational?style=flat-square[Version: 0.2.6]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
-image::https://img.shields.io/badge/AppVersion-0.23.0-informational?style=flat-square[AppVersion: 0.23.0]
+image::https://img.shields.io/badge/AppVersion-0.22.3-informational?style=flat-square[AppVersion: 0.22.3]
 == Maintainers
 
 .Maintainers
@@ -214,12 +214,12 @@ helm uninstall headscale-release
 
 | image.registry
 | string
-| `"docker.io"`
+| `"ghcr.io"`
 |
 
 | image.repository
 | string
-| `"headscale/headscale"`
+| `"joanfont/headscale"`
 |
 
 | image.tag

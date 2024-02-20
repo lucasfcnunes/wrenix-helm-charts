@@ -53,7 +53,7 @@ for p in * ; do
   helm package "${p}"
   helm push "${p}-${v}.tgz" "${HELM_REPO}";
 
-  git add "${p}/"
+  git add "${p}/" "docs/modules/charts/nav.adoc" "docs/modules/charts/pages/${p}.adoc"
   git commit -m "${COMMIT_SCOPE}(${p}): ${COMMIT_MESSAGE}"
   git tag "${tag}" --no-sign;
   git push --tags origin main;

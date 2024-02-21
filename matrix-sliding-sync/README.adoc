@@ -77,6 +77,11 @@ helm uninstall matrix-sliding-sync-release
 | `"http://localhost:8008"`
 |
 
+| config.logLevel
+| string
+| `"INFO"`
+|
+
 | config.metrics
 | int
 | `9100`
@@ -197,12 +202,7 @@ helm uninstall matrix-sliding-sync-release
 | `[]`
 |
 
-| livenessProbe.httpGet.path
-| string
-| `"/"`
-|
-
-| livenessProbe.httpGet.port
+| livenessProbe.tcpSocket.port
 | string
 | `"http"`
 |
@@ -242,12 +242,7 @@ helm uninstall matrix-sliding-sync-release
 | `{}`
 |
 
-| readinessProbe.httpGet.path
-| string
-| `"/"`
-|
-
-| readinessProbe.httpGet.port
+| readinessProbe.tcpSocket.port
 | string
 | `"http"`
 |
@@ -384,6 +379,11 @@ Proxy implementation of MSC3575's sync protocol.
 | `"http://localhost:8008"`
 |
 
+| config.logLevel
+| string
+| `"INFO"`
+|
+
 | config.metrics
 | int
 | `9100`
@@ -504,12 +504,7 @@ Proxy implementation of MSC3575's sync protocol.
 | `[]`
 |
 
-| livenessProbe.httpGet.path
-| string
-| `"/"`
-|
-
-| livenessProbe.httpGet.port
+| livenessProbe.tcpSocket.port
 | string
 | `"http"`
 |
@@ -549,12 +544,7 @@ Proxy implementation of MSC3575's sync protocol.
 | `{}`
 |
 
-| readinessProbe.httpGet.path
-| string
-| `"/"`
-|
-
-| readinessProbe.httpGet.port
+| readinessProbe.tcpSocket.port
 | string
 | `"http"`
 |

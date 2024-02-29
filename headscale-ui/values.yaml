@@ -1,6 +1,9 @@
-# Default values for headscale-ui.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+global:
+  image:
+    # -- if set it will overwrite all registry entries
+    registry:
+    # -- if set it will overwrite all pullPolicy
+    pullPolicy:
 
 replicaCount: 1
 

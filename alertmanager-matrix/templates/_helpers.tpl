@@ -62,7 +62,6 @@ app{{.Values.logging.dedot }}kubernetes{{.Values.logging.dedot }}io/instance: {{
 {{- end }}
 {{- end }}
 
-
 {{/*
 Create the name of the service account to use
 */}}

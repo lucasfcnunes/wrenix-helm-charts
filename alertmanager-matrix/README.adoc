@@ -2,7 +2,7 @@
 
 = alertmanager-matrix
 
-image::https://img.shields.io/badge/Version-0.1.7-informational?style=flat-square[Version: 0.1.7]
+image::https://img.shields.io/badge/Version-0.1.8-informational?style=flat-square[Version: 0.1.8]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-0.4.3-informational?style=flat-square[AppVersion: 0.4.3]
 == Maintainers
@@ -280,7 +280,7 @@ helm uninstall alertmanager-matrix-release
 | logging.enabled
 | bool
 | `false`
-| Deploy Flow for [Logging-Operator](https://kube-logging.github.io/docs/)
+| Deploy Flow for logging-operator
 
 | logging.globalOutputRefs
 | list

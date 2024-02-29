@@ -2,7 +2,7 @@ apiVersion: v2
 name: alertmanager-matrix
 description: Service for managing and receiving Alertmanager alerts on Matrix
 type: application
-version: 0.1.7
+version: 0.1.8
 # renovate: image=docker.io/silkeh/alertmanager_matrix
 appVersion: "0.4.3"
 maintainers:

@@ -1,0 +1,44 @@
+replicaCount: 1
+
+logging:
+  enabled: true
+  dedot: "-"
+  additionalFilters:
+    - grep:
+        exclude:
+          - key: "message"
+            pattern: '/^Sending message to /'
+
+bot:
+  matrix:
+    homeserver: "http://localhost:8008"
+    userID: "bot"
+    token: "SECRET_TOKEN"
+    rooms:
+      - "!not_existing:matrix.org"
+      - "!also_not_existing:matrix.org"
+  alertmanager: "http://localhost:9093"
+  showLabels: true
+
+serviceAccount:
+  create: true
+
+podSecurityContext:
+  fsGroup: 1000
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: true
+  runAsUser: 1000
+  runAsGroup: 1000
+
+resources:
+  requests:
+    memory: 128Mi
+    cpu: 100m
+  limits:
+    memory: 256Mi
+    cpu: 4

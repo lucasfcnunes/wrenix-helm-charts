@@ -83,22 +83,6 @@ bot:
          <br/>
       {{- end -}}
 
-# Logging
-# This Helm chart could also deploy Flow for the logging-operator
-logging:
-  # -- Deploy Flow for [Logging-Operator](https://kube-logging.github.io/docs/)
-  enabled: false
-  # -- if an filter (here or global) for dedot is active - for disable set `null`
-  dedot:
-  # -- Add other filters to Flow
-  additionalFilters: []
-  # -- Flows localOutputRefs for use of Outputs
-  localOutputRefs: []
-  # -- Flows globalOutputRefs for use of ClusterOutputs
-  globalOutputRefs:
-    - "default"
-
-
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
@@ -166,3 +150,19 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+# Logging
+# This HelmChart could also deploy Flow for the [Logging-Operator](https://kube-logging.github.io/docs/)
+# Configuration is optimzed for deliever to elasticsearch
+logging:
+  # -- Deploy Flow for logging-operator
+  enabled: false
+  # -- if an filter (here or global) for dedot is active - for disable set `null`
+  dedot:
+  # -- Add other filters to Flow
+  additionalFilters: []
+  # -- Flows localOutputRefs for use of Outputs
+  localOutputRefs: []
+  # -- Flows globalOutputRefs for use of ClusterOutputs
+  globalOutputRefs:
+    - "default"

@@ -1,4 +1,4 @@
 target-branch: main
-since: HEAD~2
+since: HEAD~1
 chart-dirs:
   - .

@@ -68,6 +68,12 @@ spec:
             {{- end }}
             - name: ROOMS
               value: {{ .Values.bot.matrix.rooms | join "," | quote }}
+          readinessProbe:
+            tcpSocket:
+              port: http
+          livenessProbe:
+            tcpSocket:
+              port: http
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

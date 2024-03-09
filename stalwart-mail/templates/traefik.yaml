@@ -9,10 +9,10 @@ spec:
   entryPoints:
     - {{ $entryport }}
   routes:
-    - match: HostSNI(`{{ $.Values.config.macros.host }}`)
+    - match: HostSNI(`{{ $.Values.traefik.host }}`)
       services:
         - name: {{ include "stalwart-mail.fullname" $ }}
-          port: {{ $port}}
+          port: {{ $port }}
           proxyProtocol:
             version: 2
   tls:

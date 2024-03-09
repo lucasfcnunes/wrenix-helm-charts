@@ -2,9 +2,9 @@
 
 = stalwart-mail
 
-image::https://img.shields.io/badge/Version-0.0.4-informational?style=flat-square[Version: 0.0.4]
+image::https://img.shields.io/badge/Version-0.0.5-informational?style=flat-square[Version: 0.0.5]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
-image::https://img.shields.io/badge/AppVersion-0.6.0-informational?style=flat-square[AppVersion: 0.6.0]
+image::https://img.shields.io/badge/AppVersion-0.8.1-informational?style=flat-square[AppVersion: 0.8.1]
 == Maintainers
 
 .Maintainers
@@ -56,7 +56,41 @@ helm uninstall stalwart-mail-release
 
 == Values
 
-.Values
+.Values DKIM
+|===
+| Key | Type | Default | Description
+
+| config.auth.dkim.sign
+| list
+| `[{"if":"listener != 'smtp'","then":"['rsa', 'ed25519']"},{"else":false}]`
+| auth rule for signing with dkim
+
+| config.auth.dkim.verify
+| string
+| `"relaxed"`
+| verify of dkim signature (relaxed, strict, disable)
+|===
+
+.Values Authentification
+|===
+| Key | Type | Default | Description
+
+| config.authentication.fallback-admin.secret
+| string
+| `"%{env:FALLBACK_ADMIN_SECRET}%"`
+| password for fallback authentfication (use env for store in secrets of kubernetes)
+
+| config.authentication.fallback-admin.user
+| string
+| `"admin"`
+| username for fallback authentfication
+
+| secrets.env.FALLBACK_ADMIN_SECRET
+| string
+| `"supersecret"`
+| password for fallback authentfication (env)
+|===
+.Values Other Values
 |===
 | Key | Type | Default | Description
 
@@ -115,765 +149,205 @@ helm uninstall stalwart-mail-release
 | `nil`
 | not needed if certmanager is used
 
-| config.acme.letsencrypt
-| object
-| `{"cache":"/opt/stalwart-mail/etc/acme","contact":["postmaster@%{DEFAULT_DOMAIN}%"],"directory":"https://acme-v02.api.letsencrypt.org/directory","port":443,"renew-before":"30d"}`
-| acme with name letsencrypt (from: common/tls.toml)
-
-| config.acme.letsencrypt.cache
+| config.directory.internal.store
 | string
-| `"/opt/stalwart-mail/etc/acme"`
-| acme cache (from: common/tls.toml)
-
-| config.acme.letsencrypt.contact
-| list
-| `["postmaster@%{DEFAULT_DOMAIN}%"]`
-| acme contact (from: common/tls.toml)
-
-| config.acme.letsencrypt.directory
-| string
-| `"https://acme-v02.api.letsencrypt.org/directory"`
-| acme directory (from: common/tls.toml)
-
-| config.acme.letsencrypt.port
-| int
-| `443`
-| acme port (from: common/tls.toml)
-
-| config.acme.letsencrypt.renew-before
-| string
-| `"30d"`
-| acme renew-before (from: common/tls.toml)
-
-| config.certificate.default
-| object
-| `{"cert":"file:///opt/stalwart-mail/etc/certs/tls.crt","private-key":"file:///opt/stalwart-mail/etc/certs/tls.key"}`
-| certificate with name default (from: common/tls.toml)
-
-| config.certificate.default.cert
-| string
-| `"file:///opt/stalwart-mail/etc/certs/tls.crt"`
-| certificate cert (from: common/tls.toml)
-
-| config.certificate.default.private-key
-| string
-| `"file:///opt/stalwart-mail/etc/certs/tls.key"`
-| certificate private-key (from: common/tls.toml)
-
-| config.directory.memory
-| object
-| `{"disable":false,"options":{"catch-all":true,"subaddressing":true},"principals":[{"description":"Superuser","mail":["postmaster@%{DEFAULT_DOMAIN}%"],"name":"admin","secret":"changeme","type":"admin"}],"type":"memory"}`
-| directory - with name memory (from: directory/internal.yaml)
-
-| config.directory.memory.disable
-| bool
-| `false`
-| overwrite me, if not wanted
-
-| config.global.shared-map.capacity
-| int
-| `10`
-| global shared-map capacity (from: common/server.toml)
-
-| config.global.shared-map.shard
-| int
-| `32`
-| global shared-map shard (from: common/server.toml)
-
-| config.global.thread-pool
-| string
-| `nil`
-| global thead-pool (from: common/server.toml)
-
-| config.global.tracing
-| object
-| `{"level":"info","method":"stdout"}`
-| global tracing (from: common/tracing.toml)
-
-| config.imap.auth.allow-plain-text
-| bool
-| `false`
-| imap auth allow-plain-text (from: imap/settings.toml)
-
-| config.imap.auth.max-failures
-| int
-| `3`
-| imap auth max-failures(from: imap/settings.toml)
-
-| config.imap.folders.name.shared
-| string
-| `"Shared Folders"`
-| imap folders name shared (from: imap/settings.toml)
-
-| config.imap.protocol.uidplus
-| bool
-| `false`
-| imap protocol uidplus (from: imap/settings.toml)
-
-| config.imap.rate-limit.concurrent
-| int
-| `6`
-| imap rate-limit concurrent (from: imap/settings.toml)
-
-| config.imap.rate-limit.requests
-| string
-| `"2000/1m"`
-| imap rate-limit requests (from: imap/settings.toml)
-
-| config.imap.request.max-size
-| int
-| `52428800`
-| imap request max-size (from: imap/settings.toml)
-
-| config.imap.timeout.anonymous
-| string
-| `"1m"`
-| imap timeout anonymous (from: imap/settings.toml)
-
-| config.imap.timeout.authenticated
-| string
-| `"30m"`
-| imap timeout authenticated (from: imap/settings.toml)
-
-| config.imap.timeout.idle
-| string
-| `"30m"`
-| imap timeout idle (from: imap/settings.toml)
-
-| config.jmap.directory
-| string
-| `"%{DEFAULT_DIRECTORY}%"`
-| jmap-directory (from: jmap/auth.yaml)
-
-| config.jmap.email
-| object
-| `{"max-attachment-size":50000000,"max-size":75000000,"parse":{"max-items":10}}`
-| jmap-email
-
-| config.jmap.event-source
-| object
-| `{"throttle":"1s"}`
-| jmap-event-source
-
-| config.jmap.mailbox
-| object
-| `{"max-depth":10,"max-name-length":255}`
-| jmap-mailbox
-
-| config.jmap.principal
-| object
-| `{"allow-lookups":true}`
-| jmap-principal
-
-| config.jmap.protocol
-| object
-| `{"changes":{"max-results":5000},"get":{"max-objects":500},"query":{"max-results":5000},"request":{"max-calls":16,"max-concurrent":4,"max-size":10000000},"set":{"max-objects":500},"upload":{"max-concurrent":4,"max-size":50000000,"quota":{"files":1000,"size":50000000},"ttl":"1h"}}`
-| jmap-protocol (from: jmap/protocol.yaml)
-
-| config.jmap.push
-| object
-| `{"attempts":{"interval":"1m","max":3},"max-total":100,"retry":{"interval":"1s"},"throttle":"1ms","timeout":{"request":"10s","verify":"1s"}}`
-| jmap-push (from: jmap/push.yaml)
-
-| config.jmap.rate-limit
-| object
-| `{"account":"1000/1m","anonymous":"100/1m","authentication":"10/1m","cache":{"size":1024},"use-forwarded":true}`
-| jmap-rate-limit (from: jmap/ratelimit.yaml)
-
-| config.jmap.session
-| object
-| `{"cache":{"size":100,"ttl":"1h"},"purge":{"frequency":"0 3 *"}}`
-| jmap-session (from: jmap/auth.yaml)
-
-| config.jmap.web-sockets
-| object
-| `{"heartbeat":"1m","throttle":"1s","timeout":"10m"}`
-| jmap-web-sockets (from: jmap/websocket.yaml)
-
-| config.macros
-| object
-| `{"default_directory":"memory","default_domain":"__DOMAIN__","default_store":"sqlite","host":"__HOST__"}`
-| macros (from: config.toml)
-
-| config.oauth.auth
-| object
-| `{"max-attempts":3}`
-| oauth - auth
-
-| config.oauth.cache
-| object
-| `{"size":128}`
-| oauth - cache
-
-| config.oauth.expiry
-| object
-| `{"auth-code":"10m","refresh-token":"30d","refresh-token-renew":"4d","token":"1h","user-code":"30m"}`
-| oauth - expiry
-
-| config.oauth.key
-| string
-| `"__OAUTH_KEY__"`
-| oauth - key
-
-| config.queue.hash
-| int
-| `64`
-| queue-hash
-
-| config.queue.outbound
-| object
-| `{"ip-strategy":"ipv4_then_ipv6","limits":{"multihomed":2,"mx":7},"next-hop":[{"if":"is_local_domain('%{DEFAULT_DIRECTORY}%', rcpt_domain)","then":"'local'"},{"else":false}],"timeouts":{"connect":"3m","data":"10m","ehlo":"3m","greeting":"3m","mail-from":"3m","mta-sts":"2m","rcpt-to":"3m","tls":"2m"},"tls":{"allow-invalid-certs":false,"dane":"optional","mta-sts":"optional","starttls":"require"}}`
-| queue-outbound
-
-| config.queue.path
-| string
-| `"/data/queue"`
-| queue-path
-
-| config.queue.quota[0].key
-| string
-| `nil`
+| `"rocksdb"`
 |
 
-| config.queue.quota[0].match
+| config.directory.internal.type
 | string
-| `nil`
+| `"internal"`
 |
 
-| config.queue.quota[0].messages
-| int
-| `100000`
-|
-
-| config.queue.quota[0].size
-| int
-| `10737418240`
-|
-
-| config.queue.schedule
-| object
-| `{"expire":"5d","notify":"[1d, 3d]","retry":"[2m, 5m, 10m, 15m, 30m, 1h, 2h]"}`
-| queue-schedule
-
-| config.queue.throttle[0].concurrency
-| int
-| `5`
-|
-
-| config.queue.throttle[0].key[0]
+| config.server.listener.https.bind[0]
 | string
-| `"rcpt_domain"`
+| `"[::]:80"`
 |
 
-| config.queue.throttle[0].rate
+| config.server.listener.https.protocol
 | string
-| `nil`
+| `"http"`
 |
 
-| config.report.analysis
-| object
-| `{"addresses":["dmarc@*","abuse@*","postmaster@*"],"forward":true}`
-| report-analysis
-
-| config.report.dkim
-| object
-| `{"from-address":"'noreply-dkim@%{DEFAULT_DOMAIN}%'","from-name":"'Report Subsystem'","send":"[1, 1d]","sign":"['rsa']","subject":"'DKIM Authentication Failure Report'"}`
-| report-dkim
-
-| config.report.dmarc
-| object
-| `{"aggregate":{"from-address":"'noreply-dmarc@%{DEFAULT_DOMAIN}%'","from-name":"'DMARC Report'","max-size":26214400,"org-name":"'%{DEFAULT_DOMAIN}%'","send":"daily","sign":"['rsa']"},"from-address":"'noreply-dmarc@%{DEFAULT_DOMAIN}%'","from-name":"'Report Subsystem'","send":"[1, 1d]","sign":"['rsa']","subject":"'DMARC Authentication Failure Report'"}`
-| report-dmarc
-
-| config.report.dmarc.aggregate.max-size
-| int
-| `26214400`
-| default: 25 mb
-
-| config.report.dsn
-| object
-| `{"from-address":"'MAILER-DAEMON@%{DEFAULT_DOMAIN}%'","from-name":"'Mail Delivery Subsystem'","sign":"['rsa']"}`
-| report-dsn
-
-| config.report.hash
-| int
-| `64`
-| report-hash
-
-| config.report.path
-| string
-| `"/data/reports"`
-| report-path
-
-| config.report.spf
-| object
-| `{"from-address":"'noreply-spf@%{DEFAULT_DOMAIN}%'","from-name":"'Report Subsystem'","send":"[1, 1d]","sign":"['rsa']","subject":"'SPF Authentication Failure Report'"}`
-| report-spf
-
-| config.report.tls
-| object
-| `{"aggregate":{"from-address":"'noreply-tls@%{DEFAULT_DOMAIN}%'","from-name":"'TLS Report'","max-size":26214400,"org-name":"'%{DEFAULT_DOMAIN}%'","send":"daily","sign":"['rsa']"}}`
-| report-tls
-
-| config.report.tls.aggregate.max-size
-| int
-| `26214400`
-| default: 25 mb
-
-| config.resolver.attempts
-| int
-| `2`
-| resolver-attempts
-
-| config.resolver.cache
-| object
-| `{"ipv4":1024,"ipv6":1024,"mta-sts":1024,"mx":1024,"ptr":1024,"tlsa":1024,"txt":2048}`
-| resolver-cache
-
-| config.resolver.concurrency
-| int
-| `2`
-| resolver-concurrency
-
-| config.resolver.preserve-intermediates
+| config.server.listener.https.tls.implicit
 | bool
 | `true`
-| resolver-preserve-intermediates
+|
 
-| config.resolver.public-suffix
-| list
-| `["https://publicsuffix.org/list/public_suffix_list.dat","file:///opt/stalwart-mail/etc/spamfilter/maps/suffix_list.dat.gz"]`
-| resolver-public-suffix
-
-| config.resolver.timeout
+| config.server.listener.imap.bind[0]
 | string
-| `"5s"`
-| resolver-timeout
+| `"[::]:143"`
+|
 
-| config.resolver.try-tcp-on-error
+| config.server.listener.imap.protocol
+| string
+| `"imap"`
+|
+
+| config.server.listener.imaptls.bind[0]
+| string
+| `"[::]:993"`
+|
+
+| config.server.listener.imaptls.protocol
+| string
+| `"imap"`
+|
+
+| config.server.listener.imaptls.tls.implicit
 | bool
 | `true`
-| resolver-try-tcp-on-error
+|
 
-| config.resolver.type
+| config.server.listener.sieve.bind[0]
 | string
-| `"system"`
-| resolver-type
+| `"[::]:4190"`
+|
 
-| config.server.hostname
+| config.server.listener.sieve.protocol
 | string
-| `"%{HOST}%"`
-| server hostname (from: common/server.toml)
+| `"managesieve"`
+|
 
-| config.server.listener
-| object
-| `{"http":{"bind":["[::]:80"],"protocol":"jmap","url":"https://%{HOST}%"},"imap":{"bind":["[::]:143"],"protocol":"imap"},"imaps":{"bind":["[::]:993"],"protocol":"imap","tls":{"implicit":true}},"sieve":{"bind":["[::]:4190"],"protocol":"managesieve","tls":{"implicit":true}},"smtp":{"bind":["[::]:25"],"protocol":"smtp"},"smtp-submission":{"bind":["[::]:587"],"protocol":"smtp"},"smtps":{"bind":["[::]:465"],"protocol":"smtp","tls":{"implicit":true}}}`
-| server listener
+| config.server.listener.smtp.bind[0]
+| string
+| `"[::]:25"`
+|
 
-| config.server.listener.http
-| object
-| `{"bind":["[::]:80"],"protocol":"jmap","url":"https://%{HOST}%"}`
-| jmap/listener.yaml
+| config.server.listener.smtp.protocol
+| string
+| `"smtp"`
+|
 
-| config.server.listener.imap
-| object
-| `{"bind":["[::]:143"],"protocol":"imap"}`
-| server listener with name imap (from: imap/listener.toml)
+| config.server.listener.submission.bind[0]
+| string
+| `"[::]:587"`
+|
 
-| config.server.listener.imaps
-| object
-| `{"bind":["[::]:993"],"protocol":"imap","tls":{"implicit":true}}`
-| server listener with name imaps (from: imap/listener.toml)
+| config.server.listener.submission.protocol
+| string
+| `"smtp"`
+|
 
-| config.server.listener.sieve
-| object
-| `{"bind":["[::]:4190"],"protocol":"managesieve","tls":{"implicit":true}}`
-| server listener with name sieve (from: imap/listener.toml)
+| config.server.listener.submissions.bind[0]
+| string
+| `"[::]:465"`
+|
+
+| config.server.listener.submissions.protocol
+| string
+| `"smtp"`
+|
+
+| config.server.listener.submissions.tls.implicit
+| bool
+| `true`
+|
 
 | config.server.run-as.group
 | string
 | `"stalwart-mail"`
-| server run-as group (from: common/server.toml)
+| server run-as group
 
 | config.server.run-as.user
 | string
 | `"stalwart-mail"`
-| server run-as user (from: common/server.toml)
-
-| config.server.security.blocked-networks
-| object
-| `{}`
-| server security blocked-networks (from: common/server.toml)
-
-| config.server.security.fail2ban
-| string
-| `"100/1d"`
-| server security fail2ban (from: common/server.toml)
-
-| config.server.socket.backlog
-| int
-| `1024`
-| server socket backlog (from: common/server.toml)
-
-| config.server.socket.linger
-| int
-| `1`
-| server socket linger (from: common/server.toml)
-
-| config.server.socket.nodelay
-| bool
-| `true`
-| server socket nodelay (from: common/server.toml)
-
-| config.server.socket.recv-buffer-size
-| int
-| `65535`
-| server socket recv-buffer-size (from: common/server.toml)
-
-| config.server.socket.reuse-addr
-| bool
-| `true`
-| server socket reuse-addr (from: common/server.toml)
-
-| config.server.socket.reuse-port
-| bool
-| `false`
-| server socket reuse-port (from: common/server.toml)
-
-| config.server.socket.send-buffer-size
-| int
-| `65535`
-| server socket send-buffer-size (from: common/server.toml)
-
-| config.server.socket.tos
-| int
-| `1`
-| server socket tos (from: common/server.toml)
-
-| config.server.socket.ttl
-| int
-| `3600`
-| server socket ttl (from: common/server.toml)
-
-| config.server.tls.acme
-| string
-| `nil`
-| server tls acme (from: common/tls.toml) example: "letsencrypt"
-
-| config.server.tls.certificate
-| string
-| `"default"`
-| server tls certificate (from: common/tls.toml)
-
-| config.server.tls.ciphers
-| string
-| `nil`
-| server tls #ciphers (from: common/tls.toml) example: [ "TLS13_AES_256_GCM_SHA384", "TLS13_AES_128_GCM_SHA256",            "TLS13_CHACHA20_POLY1305_SHA256", "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",            "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256", "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256",            "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384", "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",            "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256"]
-
-| config.server.tls.enable
-| bool
-| `true`
-| server tls enable (from: common/tls.toml)
-
-| config.server.tls.ignore-client-order
-| bool
-| `true`
-| server tls ignore-client-order (from: common/tls.toml)
-
-| config.server.tls.implicit
-| bool
-| `false`
-| server tls implicit (from: common/tls.toml)
-
-| config.server.tls.protocols
-| string
-| `nil`
-| server tls protocols (from: common/tls.toml) example: ["TLSv1.2", "TLSv1.3"]
-
-| config.server.tls.sni
-| string
-| `nil`
-| server tls sni (from: common/tls.toml) example: [{subject: "", certificate: ""}]
-
-| config.server.tls.timeout
-| string
-| `"1m"`
-| server tls timeout (from: common/tls.toml)
-
-| config.sieve.trusted.from-addr
-| string
-| `"no-reply@%{DEFAULT_DOMAIN}%"`
-| sieve trusted from-addr (from: common/sieve.toml)
-
-| config.sieve.trusted.from-name
-| string
-| `"Automated Message"`
-| sieve trusted from-name (from: common/sieve.toml)
-
-| config.sieve.trusted.hostname
-| string
-| `"%{HOST}%"`
-| sieve trusted hostname (from: common/sieve.toml)
-
-| config.sieve.trusted.limits.cpu
-| int
-| `1048576`
-| sieve trusted limits cpu (from: common/sieve.toml)
-
-| config.sieve.trusted.limits.duplicate-expiry
-| string
-| `"7d"`
-| sieve trusted limits duplicate-expiry (from: common/sieve.toml)
-
-| config.sieve.trusted.limits.nested-includes
-| int
-| `5`
-| sieve trusted limits nested-includes (from: common/sieve.toml)
-
-| config.sieve.trusted.limits.out-messages
-| int
-| `5`
-| sieve trusted limits out-messages (from: common/sieve.toml)
-
-| config.sieve.trusted.limits.received-headers
-| int
-| `50`
-| sieve trusted limits received-headers (from: common/sieve.toml)
-
-| config.sieve.trusted.limits.redirects
-| int
-| `3`
-| sieve trusted limits redirects (from: common/sieve.toml)
-
-| config.sieve.trusted.no-capability-check
-| bool
-| `true`
-| sieve trusted no-capability-check (from: common/sieve.toml)
-
-| config.sieve.trusted.return-path
-| string
-| `""`
-| sieve trusted return-path (from: common/sieve.toml)
-
-| config.sieve.trusted.scripts.connect
-| string
-| `nil`
-| sieve trusted scripts connect (from: common/sieve.toml)
-
-| config.sieve.trusted.scripts.ehlo
-| string
-| `nil`
-| sieve trusted scripts ehlo (from: common/sieve.toml)
-
-| config.sieve.trusted.scripts.mail
-| string
-| `nil`
-| sieve trusted scripts mail (from: common/sieve.toml)
-
-| config.sieve.trusted.sign
-| list
-| `["rsa"]`
-| sieve trusted sign (from: common/sieve.toml)
-
-| config.sieve.untrusted.default-expiry.duplicate
-| string
-| `"7d"`
-| sieve untrusted default-expiry duplicate (from: common/sieve.toml)
-
-| config.sieve.untrusted.default-expiry.vacation
-| string
-| `"30d"`
-| sieve untrusted default-expiry vacation (from: common/sieve.toml)
-
-| config.sieve.untrusted.disable-capabilities
-| list
-| `[]`
-| sieve untrusted disable-capabilities (from: common/sieve.toml)
-
-| config.sieve.untrusted.limits.cpu
-| int
-| `5000`
-| sieve untrusted limit cpu (from: common/sieve.toml)
-
-| config.sieve.untrusted.limits.header-size
-| int
-| `1024`
-| sieve untrusted limit header-size (from: common/sieve.toml)
-
-| config.sieve.untrusted.limits.includes
-| int
-| `3`
-| sieve untrusted limit includes (from: common/sieve.toml)
-
-| config.sieve.untrusted.limits.local-variables
-| int
-| `128`
-| sieve untrusted limit local-variables (from: common/sieve.toml)
-
-| config.sieve.untrusted.limits.match-variables
-| int
-| `30`
-| sieve untrusted limit match-variables (from: common/sieve.toml)
-
-| config.sieve.untrusted.limits.max-scripts
-| int
-| `256`
-| sieve untrusted limit max-scripts (from: common/sieve.toml)
-
-| config.sieve.untrusted.limits.name-length
-| int
-| `512`
-| sieve untrusted limit name-length (from: common/sieve.toml)
-
-| config.sieve.untrusted.limits.nested-blocks
-| int
-| `15`
-| sieve untrusted limit nested-blocks (from: common/sieve.toml)
-
-| config.sieve.untrusted.limits.nested-foreverypart
-| int
-| `3`
-| sieve untrusted limit nested-foreverypart (from: common/sieve.toml)
-
-| config.sieve.untrusted.limits.nested-includes
-| int
-| `3`
-| sieve untrusted limit nested-includes (from: common/sieve.toml)
-
-| config.sieve.untrusted.limits.nested-tests
-| int
-| `15`
-| sieve untrusted limit nested-tests (from: common/sieve.toml)
-
-| config.sieve.untrusted.limits.outgoing-messages
-| int
-| `3`
-| sieve untrusted limit outgoing-messages (from: common/sieve.toml)
-
-| config.sieve.untrusted.limits.received-headers
-| int
-| `10`
-| sieve untrusted limit received-headers (from: common/sieve.toml)
-
-| config.sieve.untrusted.limits.redirects
-| int
-| `1`
-| sieve untrusted limit redirects (from: common/sieve.toml)
-
-| config.sieve.untrusted.limits.script-size
-| int
-| `102400`
-| sieve untrusted limit script-size (from: common/sieve.toml)
-
-| config.sieve.untrusted.limits.string-length
-| int
-| `4096`
-| sieve untrusted limit string-length (from: common/sieve.toml)
-
-| config.sieve.untrusted.limits.variable-name-length
-| int
-| `32`
-| sieve untrusted limit variable-name-length (from: common/sieve.toml)
-
-| config.sieve.untrusted.limits.variable-size
-| int
-| `4096`
-| sieve untrusted limit variable-size (from: common/sieve.toml)
-
-| config.sieve.untrusted.notification-uris
-| list
-| `["mailto"]`
-| sieve untrusted notification-uris (from: common/sieve.toml)
-
-| config.sieve.untrusted.protected-headers
-| list
-| `["Original-Subject","Original-From","Received","Auto-Submitted"]`
-| sieve untrusted protected-headers (from: common/sieve.toml)
-
-| config.sieve.untrusted.vacation.default-subject
-| string
-| `"Automated reply"`
-| sieve untrusted vacation default-subject (from: common/sieve.toml)
-
-| config.sieve.untrusted.vacation.subject-prefix
-| string
-| `"Auto: "`
-| sieve untrusted vacation subject-prefix (from: common/sieve.toml)
-
-| config.signature.rsa
-| object
-| `{"algorithm":"rsa-sha256","canonicalization":"relaxed/relaxed","domain":"%{DEFAULT_DOMAIN}%","headers":["From","To","Date","Subject","Message-ID"],"private-key":"file://opt/stalwart-mail/etc/dkim/private.key","report":true,"selector":"stalwart","set-body-length":false}`
-| signature-rsa
+| server run-as user
 
 | config.storage.blob
 | string
-| `"%{DEFAULT_STORE}%"`
-| storage blob (from: common/store.toml)
-
-| config.storage.cluster.node-id
-| string
-| `nil`
-| storage - cluster - node-id (from: common/store.toml)
+| `"rocksdb"`
+|
 
 | config.storage.data
 | string
-| `"%{DEFAULT_STORE}%"`
-| storage data (from: common/store.toml)
+| `"rocksdb"`
+|
 
 | config.storage.directory
 | string
-| `"%{DEFAULT_DIRECTORY}%"`
-| storage directory (from: common/store.toml)
-
-| config.storage.encryption.append
-| bool
-| `false`
-| storage encryption append (from: common/store.toml)
-
-| config.storage.encryption.enable
-| bool
-| `true`
-| storage encryption enable (from: common/store.toml)
+| `"internal"`
+|
 
 | config.storage.fts
 | string
-| `"%{DEFAULT_STORE}%"`
-| storage fts (from: common/store.toml) BROKEN / TODO see: https://github.com/stalwartlabs/mail-server/issues/211
-
-| config.storage.fts-table-duplicated-workaround.default-language
-| string
-| `"en"`
-| storage - fts - default-language (from: common/store.toml)
+| `"rocksdb"`
+|
 
 | config.storage.lookup
 | string
-| `"%{DEFAULT_STORE}%"`
-| storage lookup (from: common/store.toml)
+| `"rocksdb"`
+|
 
-| config.storage.spam.header
+| config.store.rocksdb.compression
 | string
-| `"X-Spam-Status: Yes"`
-| storage spam header (from: common/store.toml)
+| `"lz4"`
+|
 
-| config.store.fs
-| object
-| `{"depth":2,"disable":false,"path":"/data/blobs","purge":{"frequency":"0 3 *"},"type":"fs"}`
-| store - with name fs
+| config.store.rocksdb.path
+| string
+| `"/data"`
+|
 
-| config.store.fs.disable
+| config.store.rocksdb.type
+| string
+| `"rocksdb"`
+|
+
+| config.tracer.otel.enable
 | bool
 | `false`
-| overwrite me, if not wanted
+|
 
-| config.store.sqlite
-| object
-| `{"disable":false,"path":"/data/index.sqlite3","purge":{"frequency":"0 3 *"},"query":{"domains":"SELECT 1 FROM emails WHERE address LIKE '%@' || ? LIMIT 1","emails":"SELECT address FROM emails WHERE name = ? AND type != 'list' ORDER BY type DESC, address ASC","expand":"SELECT p.address FROM emails AS p JOIN emails AS l ON p.name = l.name WHERE p.type = 'primary' AND l.address = ? AND l.type = 'list' ORDER BY p.address LIMIT 50","members":"SELECT member_of FROM group_members WHERE name = ?","name":"SELECT name, type, secret, description, quota FROM accounts WHERE name = ? AND active = true","recipients":"SELECT name FROM emails WHERE address = ?","verify":"SELECT address FROM emails WHERE address LIKE '%' || ? || '%' AND type = 'primary' ORDER BY address LIMIT 5"},"type":"sqlite"}`
-| store - with name sqlite
+| config.tracer.otel.endpoint
+| string
+| `"https://127.0.0.1/otel"`
+|
 
-| config.store.sqlite.disable
+| config.tracer.otel.headers
+| list
+| `[]`
+| headers for usage with http (e.g. 'Authorization: <place_auth_here>')
+
+| config.tracer.otel.level
+| string
+| `"info"`
+|
+
+| config.tracer.otel.transport
+| string
+| `"grpc"`
+| grpc or http
+
+| config.tracer.otel.type
+| string
+| `"open-telemetry"`
+|
+
+| config.tracer.stdout.ansi
 | bool
 | `false`
-| overwrite me, if not wanted
+|
+
+| config.tracer.stdout.enable
+| bool
+| `true`
+|
+
+| config.tracer.stdout.level
+| string
+| `"info"`
+|
+
+| config.tracer.stdout.type
+| string
+| `"stdout"`
+|
+
+| env
+| list
+| `[]`
+|
 
 | fullnameOverride
 | string

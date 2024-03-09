@@ -14,7 +14,8 @@ spec:
   template:
     metadata:
       annotations:
-        confighash: {{ toYaml .Values.config | sha256sum | trunc 32 }}
+        config-hash: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        secret-env-hash: {{ include (print $.Template.BasePath "/secrets-env.yaml") . | sha256sum }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -39,6 +40,13 @@ spec:
           image: "{{ coalesce $.Values.global.image.registry .registry }}/{{ .repository }}:{{ .tag | default (printf "v%s" $.Chart.AppVersion) }}"
           imagePullPolicy: {{ coalesce $.Values.global.image.pullPolicy .pullPolicy }}
           {{- end }}
+          {{- with .Values.env }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          envFrom:
+            - secretRef:
+                name: {{ include "stalwart-mail.fullname" . }}-env
           ports:
             {{- range $name, $port := .Values.service.ports }}
             - name: {{ $name }}
@@ -62,9 +70,7 @@ spec:
             - name: config
               mountPath: "/opt/stalwart-mail/etc/config.toml"
               subPath: "config.toml"
-            - name: config
-              mountPath: "/opt/stalwart-mail/etc/dkim/private.key"
-              subPath: "dkim.key"
+              readOnly: true
             {{- if or .Values.certificate.secretName .Values.certificate.certmanager.enabled }}
             - name: certificate
               mountPath: "/opt/stalwart-mail/etc/certs"
@@ -74,8 +80,8 @@ spec:
             {{- end }}
       volumes:
         - name: "config"
-          secret:
-            secretName: {{ include "stalwart-mail.fullname" . }}
+          configMap:
+            name: {{ include "stalwart-mail.fullname" . }}
         {{- if or .Values.certificate.secretName .Values.certificate.certmanager.enabled }}
         - name: certificate
           secret:

@@ -31,6 +31,55 @@ spec:
       serviceAccountName: {{ include "matrix-authentication-service.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: database-migrate
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- with .Values.image }}
+          image: "{{ coalesce $.Values.global.image.registry .registry }}/{{ .repository }}:{{ .tag | default $.Chart.AppVersion }}"
+          imagePullPolicy: {{ coalesce $.Values.global.image.pullPolicy .pullPolicy }}
+          {{- end }}
+          env:
+            - name: "MAS_CONFIG"
+              value: "/etc/mas-config.yaml"
+          command:
+            - /usr/local/bin/mas-cli
+            - database
+            - migrate
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: config
+              mountPath: "/etc/mas-config.yaml"
+              subPath: "mas-config.yaml"
+              readOnly: true
+            {{- with .Values.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+        - name: config-sync
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- with .Values.image }}
+          image: "{{ coalesce $.Values.global.image.registry .registry }}/{{ .repository }}:{{ .tag | default $.Chart.AppVersion }}"
+          imagePullPolicy: {{ coalesce $.Values.global.image.pullPolicy .pullPolicy }}
+          {{- end }}
+          env:
+            - name: "MAS_CONFIG"
+              value: "/etc/mas-config.yaml"
+          command:
+            - /usr/local/bin/mas-cli
+            - config
+            - sync
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: config
+              mountPath: "/etc/mas-config.yaml"
+              subPath: "mas-config.yaml"
+              readOnly: true
+            {{- with .Values.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -60,8 +109,8 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: config
-              mountPath: "/etc"
-              subPath: "/etc/mas-config.yaml"
+              mountPath: "/etc/mas-config.yaml"
+              subPath: "mas-config.yaml"
               readOnly: true
             {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}

@@ -22,7 +22,7 @@ for p in * ; do
   echo "${p}:";
 
   # last pkg  
-  lastTag=$(git tag -l "${p}-v*" | tail -1)
+  lastTag=$(git tag -l "${p}-v*" | sort --sort=version | tail -1)
   lastVersion=${lastTag#${p}-v}
   echo "last pkg: ${lastVersion}"
 

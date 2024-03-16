@@ -2,9 +2,9 @@
 
 = miniserve
 
-image::https://img.shields.io/badge/Version-0.3.6-informational?style=flat-square[Version: 0.3.6]
+image::https://img.shields.io/badge/Version-0.3.7-informational?style=flat-square[Version: 0.3.7]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
-image::https://img.shields.io/badge/AppVersion-0.26.0-informational?style=flat-square[AppVersion: 0.26.0]
+image::https://img.shields.io/badge/AppVersion-0.27.0-informational?style=flat-square[AppVersion: 0.27.0]
 == Maintainers
 
 .Maintainers

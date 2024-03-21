@@ -441,19 +441,18 @@ config:
 
     # -- queue-schedule
     schedule:
-      retry: ["2m", "5m", "10m", "15m", "30m", "1h", "2h"]
-      notify: ["1d", "3d"]
+      retry: "[2m, 5m, 10m, 15m, 30m, 1h, 2h]"
+      notify: "[1d, 3d]"
       expire: "5d"
 
     # -- queue-outbound
     outbound:
       # hostname: "%{HOST}%"
       next-hop:
-        - if: "rcpt-domain"
-          in-list: "%{DEFAULT_DIRECTORY}%/domains"
-          then: "local"
+        - if: "is_local_domain('%{DEFAULT_DIRECTORY}%', rcpt_domain)"
+          then: "'local'"
         - else: false
-      ip-strategy: "ipv4-then-ipv6"
+      ip-strategy: "ipv4_then_ipv6"
       tls:
         dane: "optional"
         mta-sts: "optional"
@@ -471,6 +470,19 @@ config:
         rcpt-to: "3m"
         data: "10m"
         mta-sts: "2m"
+    quota:
+      - match:
+        # match: "sender_domain = 'foobar.org'"
+        # key: ["rcpt"]
+        key:
+        messages: 100000
+        # 10gb
+        size: 10737418240
+    throttle:
+      - key: ["rcpt_domain"]
+        # rate: "100/1h"
+        rate:
+        concurrency: 5
 
 
   ##
@@ -492,54 +504,54 @@ config:
 
     # -- report-dsn
     dsn:
-      from-name: "Mail Delivery Subsystem"
-      from-address: "MAILER-DAEMON@%{DEFAULT_DOMAIN}%"
-      sign: ["rsa"]
+      from-name: "'Mail Delivery Subsystem'"
+      from-address: "'MAILER-DAEMON@%{DEFAULT_DOMAIN}%'"
+      sign: "['rsa']"
 
     # -- report-dkim
     dkim:
-      from-name: "Report Subsystem"
-      from-address: "noreply-dkim@%{DEFAULT_DOMAIN}%"
-      subject: "DKIM Authentication Failure Report"
-      sign: ["rsa"]
-      send: "1/1d"
+      from-name: "'Report Subsystem'"
+      from-address: "'noreply-dkim@%{DEFAULT_DOMAIN}%'"
+      subject: "'DKIM Authentication Failure Report'"
+      sign: "['rsa']"
+      send: "[1, 1d]"
 
     # -- report-spf
     spf:
-      from-name: "Report Subsystem"
-      from-address: "noreply-spf@%{DEFAULT_DOMAIN}%"
-      subject: "SPF Authentication Failure Report"
-      send: "1/1d"
-      sign: ["rsa"]
+      from-name: "'Report Subsystem'"
+      from-address: "'noreply-spf@%{DEFAULT_DOMAIN}%'"
+      subject: "'SPF Authentication Failure Report'"
+      sign: "['rsa']"
+      send: "[1, 1d]"
 
     # -- report-dmarc
     dmarc:
-      from-name: "Report Subsystem"
-      from-address: "noreply-dmarc@%{DEFAULT_DOMAIN}%"
-      subject: "DMARC Authentication Failure Report"
-      send: "1/1d"
-      sign: ["rsa"]
+      from-name: "'Report Subsystem'"
+      from-address: "'noreply-dmarc@%{DEFAULT_DOMAIN}%'"
+      subject: "'DMARC Authentication Failure Report'"
+      sign: "['rsa']"
+      send: "[1, 1d]"
       aggregate:
-        from-name: "DMARC Report"
-        from-address: "noreply-dmarc@%{DEFAULT_DOMAIN}%"
-        org-name: "%{DEFAULT_DOMAIN}%"
+        from-name: "'DMARC Report'"
+        from-address: "'noreply-dmarc@%{DEFAULT_DOMAIN}%'"
+        org-name: "'%{DEFAULT_DOMAIN}%'"
         # contact-info: ""
         send: "daily"
         # -- default: 25 mb
         max-size: 26214400
-        sign: ["rsa"]
+        sign: "['rsa']"
 
     # -- report-tls
     tls:
       aggregate:
-        from-name: "TLS Report"
-        from-address: "noreply-tls@%{DEFAULT_DOMAIN}%"
-        org-name: "%{DEFAULT_DOMAIN}%"
+        from-name: "'TLS Report'"
+        from-address: "'noreply-tls@%{DEFAULT_DOMAIN}%'"
+        org-name: "'%{DEFAULT_DOMAIN}%'"
         # contact-info: ""
         send: "daily"
         # -- default: 25 mb
         max-size: 26214400
-        sign: ["rsa"]
+        sign: "['rsa']"
 
 
   ##

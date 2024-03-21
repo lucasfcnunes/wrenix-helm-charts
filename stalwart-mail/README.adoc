@@ -2,7 +2,7 @@
 
 = stalwart-mail
 
-image::https://img.shields.io/badge/Version-0.0.3-informational?style=flat-square[Version: 0.0.3]
+image::https://img.shields.io/badge/Version-0.0.4-informational?style=flat-square[Version: 0.0.4]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-0.6.0-informational?style=flat-square[AppVersion: 0.6.0]
 == Maintainers
@@ -322,7 +322,7 @@ helm uninstall stalwart-mail-release
 
 | config.queue.outbound
 | object
-| `{"ip-strategy":"ipv4-then-ipv6","limits":{"multihomed":2,"mx":7},"next-hop":[{"if":"rcpt-domain","in-list":"%{DEFAULT_DIRECTORY}%/domains","then":"local"},{"else":false}],"timeouts":{"connect":"3m","data":"10m","ehlo":"3m","greeting":"3m","mail-from":"3m","mta-sts":"2m","rcpt-to":"3m","tls":"2m"},"tls":{"allow-invalid-certs":false,"dane":"optional","mta-sts":"optional","starttls":"require"}}`
+| `{"ip-strategy":"ipv4_then_ipv6","limits":{"multihomed":2,"mx":7},"next-hop":[{"if":"is_local_domain('%{DEFAULT_DIRECTORY}%', rcpt_domain)","then":"'local'"},{"else":false}],"timeouts":{"connect":"3m","data":"10m","ehlo":"3m","greeting":"3m","mail-from":"3m","mta-sts":"2m","rcpt-to":"3m","tls":"2m"},"tls":{"allow-invalid-certs":false,"dane":"optional","mta-sts":"optional","starttls":"require"}}`
 | queue-outbound
 
 | config.queue.path
@@ -330,10 +330,45 @@ helm uninstall stalwart-mail-release
 | `"/data/queue"`
 | queue-path
 
+| config.queue.quota[0].key
+| string
+| `nil`
+|
+
+| config.queue.quota[0].key[0]
+| string
+| `"rcpt"`
+|
+
+| config.queue.quota[0].match
+| string
+| `nil`
+|
+
+| config.queue.quota[0].messages
+| int
+| `100000`
+|
+
+| config.queue.quota[0].size
+| int
+| `10737418240`
+|
+
 | config.queue.schedule
 | object
-| `{"expire":"5d","notify":["1d","3d"],"retry":["2m","5m","10m","15m","30m","1h","2h"]}`
+| `{"expire":"5d","notify":"[1d, 3d]","retry":"[2m, 5m, 10m, 15m, 30m, 1h, 2h]"}`
 | queue-schedule
+
+| config.queue.throttle[0].concurrency
+| int
+| `5`
+|
+
+| config.queue.throttle[0].key[0]
+| string
+| `"rcpt_domain"`
+|
 
 | config.report.analysis
 | object
@@ -342,12 +377,12 @@ helm uninstall stalwart-mail-release
 
 | config.report.dkim
 | object
-| `{"from-address":"noreply-dkim@%{DEFAULT_DOMAIN}%","from-name":"Report Subsystem","send":"1/1d","sign":["rsa"],"subject":"DKIM Authentication Failure Report"}`
+| `{"from-address":"'noreply-dkim@%{DEFAULT_DOMAIN}%'","from-name":"'Report Subsystem'","send":"[1, 1d]","sign":"['rsa']","subject":"'DKIM Authentication Failure Report'"}`
 | report-dkim
 
 | config.report.dmarc
 | object
-| `{"aggregate":{"from-address":"noreply-dmarc@%{DEFAULT_DOMAIN}%","from-name":"DMARC Report","max-size":26214400,"org-name":"%{DEFAULT_DOMAIN}%","send":"daily","sign":["rsa"]},"from-address":"noreply-dmarc@%{DEFAULT_DOMAIN}%","from-name":"Report Subsystem","send":"1/1d","sign":["rsa"],"subject":"DMARC Authentication Failure Report"}`
+| `{"aggregate":{"from-address":"'noreply-dmarc@%{DEFAULT_DOMAIN}%'","from-name":"'DMARC Report'","max-size":26214400,"org-name":"'%{DEFAULT_DOMAIN}%'","send":"daily","sign":"['rsa']"},"from-address":"'noreply-dmarc@%{DEFAULT_DOMAIN}%'","from-name":"'Report Subsystem'","send":"[1, 1d]","sign":"['rsa']","subject":"'DMARC Authentication Failure Report'"}`
 | report-dmarc
 
 | config.report.dmarc.aggregate.max-size
@@ -357,7 +392,7 @@ helm uninstall stalwart-mail-release
 
 | config.report.dsn
 | object
-| `{"from-address":"MAILER-DAEMON@%{DEFAULT_DOMAIN}%","from-name":"Mail Delivery Subsystem","sign":["rsa"]}`
+| `{"from-address":"'MAILER-DAEMON@%{DEFAULT_DOMAIN}%'","from-name":"'Mail Delivery Subsystem'","sign":"['rsa']"}`
 | report-dsn
 
 | config.report.hash
@@ -372,12 +407,12 @@ helm uninstall stalwart-mail-release
 
 | config.report.spf
 | object
-| `{"from-address":"noreply-spf@%{DEFAULT_DOMAIN}%","from-name":"Report Subsystem","send":"1/1d","sign":["rsa"],"subject":"SPF Authentication Failure Report"}`
+| `{"from-address":"'noreply-spf@%{DEFAULT_DOMAIN}%'","from-name":"'Report Subsystem'","send":"[1, 1d]","sign":"['rsa']","subject":"'SPF Authentication Failure Report'"}`
 | report-spf
 
 | config.report.tls
 | object
-| `{"aggregate":{"from-address":"noreply-tls@%{DEFAULT_DOMAIN}%","from-name":"TLS Report","max-size":26214400,"org-name":"%{DEFAULT_DOMAIN}%","send":"daily","sign":["rsa"]}}`
+| `{"aggregate":{"from-address":"'noreply-tls@%{DEFAULT_DOMAIN}%'","from-name":"'TLS Report'","max-size":26214400,"org-name":"'%{DEFAULT_DOMAIN}%'","send":"daily","sign":"['rsa']"}}`
 | report-tls
 
 | config.report.tls.aggregate.max-size

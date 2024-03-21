@@ -335,11 +335,6 @@ helm uninstall stalwart-mail-release
 | `nil`
 |
 
-| config.queue.quota[0].key[0]
-| string
-| `"rcpt"`
-|
-
 | config.queue.quota[0].match
 | string
 | `nil`
@@ -368,6 +363,11 @@ helm uninstall stalwart-mail-release
 | config.queue.throttle[0].key[0]
 | string
 | `"rcpt_domain"`
+|
+
+| config.queue.throttle[0].rate
+| string
+| `nil`
 |
 
 | config.report.analysis

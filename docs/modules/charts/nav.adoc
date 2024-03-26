@@ -8,6 +8,7 @@
 ** xref:grampsweb.adoc[grampsweb]
 ** xref:headscale.adoc[headscale]
 ** xref:headscale-ui.adoc[headscale-ui]
+** xref:home-assistant.adoc[home-assistant]
 ** xref:hydrogen-web.adoc[hydrogen-web]
 ** xref:jellyfin.adoc[jellyfin]
 ** xref:matrix-authentication-service.adoc[matrix-authentication-service]

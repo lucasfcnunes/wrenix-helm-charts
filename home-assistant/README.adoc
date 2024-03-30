@@ -388,8 +388,8 @@ helm uninstall home-assistant-release
 |
 
 | zigbee2mqtt.ingress.hosts
-| string
-| `nil`
+| list
+| `[]`
 |
 
 | zigbee2mqtt.securityContext.privileged
@@ -765,8 +765,8 @@ Home Assistant with tooling to run on an k3s pi
 |
 
 | zigbee2mqtt.ingress.hosts
-| string
-| `nil`
+| list
+| `[]`
 |
 
 | zigbee2mqtt.securityContext.privileged

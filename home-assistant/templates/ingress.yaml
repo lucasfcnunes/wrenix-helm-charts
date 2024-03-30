@@ -29,7 +29,7 @@ spec:
                 name: {{ include "home-assistant.fullname" $ }}
                 port:
                   name: http
-          {{- if $.Values.zigbee2mqtt }}
+          {{- if and $.Values.zigbee2mqtt.enabled (not $.Values.zigbee2mqtt.ingress.hosts) }}
           - path: /zigbee2mqtt
             pathType: Prefix
             backend:
@@ -38,5 +38,19 @@ spec:
                 port:
                   name: http
           {{- end }}
+    {{- end }}
+    {{- if $.Values.zigbee2mqtt.enabled }}
+    {{- range .Values.zigbee2mqtt.ingress.hosts }}
+    - host: {{ . | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "home-assistant.fullname" $ }}-zigbee2mqtt
+                port:
+                  name: http
+    {{- end }}
     {{- end }}
 {{- end }}

@@ -54,6 +54,8 @@ zigbee2mqtt:
   device: /dev/ttyACM0
   securityContext:
     privileged: true
+  ingress:
+    hosts: []
   config:
     homeassistant: true
     serial:

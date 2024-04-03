@@ -19,10 +19,25 @@ image::https://img.shields.io/badge/AppVersion-{{ .AppVersion }}-informational?s
 |===
 {{ end }}
 {{ define "chart.valuesHeader" }}== Values{{ end }}
-{{ define "chart.valuesTable" }}.Values
+{{ define "chart.valuesTable" -}}
+{{- if .Sections.Sections -}}
+{{- range .Sections.Sections }}
+.Values {{.SectionName }}
+{{ template "chart.valuesOneTable" .SectionItems }}
+{{- end }}{{/* range sections*/}}
+{{- if .Sections.DefaultSection.SectionItems -}}
+.Values {{.Sections.DefaultSection.SectionName }}
+{{ template "chart.valuesOneTable" .Sections.DefaultSection.SectionItems }}
+{{- end }}{{/* end default section */}}
+{{- else }}{{/* if no sections */}}
+.Values
+{{ template "chart.valuesOneTable" .Values }}
+{{- end }}
+{{ end }}{{/* end chart.valuesTable */}}
+{{ define "chart.valuesOneTable" -}}
 |===
 | Key | Type | Default | Description
-  {{- range .Values }}
+  {{- range . }}
 
 | {{ .Key }}
 | {{ .Type }}
@@ -30,7 +45,7 @@ image::https://img.shields.io/badge/AppVersion-{{ .AppVersion }}-informational?s
 | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }}
   {{- end }}
 |===
-{{ end }}
+{{ end }}{{/* end chart.valuesOneTable */}}
 
 {{- define "chart.prerequirements" -}}{{- end -}}
 

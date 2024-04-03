@@ -3,7 +3,15 @@
 {{- range $groupName, $group := $probe.groups }}
 {{- $proto := "ipv4" }}
 {{- range $proto := (list "ipv4" "ipv6") }}
-{{- if (get $probe $proto) }}
+{{- if and
+  (or
+    (not (hasKey $probe $proto))
+    (get $probe $proto)
+  )
+  (or
+    (not (hasKey $prober $proto))
+    (get $prober $proto)
+  ) }}
 ---
 apiVersion: monitoring.coreos.com/v1 
 kind: Probe

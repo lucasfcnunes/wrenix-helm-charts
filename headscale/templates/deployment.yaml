@@ -35,7 +35,9 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          {{- with .Values.image }}
+          image: "{{ .registry }}/{{ .repository }}:{{ .tag | default $.Chart.AppVersion }}"
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
             - "headscale"

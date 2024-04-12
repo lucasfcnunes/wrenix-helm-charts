@@ -17,6 +17,9 @@ metadata:
   labels:
     app.kubernetes.io/component: keys-job
     {{- include "headscale.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": "pre-install,pre-upgrade"
+    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -25,6 +28,9 @@ metadata:
   labels:
     app.kubernetes.io/component: keys-job
     {{- include "headscale.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": "pre-install,pre-upgrade"
+    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
 rules:
   - apiGroups:
       - ""
@@ -44,6 +50,9 @@ metadata:
   labels:
     app.kubernetes.io/component: keys-job
     {{- include "headscale.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": "pre-install,pre-upgrade"
+    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -59,6 +68,9 @@ metadata:
   name: {{ $name }}
   labels:
     {{- include "headscale.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": "pre-install,pre-upgrade"
+    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
 spec:
   template:
     spec:
@@ -90,7 +102,9 @@ spec:
             name: secrets
             readOnly: true
        - name: generate-key
-         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+         {{- with .Values.image }}
+         image: "{{ .registry }}/{{ .repository }}:{{ .tag | default $.Chart.AppVersion }}"
+         {{- end }}
          imagePullPolicy: {{ .Values.image.pullPolicy }}
          command:
           - sh 

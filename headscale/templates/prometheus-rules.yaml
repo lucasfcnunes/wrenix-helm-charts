@@ -1,0 +1,32 @@
+{{- if .Values.prometheus.rules.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "headscale.fullname" . }}
+  labels:
+    {{- include "headscale.labels" . | nindent 4 }}
+    {{- with .Values.prometheus.rules.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  groups:
+  {{- if .Values.prometheus.rules.defaults.enabled }}
+  - name: {{ template "headscale.fullname" . }}-Defaults
+    rules:
+	  {{- range $key, $value := .Values.prometheus.rules.defaults.lastUpdates }}
+      - alert: "Headscale: offline machines"
+        expr: 'time() - sum(headscale_last_update_seconds{ {{ $.Values.prometheus.rules.defaults.filter }} }) without(endpoint,container,pod,instance,service,namespace,job) > {{ $value }}'
+        for: "1m"
+        labels:
+          severity: "{{ $key }}"
+        {{`
+        annotations:
+          summary: "{{ $labels.machine }} of {{ $labels.user }} is offline for {{ parseDuration $value }}"
+        `}}
+	  {{- end }}
+  {{- end }}
+  {{- if .Values.prometheus.rules.additionalRules }}
+  - name: {{ template "headscale.fullname" . }}-Additional
+    rules: {{- toYaml .Values.prometheus.rules.additionalRules | nindent 4 }}
+  {{- end }}
+{{- end }}

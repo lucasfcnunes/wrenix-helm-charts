@@ -80,7 +80,13 @@ prometheus:
   rules:
     enabled: false
     labels: {}
-    # current no default alertrules are provided
+    defaults:
+      enabled: true
+      filter: ""
+      lastUpdates:
+        critical: 3600
+        warning: 600
+        info: 60
     additionalRules: []
 
 ## Enable persistence using Persistent Volume Claims

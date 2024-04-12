@@ -2,7 +2,7 @@
 
 = headscale
 
-image::https://img.shields.io/badge/Version-0.2.6-informational?style=flat-square[Version: 0.2.6]
+image::https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square[Version: 0.3.0]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-0.22.3-informational?style=flat-square[AppVersion: 0.22.3]
 == Maintainers
@@ -330,6 +330,31 @@ helm uninstall headscale-release
 | prometheus.rules.additionalRules
 | list
 | `[]`
+|
+
+| prometheus.rules.defaults.enabled
+| bool
+| `true`
+|
+
+| prometheus.rules.defaults.filter
+| string
+| `""`
+|
+
+| prometheus.rules.defaults.lastUpdates.critical
+| int
+| `3600`
+|
+
+| prometheus.rules.defaults.lastUpdates.info
+| int
+| `60`
+|
+
+| prometheus.rules.defaults.lastUpdates.warning
+| int
+| `600`
 |
 
 | prometheus.rules.enabled

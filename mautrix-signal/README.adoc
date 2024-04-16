@@ -2,9 +2,9 @@
 
 = mautrix-signal
 
-image::https://img.shields.io/badge/Version-0.0.2-informational?style=flat-square[Version: 0.0.2]
+image::https://img.shields.io/badge/Version-0.0.3-informational?style=flat-square[Version: 0.0.3]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
-image::https://img.shields.io/badge/AppVersion-0.5.1-informational?style=flat-square[AppVersion: 0.5.1]
+image::https://img.shields.io/badge/AppVersion-0.6.0-informational?style=flat-square[AppVersion: 0.6.0]
 == Maintainers
 
 .Maintainers

@@ -21,7 +21,7 @@ spec:
           severity: "{{ $key }}"
         {{`
         annotations:
-          summary: "{{ $labels.machine }} of {{ $labels.user }} is offline for {{ parseDuration $value }}"
+          summary: "{{ $labels.machine }} of {{ $labels.user }} is offline for {{ humanizeDuration $value }}"
         `}}
 	  {{- end }}
   {{- end }}

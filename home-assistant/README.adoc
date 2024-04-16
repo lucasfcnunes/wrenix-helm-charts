@@ -2,7 +2,7 @@
 
 = home-assistant
 
-image::https://img.shields.io/badge/Version-0.1.7-informational?style=flat-square[Version: 0.1.7]
+image::https://img.shields.io/badge/Version-0.1.8-informational?style=flat-square[Version: 0.1.8]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-2024.4.3-informational?style=flat-square[AppVersion: 2024.4.3]
 == Maintainers
@@ -184,7 +184,7 @@ helm uninstall home-assistant-release
 
 | nats.image.tag
 | string
-| `"2.10.12-scratch"`
+| `"2.10.14-scratch"`
 |
 
 | nats.livenessProbe.tcpSocket.port

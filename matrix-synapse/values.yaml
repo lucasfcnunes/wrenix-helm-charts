@@ -613,7 +613,7 @@ wellknown:
   image:
     registry: docker.io
     repository: library/nginx
-    tag: 1.25.4
+    tag: 1.25.5
     pullPolicy: IfNotPresent
 
   replicaCount: 1

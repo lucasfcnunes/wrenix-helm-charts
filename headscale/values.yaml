@@ -86,7 +86,7 @@ prometheus:
       lastUpdates:
         critical: 3600
         warning: 600
-        info: 60
+        info: 300
     additionalRules: []
 
 ## Enable persistence using Persistent Volume Claims

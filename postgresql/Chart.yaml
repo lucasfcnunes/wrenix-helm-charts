@@ -4,9 +4,9 @@ name: "postgresql"
 description: "A Helm chart for running PostgreSQL (Postgres) database"
 icon: https://wiki.postgresql.org/images/a/a4/PostgreSQL_logo.3colors.svg
 type: "application"
-version: "0.1.8"
+version: "0.1.9"
 # renovate: image=docker.io/library/postgres
-appVersion: "16.2-alpine"
+appVersion: "16.3-alpine"
 maintainers:
   - name: WrenIX
     url: https://wrenix.eu

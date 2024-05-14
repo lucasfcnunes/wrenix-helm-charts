@@ -2,9 +2,9 @@
 
 = conduit
 
-image::https://img.shields.io/badge/Version-0.2.5-informational?style=flat-square[Version: 0.2.5]
+image::https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square[Version: 0.3.0]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
-image::https://img.shields.io/badge/AppVersion-0.6.0-informational?style=flat-square[AppVersion: 0.6.0]
+image::https://img.shields.io/badge/AppVersion-0.7.0-informational?style=flat-square[AppVersion: 0.7.0]
 == Maintainers
 
 .Maintainers
@@ -142,9 +142,14 @@ helm uninstall conduit-release
 | `"IfNotPresent"`
 |
 
+| image.registry
+| string
+| `"registry.gitlab.com"`
+|
+
 | image.repository
 | string
-| `"registry.gitlab.com/famedly/conduit/matrix-conduit"`
+| `"famedly/conduit/matrix-conduit"`
 |
 
 | image.tag
@@ -332,9 +337,14 @@ helm uninstall conduit-release
 | `"IfNotPresent"`
 |
 
+| wellknown.image.registry
+| string
+| `"docker.io"`
+|
+
 | wellknown.image.repository
 | string
-| `"nginx"`
+| `"library/nginx"`
 |
 
 | wellknown.image.tag

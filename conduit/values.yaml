@@ -5,7 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: registry.gitlab.com/famedly/conduit/matrix-conduit
+  registry: registry.gitlab.com
+  repository: famedly/conduit/matrix-conduit
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -44,7 +45,8 @@ conduit:
 wellknown:
   enabled: true
   image:
-    repository: nginx
+    registry: docker.io
+    repository: library/nginx
     pullPolicy: IfNotPresent
     tag: "1.25"
 

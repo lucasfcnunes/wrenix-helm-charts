@@ -36,7 +36,9 @@ spec:
         - name: wellknown
           securityContext:
             {{- toYaml .Values.wellknown.securityContext | nindent 12 }}
-          image: "{{ .Values.wellknown.image.repository }}:{{ .Values.wellknown.image.tag }}"
+          {{- with .Values.wellknown.image }}
+          image: "{{ .registry }}/{{ .repository }}:{{ .tag }}"
+          {{- end }}
           imagePullPolicy: {{ .Values.wellknown.image.pullPolicy }}
           ports:
             - name: http

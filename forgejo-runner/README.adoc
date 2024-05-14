@@ -2,7 +2,7 @@
 
 = forgejo-runner
 
-image::https://img.shields.io/badge/Version-0.1.15-informational?style=flat-square[Version: 0.1.15]
+image::https://img.shields.io/badge/Version-0.1.16-informational?style=flat-square[Version: 0.1.16]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-3.4.1-informational?style=flat-square[AppVersion: 3.4.1]
 == Maintainers
@@ -89,7 +89,7 @@ helm uninstall forgejo-runner-release
 
 | dind.image.tag
 | string
-| `"26.0.1-dind"`
+| `"26.1.2-dind"`
 |
 
 | fullnameOverride

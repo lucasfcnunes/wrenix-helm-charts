@@ -50,7 +50,7 @@ zigbee2mqtt:
     registry: docker.io
     repository: koenkk/zigbee2mqtt
     pullPolicy: IfNotPresent
-    tag: 1.36.1
+    tag: 1.37.1
   device: /dev/ttyACM0
   securityContext:
     privileged: true

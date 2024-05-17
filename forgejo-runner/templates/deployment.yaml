@@ -48,7 +48,15 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: [ "/bin/forgejo-runner", "daemon" ]
+          command: 
+            - "sh"
+            - "-c"
+            - |
+              while ! nc -z 127.0.0.1 2376 </dev/null; do
+                echo 'waiting for docker daemon...';
+                sleep 5;
+              done
+              /bin/forgejo-runner daemon
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:

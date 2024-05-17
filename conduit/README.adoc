@@ -2,7 +2,7 @@
 
 = conduit
 
-image::https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square[Version: 0.3.0]
+image::https://img.shields.io/badge/Version-0.3.1-informational?style=flat-square[Version: 0.3.1]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-0.7.0-informational?style=flat-square[AppVersion: 0.7.0]
 == Maintainers
@@ -349,7 +349,7 @@ helm uninstall conduit-release
 
 | wellknown.image.tag
 | string
-| `"1.25"`
+| `"1.26"`
 |
 
 | wellknown.nodeSelector

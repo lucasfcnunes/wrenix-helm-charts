@@ -1,0 +1,11 @@
+{{ define "chart.prerequirements" -}}
+== Accessing docker socket inside job containers
+
+To access the docker socket inside the job containers, the following example values may be used (see `values-dind-bypass.yaml`):
+
+[source,yaml]
+----
+{{ .Files.Get "values-dind-bypass.yaml" }}
+----
+{{ end }}
+

@@ -56,7 +56,7 @@ spec:
                 echo 'waiting for docker daemon...';
                 sleep 5;
               done
-              /bin/forgejo-runner daemon
+              /bin/forgejo-runner --config /etc/runner/config.yaml daemon
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
@@ -67,6 +67,8 @@ spec:
             - name: DOCKER_TLS_VERIFY
               value: "1"
           volumeMounts:
+            - name: runner-configfile
+              mountPath: /etc/runner
             - name: docker-certs
               mountPath: /certs
             - name: runner-data
@@ -95,6 +97,9 @@ spec:
         - name: runner-config
           secret:
             secretName: {{ .Values.runner.config.existingSecret | default (print ( include "forgejo-runner.fullname" . ) "-config") | quote }}
+        - name: runner-configfile
+          secret:
+            secretName: {{ include "forgejo-runner.fullname" . }}-configfile
         {{- with .Values.volumes }}
         {{- toYaml . | nindent 8 }}
         {{- end }}

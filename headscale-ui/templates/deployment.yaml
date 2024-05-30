@@ -38,9 +38,17 @@ spec:
           image: "{{ coalesce $.Values.global.image.registry .registry }}/{{ .repository }}:{{ .tag | default $.Chart.AppVersion }}"
           imagePullPolicy: {{ coalesce $.Values.global.image.pullPolicy .pullPolicy }}
           {{- end }}
+          env:
+            - name: "HTTP_PORT"
+              value: {{ .Values.service.port.http | quote }}
+            - name: "HTTPS_PORT"
+              value: {{ .Values.service.port.https | quote }}
           ports:
             - name: http
-              containerPort: {{ .Values.service.port }}
+              containerPort: {{ .Values.service.port.http }}
+              protocol: TCP
+            - name: https
+              containerPort: {{ .Values.service.port.https }}
               protocol: TCP
           livenessProbe:
             httpGet:

@@ -3,7 +3,7 @@ name: headscale-ui
 description: A simple Headscale web UI for small-scale deployments.
 icon: https://raw.githubusercontent.com/gurucomputing/headscale-ui/master/static/favicon.png
 type: application
-version: 0.1.4
+version: 0.1.5
 # renovate: image=ghcr.io/gurucomputing/headscale-ui
 appVersion: "2024.02.24-beta1"
 maintainers:

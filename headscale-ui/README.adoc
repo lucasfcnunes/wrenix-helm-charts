@@ -2,7 +2,7 @@
 
 = headscale-ui
 
-image::https://img.shields.io/badge/Version-0.1.4-informational?style=flat-square[Version: 0.1.4]
+image::https://img.shields.io/badge/Version-0.1.5-informational?style=flat-square[Version: 0.1.5]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-2024.02.24-beta1-informational?style=flat-square[AppVersion: 2024.02.24-beta1]
 == Maintainers
@@ -187,9 +187,14 @@ helm uninstall headscale-ui-release
 | `{}`
 |
 
-| service.port
+| service.port.http
 | int
-| `80`
+| `8080`
+|
+
+| service.port.https
+| int
+| `8443`
 |
 
 | service.type

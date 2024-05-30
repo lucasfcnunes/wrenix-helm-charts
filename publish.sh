@@ -14,6 +14,7 @@ ct lint # || exit 1
 for p in * ; do
   if \
     [ ! -d $p ] || \
+    [ "$p" == "matrix-authentication-service" ] || \
     [ ! -f $p/Chart.yaml ] \
     ; then
     continue

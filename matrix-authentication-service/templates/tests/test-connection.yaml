@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "matrix-authentication-service.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "matrix-authentication-service.fullname" . }}:{{ .Values.service.port.http }}']
   restartPolicy: Never

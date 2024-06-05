@@ -93,14 +93,16 @@ spec:
               value: "/etc/mas-config.yaml"
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: {{ .Values.service.port.http }}
               protocol: TCP
             - name: internal
               containerPort: 8081
               protocol: TCP
+            {{- with .Values.service.port.metrics }}
             - name: metrics
-              containerPort: 9100
+              containerPort: {{ . }}
               protocol: TCP
+            {{- end }}
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:

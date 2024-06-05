@@ -11,9 +11,9 @@ spec:
   ports:
     - name: http
       protocol: TCP
-      port: {{ .Values.service.port }}
+      port: {{ .Values.service.port.http }}
       targetPort: http
-    {{- with .Values.config.metrics }}
+    {{- with .Values.service.port.metrics }}
     - name: metrics
       protocol: TCP
       port: {{ . }}

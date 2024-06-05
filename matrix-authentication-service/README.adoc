@@ -2,7 +2,7 @@
 
 = matrix-authentication-service
 
-image::https://img.shields.io/badge/Version-0.0.3-informational?style=flat-square[Version: 0.0.3]
+image::https://img.shields.io/badge/Version-0.0.4-informational?style=flat-square[Version: 0.0.4]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-0.9.0-informational?style=flat-square[AppVersion: 0.9.0]
 == Maintainers
@@ -612,9 +612,14 @@ helm uninstall matrix-authentication-service-release
 | `1000`
 |
 
-| service.port
+| service.port.http
 | int
-| `80`
+| `8080`
+|
+
+| service.port.metrics
+| int
+| `9100`
 |
 
 | service.type

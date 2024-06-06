@@ -48,7 +48,7 @@ wellknown:
     registry: docker.io
     repository: library/nginx
     pullPolicy: IfNotPresent
-    tag: "1.26"
+    tag: "1.27.0"
 
   replicaCount: 1
   podLabels: {}

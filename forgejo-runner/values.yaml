@@ -89,7 +89,7 @@ runner:
         # The URL should generally end with "/".
         # @section -- Configuration yaml of runner (see: https://code.forgejo.org/forgejo/runner/src/branch/main/internal/pkg/config/config.example.yaml)
         external_server: ""
-  
+
       container:
         # -- Specifies the network to which the container will connect.
         # Could be host, bridge or the name of a custom network.

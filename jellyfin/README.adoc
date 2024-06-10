@@ -2,9 +2,9 @@
 
 = jellyfin
 
-image::https://img.shields.io/badge/Version-0.1.6-informational?style=flat-square[Version: 0.1.6]
+image::https://img.shields.io/badge/Version-0.1.7-informational?style=flat-square[Version: 0.1.7]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
-image::https://img.shields.io/badge/AppVersion-10.8.13-1-informational?style=flat-square[AppVersion: 10.8.13-1]
+image::https://img.shields.io/badge/AppVersion-10.9.6-informational?style=flat-square[AppVersion: 10.9.6]
 == Maintainers
 
 .Maintainers
@@ -77,20 +77,35 @@ helm uninstall jellyfin-release
 | `""`
 |
 
+| global.image.pullPolicy
+| string
+| `nil`
+| if set it will overwrite all pullPolicy
+
+| global.image.registry
+| string
+| `nil`
+| if set it will overwrite all registry entries
+
 | image.pullPolicy
 | string
 | `"IfNotPresent"`
 |
 
+| image.registry
+| string
+| `"ghcr.io"`
+|
+
 | image.repository
 | string
-| `"docker.io/jellyfin/jellyfin"`
+| `"jellyfin/jellyfin"`
 |
 
 | image.tag
 | string
 | `""`
-|
+| Overrides the image tag whose default is the chart appVersion.
 
 | imagePullSecrets
 | list

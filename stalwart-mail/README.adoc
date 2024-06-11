@@ -2,7 +2,7 @@
 
 = stalwart-mail
 
-image::https://img.shields.io/badge/Version-0.0.5-informational?style=flat-square[Version: 0.0.5]
+image::https://img.shields.io/badge/Version-0.0.6-informational?style=flat-square[Version: 0.0.6]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-0.8.1-informational?style=flat-square[AppVersion: 0.8.1]
 == Maintainers
@@ -161,7 +161,7 @@ helm uninstall stalwart-mail-release
 
 | config.server.listener.https.bind[0]
 | string
-| `"[::]:80"`
+| `"[::]:443"`
 |
 
 | config.server.listener.https.protocol
@@ -195,6 +195,31 @@ helm uninstall stalwart-mail-release
 |
 
 | config.server.listener.imaptls.tls.implicit
+| bool
+| `true`
+|
+
+| config.server.listener.pop3.bind[0]
+| string
+| `"[::]:110"`
+|
+
+| config.server.listener.pop3.protocol
+| string
+| `"pop3"`
+|
+
+| config.server.listener.pop3s.bind[0]
+| string
+| `"[::]:995"`
+|
+
+| config.server.listener.pop3s.protocol
+| string
+| `"pop3"`
+|
+
+| config.server.listener.pop3s.tls.implicit
 | bool
 | `true`
 |
@@ -243,16 +268,6 @@ helm uninstall stalwart-mail-release
 | bool
 | `true`
 |
-
-| config.server.run-as.group
-| string
-| `"stalwart-mail"`
-| server run-as group
-
-| config.server.run-as.user
-| string
-| `"stalwart-mail"`
-| server run-as user
 
 | config.storage.blob
 | string
@@ -514,9 +529,9 @@ helm uninstall stalwart-mail-release
 | `"SingleStack"`
 | other option is RequireDualStack
 
-| service.ports.http
+| service.ports.https
 | int
-| `80`
+| `443`
 |
 
 | service.ports.imap
@@ -524,9 +539,19 @@ helm uninstall stalwart-mail-release
 | `143`
 |
 
-| service.ports.imaps
+| service.ports.imaptls
 | int
 | `993`
+|
+
+| service.ports.pop3
+| int
+| `110`
+|
+
+| service.ports.pop3s
+| int
+| `995`
 |
 
 | service.ports.sieve
@@ -584,14 +609,29 @@ helm uninstall stalwart-mail-release
 | `false`
 |
 
-| traefik.ports.http
+| traefik.ports.https
 | string
 | `"websecure"`
 |
 
-| traefik.ports.imaps
+| traefik.ports.imaptls
 | string
 | `"imaps"`
+|
+
+| traefik.ports.pop3s
+| string
+| `"pop3s"`
+|
+
+| traefik.ports.sieve
+| string
+| `"sieve"`
+|
+
+| traefik.ports.smtp
+| string
+| `"smtp"`
 |
 
 | traefik.ports.smtps

@@ -43,22 +43,22 @@ config:
         protocol: "imap"
         tls:
           implicit: true
-
+      pop3:
+        bind: ["[::]:110"]
+        protocol: "pop3"
+      pop3s:
+        bind: ["[::]:995"]
+        protocol: "pop3"
+        tls:
+          implicit: true
       sieve:
         bind: ["[::]:4190"]
         protocol: "managesieve"
-
       https:
         protocol: "http"
-        bind: ["[::]:80"]
+        bind: ["[::]:443"]
         tls:
           implicit: true
-
-    run-as:
-      # -- server run-as user
-      user: "stalwart-mail"
-      # -- server run-as group
-      group: "stalwart-mail"
 
   storage:
     data: "rocksdb"
@@ -159,9 +159,11 @@ service:
     smtp-submission: 587
     smtps: 465
     imap: 143
-    imaps: 993
+    imaptls: 993
+    pop3: 110
+    pop3s: 995
     sieve: 4190
-    http: 80
+    https: 443
 
 ingress:
   enabled: false
@@ -182,9 +184,12 @@ ingress:
 traefik:
   enabled: false
   ports:
-    http: websecure
-    imaps: imaps
+    smtp: smtp
     smtps: smtps
+    imaptls: imaps
+    pop3s: pop3s
+    sieve: sieve
+    https: websecure
 
 certificate:
   # -- not needed if certmanager is used

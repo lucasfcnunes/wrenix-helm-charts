@@ -2,7 +2,7 @@
 
 = stalwart-mail
 
-image::https://img.shields.io/badge/Version-0.0.6-informational?style=flat-square[Version: 0.0.6]
+image::https://img.shields.io/badge/Version-0.0.7-informational?style=flat-square[Version: 0.0.7]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-0.8.1-informational?style=flat-square[AppVersion: 0.8.1]
 == Maintainers
@@ -609,34 +609,119 @@ helm uninstall stalwart-mail-release
 | `false`
 |
 
-| traefik.ports.https
+| traefik.ports.https.entrypoint
 | string
 | `"websecure"`
 |
 
-| traefik.ports.imaptls
+| traefik.ports.https.match
+| string
+| `nil`
+|
+
+| traefik.ports.https.passthroughTLS
+| bool
+| `true`
+|
+
+| traefik.ports.https.proxyProtocol
+| bool
+| `true`
+|
+
+| traefik.ports.imaptls.entrypoint
 | string
 | `"imaps"`
 |
 
-| traefik.ports.pop3s
+| traefik.ports.imaptls.match
+| string
+| `nil`
+|
+
+| traefik.ports.imaptls.passthroughTLS
+| bool
+| `true`
+|
+
+| traefik.ports.imaptls.proxyProtocol
+| bool
+| `true`
+|
+
+| traefik.ports.pop3s.entrypoint
 | string
 | `"pop3s"`
 |
 
-| traefik.ports.sieve
+| traefik.ports.pop3s.match
+| string
+| `nil`
+|
+
+| traefik.ports.pop3s.passthroughTLS
+| bool
+| `true`
+|
+
+| traefik.ports.pop3s.proxyProtocol
+| bool
+| `true`
+|
+
+| traefik.ports.sieve.entrypoint
 | string
 | `"sieve"`
 |
 
-| traefik.ports.smtp
+| traefik.ports.sieve.match
+| string
+| `nil`
+|
+
+| traefik.ports.sieve.passthroughTLS
+| bool
+| `true`
+|
+
+| traefik.ports.sieve.proxyProtocol
+| bool
+| `true`
+|
+
+| traefik.ports.smtp.entrypoint
 | string
 | `"smtp"`
 |
 
-| traefik.ports.smtps
+| traefik.ports.smtp.match
+| string
+| `nil`
+|
+
+| traefik.ports.smtp.proxyProtocol
+| bool
+| `true`
+|
+
+| traefik.ports.smtps.entrypoint
 | string
 | `"smtps"`
+|
+
+| traefik.ports.smtps.match
+| string
+| `nil`
+|
+
+| traefik.ports.smtps.passthroughTLS
+| bool
+| `true`
+|
+
+| traefik.ports.smtps.proxyProtocol
+| bool
+| `true`
 |
 
 | volumeMounts

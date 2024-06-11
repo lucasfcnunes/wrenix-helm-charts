@@ -184,12 +184,35 @@ ingress:
 traefik:
   enabled: false
   ports:
-    smtp: smtp
-    smtps: smtps
-    imaptls: imaps
-    pop3s: pop3s
-    sieve: sieve
-    https: websecure
+    smtp:
+      match:
+      entrypoint: smtp
+      proxyProtocol: true
+    smtps:
+      match:
+      entrypoint: smtps
+      proxyProtocol: true
+      passthroughTLS: true
+    imaptls:
+      match:
+      entrypoint: imaps
+      proxyProtocol: true
+      passthroughTLS: true
+    pop3s:
+      match:
+      entrypoint: pop3s
+      proxyProtocol: true
+      passthroughTLS: true
+    sieve:
+      match:
+      entrypoint: sieve
+      proxyProtocol: true
+      passthroughTLS: true
+    https:
+      match:
+      entrypoint: websecure
+      proxyProtocol: true
+      passthroughTLS: true
 
 certificate:
   # -- not needed if certmanager is used

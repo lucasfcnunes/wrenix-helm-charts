@@ -1,5 +1,6 @@
 {{- if .Values.traefik.enabled }}
 {{- range $port,$config := .Values.traefik.ports }}
+{{- if $config }}
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRouteTCP
@@ -7,7 +8,7 @@ metadata:
   name: {{ include "stalwart-mail.fullname" $ }}-{{ $port }}
 spec:
   entryPoints:
-    - {{ $config.entrypoint }}
+    - {{ required (printf "traefik.ports.%s.entrypoint is required" $port) $config.entrypoint }}
   routes:
     - match: {{ $config.match | default (printf "HostSNI(`%s`)" $.Values.traefik.host) | quote }}
       services:
@@ -21,5 +22,6 @@ spec:
   tls:
     passthrough: true
   {{- end }}
-{{- end }}
+{{- end }}{{/* if config exists*/}}
+{{- end }}{{/* end-range */}}
 {{- end }}{{/* end-if .enabled */}}

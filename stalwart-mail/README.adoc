@@ -2,7 +2,7 @@
 
 = stalwart-mail
 
-image::https://img.shields.io/badge/Version-0.0.7-informational?style=flat-square[Version: 0.0.7]
+image::https://img.shields.io/badge/Version-0.0.8-informational?style=flat-square[Version: 0.0.8]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-0.8.1-informational?style=flat-square[AppVersion: 0.8.1]
 == Maintainers
@@ -564,12 +564,12 @@ helm uninstall stalwart-mail-release
 | `25`
 |
 
-| service.ports.smtp-submission
+| service.ports.submission
 | int
 | `587`
 |
 
-| service.ports.smtps
+| service.ports.submissions
 | int
 | `465`
 |
@@ -704,22 +704,22 @@ helm uninstall stalwart-mail-release
 | `true`
 |
 
-| traefik.ports.smtps.entrypoint
+| traefik.ports.submissions.entrypoint
 | string
 | `"smtps"`
 |
 
-| traefik.ports.smtps.match
+| traefik.ports.submissions.match
 | string
 | `nil`
 |
 
-| traefik.ports.smtps.passthroughTLS
+| traefik.ports.submissions.passthroughTLS
 | bool
 | `true`
 |
 
-| traefik.ports.smtps.proxyProtocol
+| traefik.ports.submissions.proxyProtocol
 | bool
 | `true`
 |

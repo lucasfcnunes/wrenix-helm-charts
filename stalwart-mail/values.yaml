@@ -156,8 +156,8 @@ service:
   annotations: {}
   ports:
     smtp: 25
-    smtp-submission: 587
-    smtps: 465
+    submission: 587
+    submissions: 465
     imap: 143
     imaptls: 993
     pop3: 110
@@ -188,7 +188,7 @@ traefik:
       match:
       entrypoint: smtp
       proxyProtocol: true
-    smtps:
+    submissions:
       match:
       entrypoint: smtps
       proxyProtocol: true

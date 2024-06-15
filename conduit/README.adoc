@@ -2,9 +2,9 @@
 
 = conduit
 
-image::https://img.shields.io/badge/Version-0.3.2-informational?style=flat-square[Version: 0.3.2]
+image::https://img.shields.io/badge/Version-0.3.3-informational?style=flat-square[Version: 0.3.3]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
-image::https://img.shields.io/badge/AppVersion-0.7.0-informational?style=flat-square[AppVersion: 0.7.0]
+image::https://img.shields.io/badge/AppVersion-0.8.0-informational?style=flat-square[AppVersion: 0.8.0]
 == Maintainers
 
 .Maintainers

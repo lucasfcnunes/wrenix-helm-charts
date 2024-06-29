@@ -18,6 +18,16 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+config:
+  enabled: false
+  # -- image to patch config
+  image:
+    registry: ghcr.io
+    repository: tomwright/dasel
+    pullPolicy: IfNotPresent
+    tag: "2.8.0"
+  metrics: false
+
 persistence:
   config:
     nfs:
@@ -61,6 +71,18 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 8096
+
+prometheus:
+  servicemonitor:
+    enabled: false
+    labels: {}
+
+grafana:
+  dashboards:
+    enabled: false
+    labels:
+      grafana_dashboard: "1"
+    annotations: {}
 
 ingress:
   enabled: false

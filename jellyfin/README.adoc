@@ -2,7 +2,7 @@
 
 = jellyfin
 
-image::https://img.shields.io/badge/Version-0.1.8-informational?style=flat-square[Version: 0.1.8]
+image::https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square[Version: 0.2.0]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-10.9.7-informational?style=flat-square[AppVersion: 10.9.7]
 == Maintainers
@@ -72,6 +72,21 @@ helm uninstall jellyfin-release
 | `80`
 |
 
+| config.enabled
+| bool
+| `false`
+|
+
+| config.image
+| object
+| `{"pullPolicy":"IfNotPresent","registry":"ghcr.io","repository":"tomwright/dasel","tag":"2.8.0"}`
+| image to patch config
+
+| config.metrics
+| bool
+| `false`
+|
+
 | fullnameOverride
 | string
 | `""`
@@ -86,6 +101,21 @@ helm uninstall jellyfin-release
 | string
 | `nil`
 | if set it will overwrite all registry entries
+
+| grafana.dashboards.annotations
+| object
+| `{}`
+|
+
+| grafana.dashboards.enabled
+| bool
+| `false`
+|
+
+| grafana.dashboards.labels.grafana_dashboard
+| string
+| `"1"`
+|
 
 | image.pullPolicy
 | string
@@ -213,6 +243,16 @@ helm uninstall jellyfin-release
 |
 
 | podSecurityContext
+| object
+| `{}`
+|
+
+| prometheus.servicemonitor.enabled
+| bool
+| `false`
+|
+
+| prometheus.servicemonitor.labels
 | object
 | `{}`
 |

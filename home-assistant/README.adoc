@@ -2,9 +2,9 @@
 
 = home-assistant
 
-image::https://img.shields.io/badge/Version-0.1.16-informational?style=flat-square[Version: 0.1.16]
+image::https://img.shields.io/badge/Version-0.1.17-informational?style=flat-square[Version: 0.1.17]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
-image::https://img.shields.io/badge/AppVersion-2024.6.4-informational?style=flat-square[AppVersion: 2024.6.4]
+image::https://img.shields.io/badge/AppVersion-2024.7.0-informational?style=flat-square[AppVersion: 2024.7.0]
 == Maintainers
 
 .Maintainers
@@ -184,7 +184,7 @@ helm uninstall home-assistant-release
 
 | nats.image.tag
 | string
-| `"2.10.16-scratch"`
+| `"2.10.17-scratch"`
 |
 
 | nats.livenessProbe.tcpSocket.port
@@ -384,7 +384,7 @@ helm uninstall home-assistant-release
 
 | zigbee2mqtt.image.tag
 | string
-| `"1.38.0"`
+| `"1.39.0"`
 |
 
 | zigbee2mqtt.ingress.hosts

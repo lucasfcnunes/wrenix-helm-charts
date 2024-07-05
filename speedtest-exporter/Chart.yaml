@@ -1,0 +1,11 @@
+apiVersion: v2
+name: speedtest-exporter
+description: 
+icon: https://b.cdnst.net/images/favicons/favicon-180.png
+type: application
+version: 0.1.0
+# renovate: image=ghcr.io/miguelndecarvalho/speedtest-exporter
+appVersion: "3.5.4"
+maintainers:
+  - name: WrenIX
+    url: https://wrenix.eu

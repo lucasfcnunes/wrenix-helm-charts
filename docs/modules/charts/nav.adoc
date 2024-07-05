@@ -19,4 +19,5 @@
 ** xref:monitoring.adoc[monitoring]
 ** xref:ntfy.adoc[ntfy]
 ** xref:postgresql.adoc[postgresql]
+** xref:speedtest-exporter.adoc[speedtest-exporter]
 ** xref:stalwart-mail.adoc[stalwart-mail]

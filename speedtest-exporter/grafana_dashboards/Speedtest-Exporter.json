@@ -1,42 +1,12 @@
 {
-  "__elements": [],
-  "__requires": [
-    {
-      "type": "panel",
-      "id": "gauge",
-      "name": "Gauge",
-      "version": ""
-    },
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "8.4.3"
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "stat",
-      "name": "Stat",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -56,12 +26,14 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 13665,
   "graphTooltip": 0,
-  "id": null,
-  "iteration": 1650287799671,
   "links": [],
   "liveNow": false,
   "panels": [
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -87,7 +59,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "yellow",
                 "value": null
               },
               {
@@ -109,12 +81,13 @@
         "x": 0,
         "y": 0
       },
-      "id": 16,
+      "id": null,
       "options": {
         "colorMode": "background",
-        "graphMode": "none",
+        "graphMode": "area",
         "justifyMode": "center",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -122,19 +95,24 @@
           "fields": "",
           "values": false
         },
-        "textMode": "value"
+        "showPercentChange": false,
+        "textMode": "value",
+        "wideLayout": true
       },
-      "pluginVersion": "8.4.3",
+      "pluginVersion": "11.1.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "exemplar": true,
-          "expr": "speedtest_up{instance=\"$instance\", job=\"$job\"}",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(speedtest_up{job=~\"$job\"}) without (instance,pod)",
+          "instant": false,
           "interval": "",
           "legendFormat": "",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -142,6 +120,10 @@
       "type": "stat"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
       "description": "ServerID of the last test done",
       "fieldConfig": {
         "defaults": {
@@ -173,6 +155,7 @@
         "graphMode": "none",
         "justifyMode": "center",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -180,19 +163,24 @@
           "fields": "",
           "values": false
         },
-        "textMode": "value"
+        "showPercentChange": false,
+        "textMode": "value",
+        "wideLayout": true
       },
-      "pluginVersion": "8.4.3",
+      "pluginVersion": "11.1.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "exemplar": true,
-          "expr": "speedtest_server_id{instance=\"$instance\", job=\"$job\"}",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(speedtest_server_id{job=~\"$job\"})",
+          "instant": false,
           "interval": "",
           "legendFormat": "",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -201,6 +189,10 @@
     },
     {
       "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -209,10 +201,23 @@
       },
       "id": 8,
       "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Gauges",
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -229,7 +234,7 @@
               }
             ]
           },
-          "unit": "Mbits"
+          "unit": "binbps"
         },
         "overrides": []
       },
@@ -241,7 +246,11 @@
       },
       "id": 10,
       "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -249,28 +258,34 @@
           "fields": "",
           "values": false
         },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "text": {}
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "8.4.3",
+      "pluginVersion": "11.1.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "speedtest_download_bits_per_second{instance=\"$instance\", job=\"$job\"}*10^-6",
+          "expr": "sum(speedtest_download_bits_per_second{job=~\"$job\"}) without (instance,pod)",
           "interval": "",
           "legendFormat": "",
+          "range": true,
           "refId": "A"
         }
       ],
       "title": "Download Speed",
-      "type": "gauge"
+      "type": "stat"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -287,7 +302,7 @@
               }
             ]
           },
-          "unit": "Mbits"
+          "unit": "binbps"
         },
         "overrides": []
       },
@@ -299,7 +314,11 @@
       },
       "id": 12,
       "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -307,27 +326,34 @@
           "fields": "",
           "values": false
         },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "8.4.3",
+      "pluginVersion": "11.1.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "speedtest_upload_bits_per_second{instance=\"$instance\", job=\"$job\"}*10^-6",
+          "expr": "sum(speedtest_upload_bits_per_second{job=~\"$job\"}) without (instance,pod)",
           "interval": "",
           "legendFormat": "",
+          "range": true,
           "refId": "A"
         }
       ],
       "title": "Upload Speed",
-      "type": "gauge"
+      "type": "stat"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -356,7 +382,11 @@
       },
       "id": 13,
       "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -364,27 +394,35 @@
           "fields": "",
           "values": false
         },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "8.4.3",
+      "pluginVersion": "11.1.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "exemplar": true,
-          "expr": "speedtest_ping_latency_milliseconds{instance=\"$instance\", job=\"$job\"}",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg(speedtest_ping_latency_milliseconds{job=~\"$job\"}) without (instance,pod)",
+          "instant": false,
           "interval": "",
           "legendFormat": "",
+          "range": true,
           "refId": "A"
         }
       ],
       "title": "Ping",
-      "type": "gauge"
+      "type": "stat"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -413,7 +451,11 @@
       },
       "id": 11,
       "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -421,28 +463,36 @@
           "fields": "",
           "values": false
         },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "8.4.3",
+      "pluginVersion": "11.1.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "exemplar": true,
-          "expr": "speedtest_jitter_latency_milliseconds{instance=\"$instance\", job=\"$job\"}",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg(speedtest_jitter_latency_milliseconds{job=~\"$job\"}) without (instance,pod)",
+          "instant": false,
           "interval": "",
           "legendFormat": "",
+          "range": true,
           "refId": "A"
         }
       ],
       "title": "Jitter",
-      "type": "gauge"
+      "type": "stat"
     },
     {
       "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -451,10 +501,23 @@
       },
       "id": 6,
       "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Graphics",
       "type": "row"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -462,17 +525,21 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisLabel": "Download Speed",
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 100,
+            "fillOpacity": 50,
             "gradientMode": "opacity",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -503,9 +570,22 @@
               }
             ]
           },
-          "unit": "Mbits"
+          "unit": "binbps"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/Upload: .*/"
+            },
+            "properties": [
+              {
+                "id": "custom.transform",
+                "value": "negative-Y"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 9,
@@ -519,10 +599,11 @@
           "calcs": [
             "mean",
             "max",
-            "min"
+            "logmin"
           ],
           "displayMode": "table",
-          "placement": "bottom"
+          "placement": "right",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "multi",
@@ -536,125 +617,57 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "speedtest_download_bits_per_second{instance=\"$instance\", job=\"$job\"}*10^-6",
+          "expr": "sum(speedtest_download_bits_per_second{job=~\"$job\"}) without (instance,pod)",
           "interval": "",
-          "legendFormat": "Download Speed (Mbits/s)",
+          "legendFormat": "Download: {{ instance }}",
+          "range": true,
           "refId": "A"
-        }
-      ],
-      "title": "Download Speed (Mbits/s)",
-      "type": "timeseries"
-    },
-    {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "Upload Speed",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 100,
-            "gradientMode": "opacity",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": true,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "Mbits"
         },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 24,
-        "x": 0,
-        "y": 22
-      },
-      "id": 3,
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "max",
-            "min"
-          ],
-          "displayMode": "table",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "8.4.3",
-      "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "exemplar": true,
-          "expr": "speedtest_upload_bits_per_second{instance=\"$instance\", job=\"$job\"}*10^-6",
-          "interval": "",
-          "legendFormat": "Upload Speed (Mbits/s)",
-          "refId": "A"
+          "editorMode": "code",
+          "expr": "sum(speedtest_upload_bits_per_second{job=~\"$job\"}) without (instance,pod)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "Upload: {{ instance }}",
+          "range": true,
+          "refId": "B"
         }
       ],
-      "title": "Upload Speed (Mbits/s)",
+      "title": "Traffic Speed",
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "Time",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 100,
+            "fillOpacity": 10,
             "gradientMode": "opacity",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -687,13 +700,26 @@
           },
           "unit": "ms"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Jitter (ms)"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 31
+        "y": 22
       },
       "id": 4,
       "options": {
@@ -701,10 +727,11 @@
           "calcs": [
             "mean",
             "max",
-            "min"
+            "logmin"
           ],
           "displayMode": "table",
-          "placement": "bottom"
+          "placement": "right",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "multi",
@@ -718,10 +745,12 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "speedtest_ping_latency_milliseconds{instance=\"$instance\", job=\"$job\"}",
+          "expr": "avg(speedtest_ping_latency_milliseconds{job=~\"$job\"}) without (instance,pod)",
           "interval": "",
           "legendFormat": "Ping (ms)",
+          "range": true,
           "refId": "A"
         },
         {
@@ -729,8 +758,9 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "speedtest_jitter_latency_milliseconds{instance=\"$instance\", job=\"$job\"}",
+          "expr": "avg(speedtest_jitter_latency_milliseconds{job=~\"$job\"}) without (instance,pod)",
           "instant": false,
           "interval": "",
           "legendFormat": "Jitter (ms)",
@@ -742,38 +772,50 @@
     }
   ],
   "refresh": "5m",
-  "schemaVersion": 35,
-  "style": "dark",
-  "tags": [],
+  "schemaVersion": 39,
+  "tags": [
+    "network"
+  ],
   "templating": {
     "list": [
       {
-        "current": {},
-        "definition": "label_values(speedtest_up, instance)",
+        "current": {
+          "selected": false,
+          "text": "default",
+          "value": "default"
+        },
         "hide": 0,
         "includeAll": false,
-        "label": "Instance",
+        "label": "datasource",
         "multi": false,
-        "name": "instance",
+        "name": "DS_PROMETHEUS",
         "options": [],
-        "query": {
-          "query": "label_values(speedtest_up, instance)",
-          "refId": "StandardVariableQuery"
-        },
+        "query": "prometheus",
+        "queryValue": "",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
-        "sort": 0,
-        "type": "query",
-        "datasource": "${DS_PROMETHEUS}"
+        "type": "datasource"
       },
       {
-        "current": {},
+        "allValue": ".*",
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "uid": "${DS_PROMETHEUS}"
+        },
         "definition": "label_values(speedtest_up, job)",
         "hide": 0,
-        "includeAll": false,
+        "includeAll": true,
         "label": "Job",
-        "multi": false,
+        "multi": true,
         "name": "job",
         "options": [],
         "query": {
@@ -784,19 +826,18 @@
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
-        "type": "query",
-        "datasource": "${DS_PROMETHEUS}"
+        "type": "query"
       }
     ]
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-2d",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Speedtest-Exporter Dashboard",
   "uid": "-fs18ztMz",
-  "version": 10,
+  "version": 1,
   "weekStart": ""
 }

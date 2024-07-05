@@ -25,7 +25,7 @@ config:
     registry: ghcr.io
     repository: tomwright/dasel
     pullPolicy: IfNotPresent
-    tag: "2.8.0"
+    tag: "2.8.1"
   metrics: false
 
 persistence:

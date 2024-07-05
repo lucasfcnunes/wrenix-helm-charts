@@ -2,7 +2,7 @@
 
 = jellyfin
 
-image::https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square[Version: 0.2.0]
+image::https://img.shields.io/badge/Version-0.2.1-informational?style=flat-square[Version: 0.2.1]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-10.9.7-informational?style=flat-square[AppVersion: 10.9.7]
 == Maintainers
@@ -79,7 +79,7 @@ helm uninstall jellyfin-release
 
 | config.image
 | object
-| `{"pullPolicy":"IfNotPresent","registry":"ghcr.io","repository":"tomwright/dasel","tag":"2.8.0"}`
+| `{"pullPolicy":"IfNotPresent","registry":"ghcr.io","repository":"tomwright/dasel","tag":"2.8.1"}`
 | image to patch config
 
 | config.metrics

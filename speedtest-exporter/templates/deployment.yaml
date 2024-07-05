@@ -43,6 +43,14 @@ spec:
             - name: "SPEEDTEST_SERVER"
               value: {{ . | quote }}
             {{- end }}
+            {{- with .Values.config.cacheFor }}
+            - name: "SPEEDTEST_CACHE_FOR"
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.config.timeout }}
+            - name: "SPEEDTEST_TIMEOUT"
+              value: {{ . | quote }}
+            {{- end }}
           ports:
             - name: http
               containerPort: 9798

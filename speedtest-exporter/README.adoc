@@ -2,7 +2,7 @@
 
 = speedtest-exporter
 
-image::https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square[Version: 0.1.0]
+image::https://img.shields.io/badge/Version-0.1.1-informational?style=flat-square[Version: 0.1.1]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-3.5.4-informational?style=flat-square[AppVersion: 3.5.4]
 == Maintainers
@@ -72,10 +72,20 @@ helm uninstall speedtest-exporter-release
 | `80`
 |
 
+| config.cacheFor
+| int
+| `0`
+| cache result for seconds
+
 | config.server
 | string
 | `nil`
 | speedtest-serverid
+
+| config.timeout
+| int
+| `90`
+| timeout of speedtest
 
 | fullnameOverride
 | string
@@ -219,7 +229,7 @@ helm uninstall speedtest-exporter-release
 
 | prometheus.servicemonitor.scrapeTimeout
 | string
-| `"1m"`
+| `"2m"`
 | scrape timeout
 
 | readinessProbe.httpGet.path

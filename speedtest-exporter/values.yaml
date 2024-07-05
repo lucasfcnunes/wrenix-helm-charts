@@ -17,6 +17,10 @@ image:
 config:
   # -- speedtest-serverid
   server:
+  # -- cache result for seconds
+  cacheFor: 0
+  # -- timeout of speedtest
+  timeout: 90
 
 imagePullSecrets: []
 nameOverride: ""
@@ -58,7 +62,7 @@ prometheus:
     # -- interval
     interval: 1h
     # -- scrape timeout 
-    scrapeTimeout: 1m
+    scrapeTimeout: 2m
 
 grafana:
   dashboards:

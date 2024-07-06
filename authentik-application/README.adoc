@@ -2,7 +2,7 @@
 
 = authentik-application
 
-image::https://img.shields.io/badge/Version-0.4.1-informational?style=flat-square[Version: 0.4.1]
+image::https://img.shields.io/badge/Version-0.4.2-informational?style=flat-square[Version: 0.4.2]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 == Maintainers
 
@@ -229,6 +229,11 @@ helm uninstall authentik-application-release
 | `nil`
 |
 
+| blueprint.provider.proxy.ingress.annotations
+| list
+| `[]`
+| annotations to ingress for outpost
+
 | blueprint.provider.proxy.ingress.backend
 | string
 | `"authentik"`
@@ -243,6 +248,11 @@ helm uninstall authentik-application-release
 | bool
 | `false`
 | deploy ingress on application domain for e.g. logout (WIP)
+
+| blueprint.provider.proxy.ingress.tls
+| list
+| `[]`
+| tls to ingress for outpost
 
 | blueprint.provider.proxy.skipPathRegex
 | string

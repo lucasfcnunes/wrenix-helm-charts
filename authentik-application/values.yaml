@@ -44,6 +44,10 @@ blueprint:
         domain:
         # -- service backend to authentik
         backend: authentik
+        # -- annotations to ingress for outpost
+        annotations: []
+        # -- tls to ingress for outpost
+        tls: []
   application:
     # -- application name in menu
     name: ""

@@ -6,6 +6,10 @@ metadata:
   name: {{ include "authentik-application.fullname" . }}
   labels:
     {{- include "authentik-application.labels" . | nindent 4 }}
+  {{- with .Values.blueprint.provider.proxy.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   rules:
     - host: {{ .Values.blueprint.provider.proxy.ingress.domain | quote }}
@@ -18,4 +22,8 @@ spec:
                 name: {{ .Values.blueprint.provider.proxy.ingress.backend | quote }}
                 port:
                   name: http
+  {{- with .Values.blueprint.provider.proxy.ingress.tls }}
+  tls:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 {{- end }}

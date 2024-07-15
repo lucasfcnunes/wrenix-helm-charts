@@ -144,9 +144,16 @@ serviceAccount:
 podLabels: {}
 podAnnotations: {}
 
+# -- set env in container for usage Environment variables
+env: []
+# -- set envFrom in container for usage of ConfigMaps or Secrets as a bunch of Environment variables
+envFrom: []
+
+# -- set securityContext on pod level
 podSecurityContext: {}
   # fsGroup: 2000
 
+# -- set securityContext on container level
 securityContext: {}
   # capabilities:
   #   drop:

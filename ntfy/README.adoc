@@ -2,7 +2,7 @@
 
 = ntfy
 
-image::https://img.shields.io/badge/Version-0.1.13-informational?style=flat-square[Version: 0.1.13]
+image::https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square[Version: 0.2.0]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-2.11.0-informational?style=flat-square[AppVersion: 2.11.0]
 == Maintainers
@@ -71,6 +71,16 @@ helm uninstall ntfy-release
 | int
 | `80`
 |
+
+| env
+| list
+| `[]`
+| set env in container for usage Environment variables
+
+| envFrom
+| list
+| `[]`
+| set envFrom in container for usage of ConfigMaps or Secrets as a bunch of Environment variables
 
 | fullnameOverride
 | string
@@ -435,7 +445,7 @@ helm uninstall ntfy-release
 | podSecurityContext
 | object
 | `{}`
-|
+| set securityContext on pod level
 
 | prometheus.rules.additionalRules
 | list
@@ -475,7 +485,7 @@ helm uninstall ntfy-release
 | securityContext
 | object
 | `{}`
-|
+| set securityContext on container level
 
 | service.http.port
 | int

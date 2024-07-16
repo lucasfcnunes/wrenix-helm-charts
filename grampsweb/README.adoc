@@ -2,9 +2,9 @@
 
 = grampsweb
 
-image::https://img.shields.io/badge/Version-0.1.12-informational?style=flat-square[Version: 0.1.12]
+image::https://img.shields.io/badge/Version-0.1.13-informational?style=flat-square[Version: 0.1.13]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
-image::https://img.shields.io/badge/AppVersion-24.6.0-informational?style=flat-square[AppVersion: 24.6.0]
+image::https://img.shields.io/badge/AppVersion-24.7.0-informational?style=flat-square[AppVersion: 24.7.0]
 == Maintainers
 
 .Maintainers

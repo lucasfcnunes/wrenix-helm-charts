@@ -2,7 +2,7 @@
 
 = grampsweb
 
-image::https://img.shields.io/badge/Version-0.1.13-informational?style=flat-square[Version: 0.1.13]
+image::https://img.shields.io/badge/Version-0.1.14-informational?style=flat-square[Version: 0.1.14]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-24.7.0-informational?style=flat-square[AppVersion: 24.7.0]
 == Maintainers
@@ -80,7 +80,7 @@ helm uninstall grampsweb-release
 | gramps.baseURL
 | string
 | `"https://gramps.example.org"`
-|
+| Base URL where the API can be reached (e.g. https://mygramps.mydomain.com/). This is necessary e.g. to build correct passwort reset links
 
 | gramps.mail.from
 | string
@@ -112,10 +112,15 @@ helm uninstall grampsweb-release
 | `nil`
 | SMTP server username
 
+| gramps.mediaPrefixTree
+| bool
+| `false`
+| whether or not to use a separate subfolder for the media files of each tree. Defaults to False, but strongly recommend to use True in a multi-tree setup
+
 | gramps.tree
 | string
 | `"Gramps Web"`
-|
+| To enable multi-tree support, the TREE config option must be set to a single asterisk `*`
 
 | image.pullPolicy
 | string

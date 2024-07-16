@@ -16,8 +16,12 @@ nameOverride: ""
 fullnameOverride: ""
 
 gramps:
+  # -- To enable multi-tree support, the TREE config option must be set to a single asterisk `*`
   tree: "Gramps Web"
+  # -- Base URL where the API can be reached (e.g. https://mygramps.mydomain.com/). This is necessary e.g. to build correct passwort reset links
   baseURL: "https://gramps.example.org"
+  # -- whether or not to use a separate subfolder for the media files of each tree. Defaults to False, but strongly recommend to use True in a multi-tree setup
+  mediaPrefixTree: false
   mail:
     # -- SMTP server host (e.g. for sending password reset e-mails)
     host:

@@ -36,13 +36,6 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default (printf "v%s" .Chart.AppVersion) }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- with .Values.gramps }}
-          env:
-            - name: "GRAMPSWEB_TREE"
-              value: "{{ .tree }}"
-            - name: "GRAMPSWEB_BASE_URL"
-              value: "{{ .baseURL }}"
-          {{- end }}
           envFrom:
             - secretRef:
                 name: {{ include "grampsweb.fullname" . }}

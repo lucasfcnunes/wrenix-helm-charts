@@ -174,6 +174,15 @@ gotosocial:
       enabled: false
       username: ""
       password: ""
+  tracing:
+    # -- Enable OpenTelemetry based tracing support.
+    enabled: false
+    # -- Set the transport protocol for the tracing system. Can either be "grpc" for OTLP gRPC, or "http" for OTLP HTTP.
+    transport: grpc
+    # -- Endpoint of the trace ingester. When using the gRPC or HTTP based transports, provide the endpoint as a single address/port combination without a protocol scheme.
+    endpoint: ""
+    # -- Disable TLS for the gRPC and HTTP transport protocols.
+    insecureTransport: false
 
 prometheus:
   servicemonitor:
@@ -188,7 +197,7 @@ serviceAccount:
   # -- Annotations to add to the service account
   annotations: {}
   # -- The name of the service account to use.
-  # -- If not set and create is true, a name is generated using the fullname template
+  #  If not set and create is true, a name is generated using the fullname template
   name: ""
 
 podAnnotations: {}

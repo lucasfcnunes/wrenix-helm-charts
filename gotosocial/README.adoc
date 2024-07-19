@@ -2,7 +2,7 @@
 
 = gotosocial
 
-image::https://img.shields.io/badge/Version-0.1.9-informational?style=flat-square[Version: 0.1.9]
+image::https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square[Version: 0.2.0]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-0.16.0-informational?style=flat-square[AppVersion: 0.16.0]
 == Maintainers
@@ -302,6 +302,26 @@ helm uninstall gotosocial-release
 | `true`
 | Use SSL for S3 connections.  Only set this to 'false' when testing locally.
 
+| gotosocial.tracing.enabled
+| bool
+| `false`
+| Enable OpenTelemetry based tracing support.
+
+| gotosocial.tracing.endpoint
+| string
+| `""`
+| Endpoint of the trace ingester. When using the gRPC or HTTP based transports, provide the endpoint as a single address/port combination without a protocol scheme.
+
+| gotosocial.tracing.insecureTransport
+| bool
+| `false`
+| Disable TLS for the gRPC and HTTP transport protocols.
+
+| gotosocial.tracing.transport
+| string
+| `"grpc"`
+| Set the transport protocol for the tracing system. Can either be "grpc" for OTLP gRPC, or "http" for OTLP HTTP.
+
 | gotosocial.tz
 | string
 | `"UTC"`
@@ -480,7 +500,7 @@ helm uninstall gotosocial-release
 | serviceAccount.name
 | string
 | `""`
-| If not set and create is true, a name is generated using the fullname template
+| The name of the service account to use.  If not set and create is true, a name is generated using the fullname template
 
 | tolerations
 | list

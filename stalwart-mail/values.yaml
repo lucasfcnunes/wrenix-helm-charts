@@ -54,6 +54,9 @@ config:
       sieve:
         bind: ["[::]:4190"]
         protocol: "managesieve"
+      http:
+        protocol: "http"
+        bind: ["[::]:80"]
       https:
         protocol: "http"
         bind: ["[::]:443"]
@@ -163,7 +166,17 @@ service:
     pop3: 110
     pop3s: 995
     sieve: 4190
+    http: 80
     https: 443
+
+livenessProbe:
+  httpGet:
+    path: /healthz/live
+    port: http
+readinessProbe:
+  httpGet:
+    path: /healthz/ready
+    port: http
 
 ingress:
   enabled: false

@@ -2,9 +2,9 @@
 
 = stalwart-mail
 
-image::https://img.shields.io/badge/Version-0.0.10-informational?style=flat-square[Version: 0.0.10]
+image::https://img.shields.io/badge/Version-0.0.11-informational?style=flat-square[Version: 0.0.11]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
-image::https://img.shields.io/badge/AppVersion-0.8.1-informational?style=flat-square[AppVersion: 0.8.1]
+image::https://img.shields.io/badge/AppVersion-0.8.5-informational?style=flat-square[AppVersion: 0.8.5]
 == Maintainers
 
 .Maintainers
@@ -157,6 +157,16 @@ helm uninstall stalwart-mail-release
 | config.directory.internal.type
 | string
 | `"internal"`
+|
+
+| config.server.listener.http.bind[0]
+| string
+| `"[::]:80"`
+|
+
+| config.server.listener.http.protocol
+| string
+| `"http"`
 |
 
 | config.server.listener.https.bind[0]
@@ -439,6 +449,16 @@ helm uninstall stalwart-mail-release
 | `[]`
 |
 
+| livenessProbe.httpGet.path
+| string
+| `"/healthz/live"`
+|
+
+| livenessProbe.httpGet.port
+| string
+| `"http"`
+|
+
 | nameOverride
 | string
 | `""`
@@ -499,6 +519,16 @@ helm uninstall stalwart-mail-release
 | `{}`
 |
 
+| readinessProbe.httpGet.path
+| string
+| `"/healthz/ready"`
+|
+
+| readinessProbe.httpGet.port
+| string
+| `"http"`
+|
+
 | replicaCount
 | int
 | `1`
@@ -528,6 +558,11 @@ helm uninstall stalwart-mail-release
 | string
 | `"SingleStack"`
 | other option is RequireDualStack
+
+| service.ports.http
+| int
+| `80`
+|
 
 | service.ports.https
 | int

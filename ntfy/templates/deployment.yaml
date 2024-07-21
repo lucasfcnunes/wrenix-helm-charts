@@ -28,6 +28,10 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- with .Values.updateStrategy }}
+      updateStrategy:
+        {{- toYaml . | nindent 4 }}
+      {{- end }}
       serviceAccountName: {{ include "ntfy.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}

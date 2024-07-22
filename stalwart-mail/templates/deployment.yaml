@@ -58,11 +58,11 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           {{- with .Values.readinessProbe }}
-          livenessProbe:
+          readinessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           {{- with .Values.startupProbe }}
-          livenessProbe:
+          startupProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           resources:

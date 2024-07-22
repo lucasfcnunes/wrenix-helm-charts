@@ -30,7 +30,7 @@ spec:
       {{- end }}
       {{- with .Values.updateStrategy }}
       updateStrategy:
-        {{- toYaml . | nindent 4 }}
+        {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "ntfy.serviceAccountName" . }}
       securityContext:

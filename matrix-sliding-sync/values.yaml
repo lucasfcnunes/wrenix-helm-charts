@@ -27,6 +27,10 @@ config:
     sslmode: disable
     maxConn: 0
   metrics: 9100
+  opentelemetry:
+    url:
+    username:
+    password:
   logLevel: INFO
 
 imagePullSecrets: []

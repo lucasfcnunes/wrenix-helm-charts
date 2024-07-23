@@ -33,7 +33,7 @@ spec:
       http:
         paths:
           - path: /sfu/get
-            pathType: Exactly
+            pathType: Exact
             backend:
               service:
                 name: {{ $fullName }}-lk-jwt

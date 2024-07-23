@@ -134,7 +134,7 @@ helm uninstall element-call-release
 
 | service.call.image.repository
 | string
-| `"element-hq/element-call:v0.5.18"`
+| `"element-hq/element-call"`
 |
 
 | service.call.image.tag

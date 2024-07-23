@@ -3,6 +3,7 @@
 ** xref:alertmanager-ntfy.adoc[alertmanager-ntfy]
 ** xref:authentik-application.adoc[authentik-application]
 ** xref:conduit.adoc[conduit]
+** xref:element-call.adoc[element-call]
 ** xref:forgejo-runner.adoc[forgejo-runner]
 ** xref:gotosocial.adoc[gotosocial]
 ** xref:grampsweb.adoc[grampsweb]

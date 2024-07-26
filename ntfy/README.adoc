@@ -2,7 +2,7 @@
 
 = ntfy
 
-image::https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square[Version: 0.2.0]
+image::https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square[Version: 0.3.0]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-2.11.0-informational?style=flat-square[AppVersion: 2.11.0]
 == Maintainers
@@ -156,6 +156,11 @@ helm uninstall ntfy-release
 | list
 | `[]`
 |
+
+| kubectl.image
+| object
+| `{"pullPolicy":"IfNotPresent","registry":"docker.io","repository":"bitnami/kubectl","tag":"1.30.3"}`
+| image needed for setup (store generated VAPID / WebPush keys)
 
 | nameOverride
 | string
@@ -390,6 +395,31 @@ helm uninstall ntfy-release
 | ntfy.visitor.subscriptionLimit
 | int
 | `30`
+|
+
+| ntfy.webPush.emailAddress
+| string
+| `""`
+|
+
+| ntfy.webPush.file
+| string
+| `"/data/webpush.db"`
+|
+
+| ntfy.webPush.keys.create
+| bool
+| `false`
+|
+
+| ntfy.webPush.keys.private
+| string
+| `nil`
+|
+
+| ntfy.webPush.keys.public
+| string
+| `nil`
 |
 
 | ntfy.webRoot

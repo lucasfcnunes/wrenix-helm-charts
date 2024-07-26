@@ -10,6 +10,14 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
+kubectl:
+  # -- image needed for setup (store generated VAPID / WebPush keys)
+  image:
+    registry: docker.io
+    repository: bitnami/kubectl
+    pullPolicy: IfNotPresent
+    tag: 1.30.3
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -66,6 +74,13 @@ ntfy:
     server:
       domain: null
       addrPrefix: null
+  webPush:
+    keys:
+      create: false
+      public:
+      private:
+    file: "/data/webpush.db"
+    emailAddress: ""
   globalTopicLimit: 15000
   visitor:
     subscriptionLimit: 30

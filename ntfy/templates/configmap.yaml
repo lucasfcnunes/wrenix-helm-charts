@@ -83,6 +83,16 @@ data:
   {{- end }}
   {{- end }}
 
+  # web-push
+  {{- with .Values.ntfy.webPush }}
+  {{- with .file }}
+  NTFY_WEB_PUSH_FILE: {{ . | quote }}
+  {{- end }}
+  {{- with .emailAddress }}
+  NTFY_WEB_PUSH_EMAIL_ADDRESS: {{ . | quote }}
+  {{- end }}
+  {{- end }}
+
   {{- with .Values.ntfy.keepaliveInterval }}
   NTFY_KEEPALIVE_INTERVAL: {{ . | quote }}
   {{- end }}

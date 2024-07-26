@@ -1,0 +1,22 @@
+{{- if .Values.ntfy.webPush.keys.create }}
+---
+{{- $fullname := (include "ntfy.fullname" .) }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ $fullname }}-setup
+  labels:
+    {{- include "ntfy.labels" . | nindent 4 }}
+    app.kubernetes.io/component: setup-job
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    resourceNames:
+      - {{ $fullname }}-env
+    verbs:
+      - get
+      - update
+      - patch
+{{- end }}

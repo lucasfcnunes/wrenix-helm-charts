@@ -11,6 +11,10 @@ spec:
   selector:
     matchLabels:
       {{- include "ntfy.selectorLabels" . | nindent 6 }}
+  strategy:
+  {{- with .Values.updateStrategy }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   template:
     metadata:
       annotations:
@@ -26,10 +30,6 @@ spec:
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.updateStrategy }}
-      updateStrategy:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "ntfy.serviceAccountName" . }}

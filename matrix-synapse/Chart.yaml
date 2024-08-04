@@ -4,7 +4,7 @@ name: matrix-synapse
 description: Matrix reference homeserver
 icon: https://matrix.org/images/matrix-logo.svg
 type: application
-version: 0.2.5
+version: 0.2.6
 # renovate: image=ghcr.io/element-hq/synapse
 appVersion: 1.101.0
 maintainers:

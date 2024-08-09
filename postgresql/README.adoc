@@ -2,9 +2,9 @@
 
 = postgresql
 
-image::https://img.shields.io/badge/Version-0.1.9-informational?style=flat-square[Version: 0.1.9]
+image::https://img.shields.io/badge/Version-0.1.10-informational?style=flat-square[Version: 0.1.10]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
-image::https://img.shields.io/badge/AppVersion-16.3-alpine-informational?style=flat-square[AppVersion: 16.3-alpine]
+image::https://img.shields.io/badge/AppVersion-16.4-alpine-informational?style=flat-square[AppVersion: 16.4-alpine]
 == Maintainers
 
 .Maintainers

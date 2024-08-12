@@ -2,9 +2,9 @@
 
 = stalwart-mail
 
-image::https://img.shields.io/badge/Version-0.0.12-informational?style=flat-square[Version: 0.0.12]
+image::https://img.shields.io/badge/Version-0.0.13-informational?style=flat-square[Version: 0.0.13]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
-image::https://img.shields.io/badge/AppVersion-0.8.5-informational?style=flat-square[AppVersion: 0.8.5]
+image::https://img.shields.io/badge/AppVersion-0.9.1-informational?style=flat-square[AppVersion: 0.9.1]
 == Maintainers
 
 .Maintainers
@@ -157,6 +157,21 @@ helm uninstall stalwart-mail-release
 | config.directory.internal.type
 | string
 | `"internal"`
+|
+
+| config.metrics.prometheus.auth.secret
+| string
+| `"%{env:METRICS_SECRET}%"`
+|
+
+| config.metrics.prometheus.auth.username
+| string
+| `"%{env:METRICS_USERNAME}%"`
+|
+
+| config.metrics.prometheus.enable
+| bool
+| `true`
 |
 
 | config.server.listener.http.bind[0]
@@ -519,6 +534,16 @@ helm uninstall stalwart-mail-release
 | `{}`
 |
 
+| prometheus.servicemonitor.enabled
+| bool
+| `false`
+|
+
+| prometheus.servicemonitor.labels
+| object
+| `{}`
+|
+
 | readinessProbe.httpGet.path
 | string
 | `"/healthz/ready"`
@@ -537,6 +562,16 @@ helm uninstall stalwart-mail-release
 | resources
 | object
 | `{}`
+|
+
+| secrets.env.METRICS_SECRET
+| string
+| `"scrape_metrics_password"`
+|
+
+| secrets.env.METRICS_USERNAME
+| string
+| `"scrape_metrics_user"`
 |
 
 | securityContext

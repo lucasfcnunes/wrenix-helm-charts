@@ -117,12 +117,20 @@ config:
       # -- password for fallback authentfication (use env for store in secrets of kubernetes)
       # @section -- Authentification
       secret: "%{env:FALLBACK_ADMIN_SECRET}%"
+  metrics:
+    prometheus:
+      enable: true
+      auth:
+        username: "%{env:METRICS_USERNAME}%"
+        secret: "%{env:METRICS_SECRET}%"
 
 secrets:
   env:
     # -- password for fallback authentfication (env)
     # @section -- Authentification
     FALLBACK_ADMIN_SECRET: supersecret
+    METRICS_USERNAME: "scrape_metrics_user"
+    METRICS_SECRET: "scrape_metrics_password"
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -238,6 +246,11 @@ certificate:
       name: letsencrypt-prod
     dnsNames:
       - "chart-example.local"
+
+prometheus:
+  servicemonitor:
+    enabled: false
+    labels: {}
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

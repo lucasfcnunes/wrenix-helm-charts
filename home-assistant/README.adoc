@@ -2,9 +2,9 @@
 
 = home-assistant
 
-image::https://img.shields.io/badge/Version-0.1.22-informational?style=flat-square[Version: 0.1.22]
+image::https://img.shields.io/badge/Version-0.1.23-informational?style=flat-square[Version: 0.1.23]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
-image::https://img.shields.io/badge/AppVersion-2024.8.0-informational?style=flat-square[AppVersion: 2024.8.0]
+image::https://img.shields.io/badge/AppVersion-2024.8.2-informational?style=flat-square[AppVersion: 2024.8.2]
 == Maintainers
 
 .Maintainers

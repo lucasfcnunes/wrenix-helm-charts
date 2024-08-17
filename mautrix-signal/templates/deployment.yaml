@@ -43,11 +43,6 @@ spec:
             - name: http
               containerPort: {{ .Values.config.appservice.port }}
               protocol: TCP
-            {{- if .Values.config.metrics.enabled }}
-            - name: metrics
-              containerPort: {{ regexSplit ":" .Values.config.metrics.listen -1 | last  }}
-              protocol: TCP
-            {{- end }}
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:

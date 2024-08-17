@@ -407,13 +407,6 @@ config:
     # -- Optional extra text sent when joining a management room.
     additional_help: ""
 
-  # Prometheus config.
-  metrics:
-    # -- Enable prometheus metrics?
-    enabled: true
-    # -- IP and port where the metrics listener should be. The path is always /metrics
-    listen: 0.0.0.0:8000
-
   signal:
     # -- Displayname template for Signal users. This is also used as the room name in DMs if private_chat_portal_meta is enabled.
     # {{.ProfileName}} - The Signal profile name set by the user.
@@ -575,8 +568,3 @@ persistence:
   accessMode: ReadWriteOnce
   # -- size
   size: 10Gi
-
-prometheus:
-  servicemonitor:
-    enabled: false
-    labels: {}

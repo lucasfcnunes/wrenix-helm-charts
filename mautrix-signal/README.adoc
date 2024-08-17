@@ -2,7 +2,7 @@
 
 = mautrix-signal
 
-image::https://img.shields.io/badge/Version-0.0.9-informational?style=flat-square[Version: 0.0.9]
+image::https://img.shields.io/badge/Version-0.0.10-informational?style=flat-square[Version: 0.0.10]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-0.7.0-informational?style=flat-square[AppVersion: 0.7.0]
 == Maintainers
@@ -605,16 +605,6 @@ helm uninstall mautrix-signal-release
 | `false`
 | Should the bridge update the m.direct account data event when double puppeting is enabled. Note that updating the m.direct event is not atomic (except with mautrix-asmux) and is therefore prone to race conditions.
 
-| config.metrics.enabled
-| bool
-| `true`
-| Enable prometheus metrics?
-
-| config.metrics.listen
-| string
-| `"0.0.0.0:8000"`
-| IP and port where the metrics listener should be. The path is always /metrics
-
 | config.provisioning.debug_endpoints
 | bool
 | `false`
@@ -831,16 +821,6 @@ helm uninstall mautrix-signal-release
 |
 
 | podSecurityContext
-| object
-| `{}`
-|
-
-| prometheus.servicemonitor.enabled
-| bool
-| `false`
-|
-
-| prometheus.servicemonitor.labels
 | object
 | `{}`
 |

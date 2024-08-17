@@ -15,10 +15,4 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
-    {{- if .Values.config.metrics.enabled }}
-    - port: {{ regexSplit ":" .Values.config.metrics.listen -1 | last }}
-      targetPort: metrics
-      protocol: TCP
-      name: metrics
-    {{- end }}
 {{- end }}

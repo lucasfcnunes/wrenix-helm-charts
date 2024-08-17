@@ -2,7 +2,7 @@
 
 = mautrix-signal
 
-image::https://img.shields.io/badge/Version-0.0.7-informational?style=flat-square[Version: 0.0.7]
+image::https://img.shields.io/badge/Version-0.0.8-informational?style=flat-square[Version: 0.0.8]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-0.7.0-informational?style=flat-square[AppVersion: 0.7.0]
 == Maintainers
@@ -90,6 +90,11 @@ helm uninstall mautrix-signal-release
 | `"http://localhost:29328"`
 | The address that the homeserver can use to connect to this appservice.
 
+| config.appservice.as_token
+| string
+| `""`
+|
+
 | config.appservice.async_transactions
 | bool
 | `false`
@@ -110,36 +115,6 @@ helm uninstall mautrix-signal-release
 | `"signalbot"`
 | Username of the appservice bot.
 
-| config.appservice.database.max_conn_idle_time
-| string
-| `nil`
-| Maximum connection idle time and lifetime before they're closed. Disabled if null. Parsed with https://pkg.go.dev/time#ParseDuration
-
-| config.appservice.database.max_conn_lifetime
-| string
-| `nil`
-|
-
-| config.appservice.database.max_idle_conns
-| int
-| `2`
-|
-
-| config.appservice.database.max_open_conns
-| int
-| `20`
-| Maximum number of connections. Mostly relevant for Postgres.
-
-| config.appservice.database.type
-| string
-| `"postgres"`
-| The database type. "sqlite3-fk-wal" and "postgres" are supported.
-
-| config.appservice.database.uri
-| string
-| `"postgres://user:password@host/database?sslmode=disable"`
-| The database URI.   SQLite: A raw file path is supported, but `file:<path>?_txlock=immediate` is recommended.           https://github.com/mattn/go-sqlite3#connection-string   Postgres: Connection string. For example, postgres://user:password@host/database?sslmode=disable             To connect via Unix socket, use something like postgres:///dbname?host=/var/run/postgresql
-
 | config.appservice.ephemeral_events
 | bool
 | `true`
@@ -149,6 +124,11 @@ helm uninstall mautrix-signal-release
 | string
 | `"0.0.0.0"`
 | The hostname and port where this appservice should listen.
+
+| config.appservice.hs_token
+| string
+| `""`
+|
 
 | config.appservice.id
 | string
@@ -160,215 +140,140 @@ helm uninstall mautrix-signal-release
 | `29328`
 |
 
-| config.bridge
-| object
-| `{"bridge_notices":true,"caption_in_message":false,"command_prefix":"!signal","delivery_receipts":false,"displayname_template":"{{or .ProfileName .PhoneNumber \"Unknown user\"}}","double_puppet_allow_discovery":false,"double_puppet_server_map":{"example.com":"https://example.com"},"encryption":{"allow":false,"allow_key_sharing":false,"appservice":false,"default":false,"delete_keys":{"delete_fully_used_on_decrypt":false,"delete_on_device_delete":false,"delete_outbound_on_ack":false,"delete_outdated_inbound":false,"delete_prev_on_new_session":false,"dont_store_outbound":false,"periodically_delete_expired":false,"ratchet_on_decrypt":false},"require":false,"rotation":{"disable_device_change_key_rotation":false,"enable_custom":false,"messages":100,"milliseconds":604800000},"verification_levels":{"receive":"unverified","send":"unverified","share":"cross-signed-tofu"}},"federate_rooms":true,"login_shared_secret_map":{"example.com":"foobar"},"management_room_text":{"additional_help":"","welcome":"Hello, I'm a Signal bridge bot.","welcome_connected":"Use `help` for help.","welcome_unconnected":"Use `help` for help or `login` to log in."},"message_error_notices":true,"message_handling_timeout":{"deadline":"120s","error_after":null},"message_status_events":false,"note_to_self_avatar":"mxc://maunium.net/REBIVrqjZwmaWpssCZpBlmlL","number_in_topic":true,"permissions":{"*":"relay","@admin:example.com":"admin","example.com":"user"},"personal_filtering_spaces":false,"portal_message_buffer":128,"private_chat_portal_meta":"default","provisioning":{"debug_endpoints":false,"prefix":"/_matrix/provision","shared_secret":"generate"},"public_portals":false,"relay":{"admin_only":true,"enabled":false,"message_formats":{"m.audio":"<b>{{ .Sender.Displayname }}</b> sent an audio file","m.emote":"* <b>{{ .Sender.Displayname }}</b> {{ .Message }}","m.file":"<b>{{ .Sender.Displayname }}</b> sent a file","m.image":"<b>{{ .Sender.Displayname }}</b> sent an image","m.location":"<b>{{ .Sender.Displayname }}</b> sent a location","m.notice":"<b>{{ .Sender.Displayname }}</b>: {{ .Message }}","m.text":"<b>{{ .Sender.Displayname }}</b>: {{ .Message }}","m.video":"<b>{{ .Sender.Displayname }}</b> sent a video"}},"resend_bridge_info":false,"sync_direct_chat_list":false,"use_contact_avatars":false,"username_template":"signal_{{.}}"}`
-| Bridge config
+| config.appservice.public_address
+| string
+| `nil`
+|
 
-| config.bridge.bridge_notices
-| bool
-| `true`
-| Should Matrix m.notice-type messages be bridged?
+| config.appservice.username_template
+| string
+| `"signal_{{.}}"`
+| Localpart template of MXIDs for Signal users. {{.}} is replaced with the internal ID of the Signal user.
 
-| config.bridge.caption_in_message
+| config.backfill.enabled
 | bool
 | `false`
-| Send captions in the same message as images. This will send data compatible with both MSC2530. This is currently not supported in most clients.
+|
+
+| config.backfill.max_catchup_messages
+| string
+| `nil`
+|
+
+| config.backfill.max_initial_messages
+| string
+| `nil`
+|
+
+| config.backfill.queue.batch_delay
+| string
+| `nil`
+|
+
+| config.backfill.queue.batch_size
+| string
+| `nil`
+|
+
+| config.backfill.queue.enabled
+| string
+| `nil`
+|
+
+| config.backfill.queue.max_batches
+| int
+| `10`
+|
+
+| config.backfill.queue.max_batches_override.a
+| int
+| `10`
+|
+
+| config.backfill.threads.max_initial_messages
+| string
+| `nil`
+|
+
+| config.backfill.unread_hours_threshold
+| string
+| `nil`
+|
+
+| config.bridge.bridge_matrix_leave
+| string
+| `nil`
+|
+
+| config.bridge.cleanup_on_logout.bad_credentials.private
+| string
+| `nil`
+|
+
+| config.bridge.cleanup_on_logout.bad_credentials.relayed
+| string
+| `nil`
+|
+
+| config.bridge.cleanup_on_logout.bad_credentials.shared_has_users
+| string
+| `nil`
+|
+
+| config.bridge.cleanup_on_logout.bad_credentials.shared_no_users
+| string
+| `nil`
+|
+
+| config.bridge.cleanup_on_logout.enabled
+| string
+| `nil`
+|
+
+| config.bridge.cleanup_on_logout.manual.private
+| string
+| `nil`
+|
+
+| config.bridge.cleanup_on_logout.manual.relayed
+| string
+| `nil`
+|
+
+| config.bridge.cleanup_on_logout.manual.shared_has_users
+| string
+| `nil`
+|
+
+| config.bridge.cleanup_on_logout.manual.shared_no_users
+| string
+| `nil`
+|
 
 | config.bridge.command_prefix
 | string
 | `"!signal"`
 | The prefix for commands. Only required in non-management rooms.
 
-| config.bridge.delivery_receipts
-| bool
-| `false`
-| Should the bridge send a read receipt from the bridge bot when a message has been sent to Signal?
-
-| config.bridge.displayname_template
-| string
-| `"{{or .ProfileName .PhoneNumber \"Unknown user\"}}"`
-| Displayname template for Signal users. This is also used as the room name in DMs if private_chat_portal_meta is enabled. {{.ProfileName}} - The Signal profile name set by the user. {{.ContactName}} - The name for the user from your phone's contact list. This is not safe on multi-user instances. {{.PhoneNumber}} - The phone number of the user. {{.UUID}} - The UUID of the Signal user. {{.AboutEmoji}} - The emoji set by the user in their profile.
-
-| config.bridge.double_puppet_allow_discovery
-| bool
-| `false`
-| Allow using double puppeting from any server with a valid client .well-known file.
-
-| config.bridge.double_puppet_server_map
-| object
-| `{"example.com":"https://example.com"}`
-| Servers to always allow double puppeting from
-
-| config.bridge.encryption.allow
-| bool
-| `false`
-| Allow encryption, work in group chat rooms with e2ee enabled
-
-| config.bridge.encryption.allow_key_sharing
-| bool
-| `false`
-| Enable key sharing? If enabled, key requests for rooms where users are in will be fulfilled. You must use a client that supports requesting keys from other users to use this feature.
-
-| config.bridge.encryption.appservice
-| bool
-| `false`
-| Whether to use MSC2409/MSC3202 instead of /sync long polling for receiving encryption-related data.
-
-| config.bridge.encryption.default
-| bool
-| `false`
-| Default to encryption, force-enable encryption in all portals the bridge creates This will cause the bridge bot to be in private chats for the encryption to work properly.
-
-| config.bridge.encryption.delete_keys
-| object
-| `{"delete_fully_used_on_decrypt":false,"delete_on_device_delete":false,"delete_outbound_on_ack":false,"delete_outdated_inbound":false,"delete_prev_on_new_session":false,"dont_store_outbound":false,"periodically_delete_expired":false,"ratchet_on_decrypt":false}`
-| Options for deleting megolm sessions from the bridge.
-
-| config.bridge.encryption.delete_keys.delete_fully_used_on_decrypt
-| bool
-| `false`
-| Delete fully used keys (index >= max_messages) after decrypting messages.
-
-| config.bridge.encryption.delete_keys.delete_on_device_delete
-| bool
-| `false`
-| Delete megolm sessions received from a device when the device is deleted.
-
-| config.bridge.encryption.delete_keys.delete_outbound_on_ack
-| bool
-| `false`
-| Beeper-specific: delete outbound sessions when hungryserv confirms that the user has uploaded the key to key backup.
-
-| config.bridge.encryption.delete_keys.delete_outdated_inbound
-| bool
-| `false`
-| Delete inbound megolm sessions that don't have the received_at field used for automatic ratcheting and expired session deletion. This is meant as a migration to delete old keys prior to the bridge update.
-
-| config.bridge.encryption.delete_keys.delete_prev_on_new_session
-| bool
-| `false`
-| Delete previous megolm sessions from same device when receiving a new one.
-
-| config.bridge.encryption.delete_keys.dont_store_outbound
-| bool
-| `false`
-| Don't store outbound sessions in the inbound table.
-
-| config.bridge.encryption.delete_keys.periodically_delete_expired
-| bool
-| `false`
-| Periodically delete megolm sessions when 2x max_age has passed since receiving the session.
-
-| config.bridge.encryption.delete_keys.ratchet_on_decrypt
-| bool
-| `false`
-| Ratchet megolm sessions forward after decrypting messages.
-
-| config.bridge.encryption.require
-| bool
-| `false`
-| Require encryption, drop any unencrypted messages.
-
-| config.bridge.encryption.rotation.disable_device_change_key_rotation
-| bool
-| `false`
-| Disable rotating keys when a user's devices change? You should not enable this option unless you understand all the implications.
-
-| config.bridge.encryption.rotation.enable_custom
-| bool
-| `false`
-| Enable custom Megolm room key rotation settings. Note that these settings will only apply to rooms created after this option is set.
-
-| config.bridge.encryption.rotation.messages
-| int
-| `100`
-| The maximum number of messages that should be sent with a given a session before changing it. The Matrix spec recommends 100 as the default.
-
-| config.bridge.encryption.rotation.milliseconds
-| int
-| `604800000`
-| The maximum number of milliseconds a session should be used before changing it. The Matrix spec recommends 604800000 (a week) as the default.
-
-| config.bridge.encryption.verification_levels.receive
-| string
-| `"unverified"`
-| Minimum level for which the bridge should send keys to when bridging messages from Signal to Matrix.
-
-| config.bridge.encryption.verification_levels.send
-| string
-| `"unverified"`
-| Minimum level that the bridge should accept for incoming Matrix messages.
-
-| config.bridge.encryption.verification_levels.share
-| string
-| `"cross-signed-tofu"`
-| Minimum level that the bridge should require for accepting key requests.
-
-| config.bridge.federate_rooms
-| bool
-| `true`
-| Whether or not created rooms should have federation enabled. If false, created portal rooms will never be federated.
-
-| config.bridge.login_shared_secret_map
-| object
-| `{"example.com":"foobar"}`
-| Shared secrets for https://github.com/devture/matrix-synapse-shared-secret-auth  If set, double puppeting will be enabled automatically for local users instead of users having to find an access token and run `login-matrix` manually.
-
-| config.bridge.management_room_text.additional_help
-| string
-| `""`
-| Optional extra text sent when joining a management room.
-
-| config.bridge.management_room_text.welcome
-| string
-| `"Hello, I'm a Signal bridge bot."`
-| Sent when joining a room.
-
-| config.bridge.management_room_text.welcome_connected
-| string
-| `"Use `help` for help."`
-| Sent when joining a management room and the user is already logged in.
-
-| config.bridge.management_room_text.welcome_unconnected
-| string
-| `"Use `help` for help or `login` to log in."`
-| Sent when joining a management room and the user is not logged in.
-
-| config.bridge.message_error_notices
-| bool
-| `true`
-| Whether the bridge should send error notices via m.notice events when a message fails to bridge.
-
-| config.bridge.message_handling_timeout
-| object
-| `{"deadline":"120s","error_after":null}`
-| Maximum time for handling Matrix events. Duration strings formatted for https://pkg.go.dev/time#ParseDuration Null means there's no enforced timeout.
-
-| config.bridge.message_handling_timeout.deadline
-| string
-| `"120s"`
-| Drop messages after this timeout. They may still go through if the message got sent to the servers. This is counted from the time the bridge starts handling the message.
-
-| config.bridge.message_handling_timeout.error_after
+| config.bridge.mute_only_on_create
 | string
 | `nil`
-| Send an error message after this timeout, but keep waiting for the response until the deadline. This is counted from the origin_server_ts, so the warning time is consistent regardless of the source of delay. If the message is older than this when it reaches the bridge, the message won't be handled at all.
+|
 
-| config.bridge.message_status_events
-| bool
-| `false`
-| Whether the bridge should send the message status as a custom com.beeper.message_send_status event.
-
-| config.bridge.note_to_self_avatar
+| config.bridge.permissions."@admin:example.com"
 | string
-| `"mxc://maunium.net/REBIVrqjZwmaWpssCZpBlmlL"`
-| Avatar image for the Note to Self room.
+| `"admin"`
+|
 
-| config.bridge.number_in_topic
-| bool
-| `true`
-| Should the Signal user's phone number be included in the room topic in private chat portal rooms?
+| config.bridge.permissions."example.com"
+| string
+| `"user"`
+|
+
+| config.bridge.permissions.*
+| string
+| `"relay"`
+|
 
 | config.bridge.personal_filtering_spaces
 | bool
@@ -380,30 +285,20 @@ helm uninstall mautrix-signal-release
 | `"default"`
 | Whether to explicitly set the avatar and room name for private chat portal rooms. If set to `default`, this will be enabled in encrypted rooms and disabled in unencrypted rooms. If set to `always`, all DM rooms will have explicit names and avatars set. If set to `never`, DM rooms will never have names and avatars set.
 
-| config.bridge.provisioning.debug_endpoints
-| bool
-| `false`
-| Enable debug API at /debug with provisioning authentication.
-
-| config.bridge.provisioning.prefix
-| string
-| `"/_matrix/provision"`
-| Prefix for the provisioning API paths.
-
-| config.bridge.provisioning.shared_secret
-| string
-| `"generate"`
-| Shared secret for authentication. If set to "generate", a random secret will be generated, or if set to "disable", the provisioning API will be disabled.
-
-| config.bridge.public_portals
-| bool
-| `false`
-| Whether or not to make portals of groups that don't need approval of an admin to join by invite link publicly joinable on Matrix.
-
 | config.bridge.relay.admin_only
 | bool
 | `true`
 | Should only admins be allowed to set themselves as relay users?
+
+| config.bridge.relay.default_relays
+| string
+| `nil`
+|
+
+| config.bridge.relay.displayname_format
+| string
+| `""`
+|
 
 | config.bridge.relay.enabled
 | bool
@@ -415,25 +310,200 @@ helm uninstall mautrix-signal-release
 | `{"m.audio":"<b>{{ .Sender.Displayname }}</b> sent an audio file","m.emote":"* <b>{{ .Sender.Displayname }}</b> {{ .Message }}","m.file":"<b>{{ .Sender.Displayname }}</b> sent a file","m.image":"<b>{{ .Sender.Displayname }}</b> sent an image","m.location":"<b>{{ .Sender.Displayname }}</b> sent a location","m.notice":"<b>{{ .Sender.Displayname }}</b>: {{ .Message }}","m.text":"<b>{{ .Sender.Displayname }}</b>: {{ .Message }}","m.video":"<b>{{ .Sender.Displayname }}</b> sent a video"}`
 | The formats to use when sending messages to Signal via the relaybot.
 
-| config.bridge.resend_bridge_info
-| bool
-| `false`
-| Set this to true to tell the bridge to re-send m.bridge events to all rooms on the next run. This field will automatically be changed back to false after it, except if the config file is not writable.
-
-| config.bridge.sync_direct_chat_list
-| bool
-| `false`
-| Should the bridge update the m.direct account data event when double puppeting is enabled. Note that updating the m.direct event is not atomic (except with mautrix-asmux) and is therefore prone to race conditions.
-
-| config.bridge.use_contact_avatars
-| bool
-| `false`
-| Should avatars from the user's contact list be used? This is not safe on multi-user instances.
-
-| config.bridge.username_template
+| config.bridge.tag_only_on_create
 | string
-| `"signal_{{.}}"`
-| Localpart template of MXIDs for Signal users. {{.}} is replaced with the internal ID of the Signal user.
+| `nil`
+|
+
+| config.database.max_conn_idle_time
+| string
+| `nil`
+| Maximum connection idle time and lifetime before they're closed. Disabled if null. Parsed with https://pkg.go.dev/time#ParseDuration
+
+| config.database.max_conn_lifetime
+| string
+| `nil`
+|
+
+| config.database.max_idle_conns
+| int
+| `2`
+|
+
+| config.database.max_open_conns
+| int
+| `20`
+| Maximum number of connections. Mostly relevant for Postgres.
+
+| config.database.type
+| string
+| `"postgres"`
+| The database type. "sqlite3-fk-wal" and "postgres" are supported.
+
+| config.database.uri
+| string
+| `"postgres://user:password@host/database?sslmode=disable"`
+| The database URI.   SQLite: A raw file path is supported, but `file:<path>?_txlock=immediate` is recommended.           https://github.com/mattn/go-sqlite3#connection-string   Postgres: Connection string. For example, postgres://user:password@host/database?sslmode=disable             To connect via Unix socket, use something like postgres:///dbname?host=/var/run/postgresql
+
+| config.direct_media.allow_proxy
+| bool
+| `false`
+|
+
+| config.direct_media.enabled
+| bool
+| `false`
+|
+
+| config.direct_media.media_id_prefix
+| string
+| `""`
+|
+
+| config.direct_media.server_key
+| string
+| `""`
+|
+
+| config.direct_media.server_name
+| string
+| `""`
+|
+
+| config.direct_media.well_known_response
+| string
+| `""`
+|
+
+| config.double_puppet.allow_discovery
+| bool
+| `false`
+| Allow using double puppeting from any server with a valid client .well-known file.
+
+| config.double_puppet.secrets
+| object
+| `{"example.com":"foobar"}`
+| Shared secrets for https://github.com/devture/matrix-synapse-shared-secret-auth  If set, double puppeting will be enabled automatically for local users instead of users having to find an access token and run `login-matrix` manually.
+
+| config.double_puppet.servers
+| object
+| `{"example.com":"https://example.com"}`
+| Servers to always allow double puppeting from
+
+| config.encryption.allow
+| bool
+| `false`
+| Allow encryption, work in group chat rooms with e2ee enabled
+
+| config.encryption.allow_key_sharing
+| bool
+| `false`
+| Enable key sharing? If enabled, key requests for rooms where users are in will be fulfilled. You must use a client that supports requesting keys from other users to use this feature.
+
+| config.encryption.appservice
+| bool
+| `false`
+| Whether to use MSC2409/MSC3202 instead of /sync long polling for receiving encryption-related data.
+
+| config.encryption.default
+| bool
+| `false`
+| Default to encryption, force-enable encryption in all portals the bridge creates This will cause the bridge bot to be in private chats for the encryption to work properly.
+
+| config.encryption.delete_keys
+| object
+| `{"delete_fully_used_on_decrypt":false,"delete_on_device_delete":false,"delete_outbound_on_ack":false,"delete_outdated_inbound":false,"delete_prev_on_new_session":false,"dont_store_outbound":false,"periodically_delete_expired":false,"ratchet_on_decrypt":false}`
+| Options for deleting megolm sessions from the bridge.
+
+| config.encryption.delete_keys.delete_fully_used_on_decrypt
+| bool
+| `false`
+| Delete fully used keys (index >= max_messages) after decrypting messages.
+
+| config.encryption.delete_keys.delete_on_device_delete
+| bool
+| `false`
+| Delete megolm sessions received from a device when the device is deleted.
+
+| config.encryption.delete_keys.delete_outbound_on_ack
+| bool
+| `false`
+| Beeper-specific: delete outbound sessions when hungryserv confirms that the user has uploaded the key to key backup.
+
+| config.encryption.delete_keys.delete_outdated_inbound
+| bool
+| `false`
+| Delete inbound megolm sessions that don't have the received_at field used for automatic ratcheting and expired session deletion. This is meant as a migration to delete old keys prior to the bridge update.
+
+| config.encryption.delete_keys.delete_prev_on_new_session
+| bool
+| `false`
+| Delete previous megolm sessions from same device when receiving a new one.
+
+| config.encryption.delete_keys.dont_store_outbound
+| bool
+| `false`
+| Don't store outbound sessions in the inbound table.
+
+| config.encryption.delete_keys.periodically_delete_expired
+| bool
+| `false`
+| Periodically delete megolm sessions when 2x max_age has passed since receiving the session.
+
+| config.encryption.delete_keys.ratchet_on_decrypt
+| bool
+| `false`
+| Ratchet megolm sessions forward after decrypting messages.
+
+| config.encryption.pickle_key
+| string
+| `nil`
+|
+
+| config.encryption.plaintext_mentions
+| string
+| `nil`
+|
+
+| config.encryption.require
+| bool
+| `false`
+| Require encryption, drop any unencrypted messages.
+
+| config.encryption.rotation.disable_device_change_key_rotation
+| bool
+| `false`
+| Disable rotating keys when a user's devices change? You should not enable this option unless you understand all the implications.
+
+| config.encryption.rotation.enable_custom
+| bool
+| `false`
+| Enable custom Megolm room key rotation settings. Note that these settings will only apply to rooms created after this option is set.
+
+| config.encryption.rotation.messages
+| int
+| `100`
+| The maximum number of messages that should be sent with a given a session before changing it. The Matrix spec recommends 100 as the default.
+
+| config.encryption.rotation.milliseconds
+| int
+| `604800000`
+| The maximum number of milliseconds a session should be used before changing it. The Matrix spec recommends 604800000 (a week) as the default.
+
+| config.encryption.verification_levels.receive
+| string
+| `"unverified"`
+| Minimum level for which the bridge should send keys to when bridging messages from Signal to Matrix.
+
+| config.encryption.verification_levels.send
+| string
+| `"unverified"`
+| Minimum level that the bridge should accept for incoming Matrix messages.
+
+| config.encryption.verification_levels.share
+| string
+| `"cross-signed-tofu"`
+| Minimum level that the bridge should require for accepting key requests.
 
 | config.homeserver.address
 | string
@@ -460,6 +530,11 @@ helm uninstall mautrix-signal-release
 | `0`
 | How often should the websocket be pinged? Pinging will be disabled if this is zero.
 
+| config.homeserver.public_address
+| string
+| `nil`
+|
+
 | config.homeserver.software
 | string
 | `"standard"`
@@ -474,6 +549,11 @@ helm uninstall mautrix-signal-release
 | bool
 | `false`
 | Should the bridge use a websocket for connecting to the homeserver? The server side is currently not documented anywhere and is only implemented by mautrix-wsproxy, mautrix-asmux (deprecated), and hungryserv (proprietary).
+
+| config.homeserver.websocket_proxy
+| string
+| `""`
+|
 
 | config.logging.min_level
 | string
@@ -490,6 +570,51 @@ helm uninstall mautrix-signal-release
 | `"stdout"`
 |
 
+| config.management_room_text.additional_help
+| string
+| `""`
+| Optional extra text sent when joining a management room.
+
+| config.management_room_text.welcome
+| string
+| `"Hello, I'm a Signal bridge bot."`
+| Sent when joining a room.
+
+| config.management_room_text.welcome_connected
+| string
+| `"Use `help` for help."`
+| Sent when joining a management room and the user is already logged in.
+
+| config.management_room_text.welcome_unconnected
+| string
+| `"Use `help` for help or `login` to log in."`
+| Sent when joining a management room and the user is not logged in.
+
+| config.matrix.delivery_receipts
+| bool
+| `false`
+| Should the bridge send a read receipt from the bridge bot when a message has been sent to Signal?
+
+| config.matrix.federate_rooms
+| bool
+| `true`
+| Whether or not created rooms should have federation enabled. If false, created portal rooms will never be federated.
+
+| config.matrix.message_error_notices
+| bool
+| `true`
+| Whether the bridge should send error notices via m.notice events when a message fails to bridge.
+
+| config.matrix.message_status_events
+| bool
+| `false`
+| Whether the bridge should send the message status as a custom com.beeper.message_send_status event.
+
+| config.matrix.sync_direct_chat_list
+| bool
+| `false`
+| Should the bridge update the m.direct account data event when double puppeting is enabled. Note that updating the m.direct event is not atomic (except with mautrix-asmux) and is therefore prone to race conditions.
+
 | config.metrics.enabled
 | bool
 | `true`
@@ -500,10 +625,80 @@ helm uninstall mautrix-signal-release
 | `"0.0.0.0:8000"`
 | IP and port where the metrics listener should be. The path is always /metrics
 
+| config.provisioning.debug_endpoints
+| bool
+| `false`
+| Enable debug API at /debug with provisioning authentication.
+
+| config.provisioning.prefix
+| string
+| `"/_matrix/provision"`
+| Prefix for the provisioning API paths.
+
+| config.provisioning.shared_secret
+| string
+| `"generate"`
+| Shared secret for authentication. If set to "generate", a random secret will be generated, or if set to "disable", the provisioning API will be disabled.
+
+| config.public_media.enabled
+| bool
+| `false`
+|
+
+| config.public_media.expiry
+| int
+| `0`
+|
+
+| config.public_media.hash_length
+| int
+| `0`
+|
+
+| config.public_media.signing_key
+| string
+| `""`
+|
+
 | config.signal.device_name
 | string
 | `"mautrix-signal"`
 | Default device name that shows up in the Signal app.
+
+| config.signal.displayname_template
+| string
+| `"{{or .ProfileName .PhoneNumber \"Unknown user\"}}"`
+| Displayname template for Signal users. This is also used as the room name in DMs if private_chat_portal_meta is enabled. {{.ProfileName}} - The Signal profile name set by the user. {{.ContactName}} - The name for the user from your phone's contact list. This is not safe on multi-user instances. {{.PhoneNumber}} - The phone number of the user. {{.UUID}} - The UUID of the Signal user. {{.AboutEmoji}} - The emoji set by the user in their profile.
+
+| config.signal.location_format
+| string
+| `"https://www.openstreetmap.org/?mlat=%[1]s&mlon=%[2]s"`
+|
+
+| config.signal.note_to_self_avatar
+| string
+| `"mxc://maunium.net/REBIVrqjZwmaWpssCZpBlmlL"`
+|
+
+| config.signal.number_in_topic
+| bool
+| `true`
+| Should the Signal user's phone number be included in the room topic in private chat portal rooms?
+
+| config.signal.sync_contacts_on_startup
+| bool
+| `true`
+| Should the bridge request the user's contact list from the phone on startup?
+
+| config.signal.use_contact_avatars
+| bool
+| `false`
+| Should avatars from the user's contact list be used? This is not safe on multi-user instances.
+
+| config.signal.use_outdated_profiles
+| bool
+| `false`
+| Should the bridge sync ghost user info even if profile fetching fails? This is not safe on multi-user instances.
 
 | fullnameOverride
 | string

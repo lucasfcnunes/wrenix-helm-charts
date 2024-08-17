@@ -2,7 +2,7 @@
 
 = mautrix-signal
 
-image::https://img.shields.io/badge/Version-0.0.8-informational?style=flat-square[Version: 0.0.8]
+image::https://img.shields.io/badge/Version-0.0.9-informational?style=flat-square[Version: 0.0.9]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-0.7.0-informational?style=flat-square[AppVersion: 0.7.0]
 == Maintainers
@@ -153,102 +153,102 @@ helm uninstall mautrix-signal-release
 | config.backfill.enabled
 | bool
 | `false`
-|
+| Whether to do backfilling at all.
 
 | config.backfill.max_catchup_messages
-| string
-| `nil`
-|
+| int
+| `500`
+| Maximum number of missed messages to backfill after bridge restarts.
 
 | config.backfill.max_initial_messages
-| string
-| `nil`
-|
+| int
+| `50`
+| Maximum number of messages to backfill in empty rooms.
 
 | config.backfill.queue.batch_delay
-| string
-| `nil`
-|
+| int
+| `20`
+| Delay between batches in seconds.
 
 | config.backfill.queue.batch_size
-| string
-| `nil`
-|
+| int
+| `100`
+| Number of messages to backfill in one batch.
 
 | config.backfill.queue.enabled
-| string
-| `nil`
-|
+| bool
+| `false`
+| Should the backfill queue be enabled?
 
 | config.backfill.queue.max_batches
 | int
-| `10`
-|
+| `-1`
+| Maximum number of batches to backfill per portal. If set to -1, all available messages will be backfilled.
 
-| config.backfill.queue.max_batches_override.a
-| int
-| `10`
-|
+| config.backfill.queue.max_batches_override
+| object
+| `{}`
+| Optional network-specific overrides for max batches. Interpretation of this field depends on the network connector.
 
 | config.backfill.threads.max_initial_messages
-| string
-| `nil`
-|
+| int
+| `50`
+| Maximum number of messages to backfill in a new thread.
 
 | config.backfill.unread_hours_threshold
-| string
-| `nil`
-|
+| int
+| `720`
+| If a backfilled chat is older than this number of hours, mark it as read even if it's unread on the remote network.
 
 | config.bridge.bridge_matrix_leave
-| string
-| `nil`
-|
+| bool
+| `false`
+| Should leaving Matrix rooms be bridged as leaving groups on the remote network?
 
 | config.bridge.cleanup_on_logout.bad_credentials.private
 | string
-| `nil`
+| `"nothing"`
 |
 
 | config.bridge.cleanup_on_logout.bad_credentials.relayed
 | string
-| `nil`
+| `"nothing"`
 |
 
 | config.bridge.cleanup_on_logout.bad_credentials.shared_has_users
 | string
-| `nil`
+| `"nothing"`
 |
 
 | config.bridge.cleanup_on_logout.bad_credentials.shared_no_users
 | string
-| `nil`
+| `"nothing"`
 |
 
 | config.bridge.cleanup_on_logout.enabled
-| string
-| `nil`
-|
+| bool
+| `false`
+| Should cleanup on logout be enabled at all?
 
 | config.bridge.cleanup_on_logout.manual.private
 | string
-| `nil`
-|
+| `"nothing"`
+| Action for private portals which will never be shared with other Matrix users.
 
 | config.bridge.cleanup_on_logout.manual.relayed
 | string
-| `nil`
-|
+| `"nothing"`
+| Action for portals with a relay user configured.
 
 | config.bridge.cleanup_on_logout.manual.shared_has_users
 | string
-| `nil`
-|
+| `"nothing"`
+| Action for portals which have other logged-in Matrix users.
 
 | config.bridge.cleanup_on_logout.manual.shared_no_users
 | string
-| `nil`
-|
+| `"nothing"`
+| Action for portals which may be shared, but don't currently have any other Matrix users.
 
 | config.bridge.command_prefix
 | string
@@ -256,34 +256,24 @@ helm uninstall mautrix-signal-release
 | The prefix for commands. Only required in non-management rooms.
 
 | config.bridge.mute_only_on_create
-| string
-| `nil`
-|
+| bool
+| `true`
+| Should room mute status only be synced when creating the portal? Like tags, mutes can't currently be synced back to the remote network.
 
-| config.bridge.permissions."@admin:example.com"
-| string
-| `"admin"`
-|
-
-| config.bridge.permissions."example.com"
-| string
-| `"user"`
-|
-
-| config.bridge.permissions.*
-| string
-| `"relay"`
-|
+| config.bridge.permissions
+| object
+| `{"*":"relay","@admin:example.com":"admin","example.com":"user"}`
+| Permissions for using the bridge. Permitted values:    relay - Talk through the relaybot (if enabled), no access otherwise commands - Access to use commands in the bridge, but not login.     user - Access to use the bridge with puppeting.    admin - Full access, user level with some additional administration tools. Permitted keys:        * - All Matrix users   domain - All users on that homeserver     mxid - Specific user
 
 | config.bridge.personal_filtering_spaces
 | bool
-| `false`
-| Should the bridge create a space for each logged-in user and add bridged rooms to it? Users who logged in before turning this on should run `!signal sync-space` to create and fill the space for the first time.
+| `true`
+| Should the bridge create a space for each login containing the rooms that account is in?
 
 | config.bridge.private_chat_portal_meta
-| string
-| `"default"`
-| Whether to explicitly set the avatar and room name for private chat portal rooms. If set to `default`, this will be enabled in encrypted rooms and disabled in unencrypted rooms. If set to `always`, all DM rooms will have explicit names and avatars set. If set to `never`, DM rooms will never have names and avatars set.
+| bool
+| `false`
+| Whether the bridge should set names and avatars explicitly for DM portals. This is only necessary when using clients that don't support MSC4171.
 
 | config.bridge.relay.admin_only
 | bool
@@ -291,14 +281,14 @@ helm uninstall mautrix-signal-release
 | Should only admins be allowed to set themselves as relay users?
 
 | config.bridge.relay.default_relays
-| string
-| `nil`
-|
+| list
+| `[]`
+| List of user login IDs which anyone can set as a relay, as long as the relay user is in the room.
 
 | config.bridge.relay.displayname_format
 | string
-| `""`
-|
+| `"{{ .DisambiguatedName }}"`
+| For networks that support per-message displaynames (i.e. Slack and Discord), the template for those names. This has all the Sender variables available under message_formats (but without the .Sender prefix). Note that you need to manually remove the displayname from message_formats above.
 
 | config.bridge.relay.enabled
 | bool
@@ -307,13 +297,13 @@ helm uninstall mautrix-signal-release
 
 | config.bridge.relay.message_formats
 | object
-| `{"m.audio":"<b>{{ .Sender.Displayname }}</b> sent an audio file","m.emote":"* <b>{{ .Sender.Displayname }}</b> {{ .Message }}","m.file":"<b>{{ .Sender.Displayname }}</b> sent a file","m.image":"<b>{{ .Sender.Displayname }}</b> sent an image","m.location":"<b>{{ .Sender.Displayname }}</b> sent a location","m.notice":"<b>{{ .Sender.Displayname }}</b>: {{ .Message }}","m.text":"<b>{{ .Sender.Displayname }}</b>: {{ .Message }}","m.video":"<b>{{ .Sender.Displayname }}</b> sent a video"}`
-| The formats to use when sending messages to Signal via the relaybot.
+| `{"m.audio":"<b>{{ .Sender.DisambiguatedName }}</b> sent an audio file{{ if .Caption }}: {{ .Caption }}{{ end }}","m.emote":"* <b>{{ .Sender.DisambiguatedName }}</b> {{ .Message }}","m.file":"<b>{{ .Sender.DisambiguatedName }}</b> sent a file{{ if .Caption }}: {{ .Caption }}{{ end }}","m.image":"<b>{{ .Sender.DisambiguatedName }}</b> sent an image{{ if .Caption }}: {{ .Caption }}{{ end }}","m.location":"<b>{{ .Sender.DisambiguatedName }}</b> sent a location{{ if .Caption }}: {{ .Caption }}{{ end }}","m.notice":"<b>{{ .Sender.DisambiguatedName }}</b>: {{ .Message }}","m.text":"<b>{{ .Sender.DisambiguatedName }}</b>: {{ .Message }}","m.video":"<b>{{ .Sender.DisambiguatedName }}</b> sent a video{{ if .Caption }}: {{ .Caption }}{{ end }}"}`
+| The formats to use when sending messages via the relaybot. Available variables:   .Sender.UserID - The Matrix user ID of the sender.   .Sender.Displayname - The display name of the sender (if set).   .Sender.RequiresDisambiguation - Whether the sender's name may be confused with the name of another user in the room.   .Sender.DisambiguatedName - The disambiguated name of the sender. This will be the displayname if set,                               plus the user ID in parentheses if the displayname is not unique.                               If the displayname is not set, this is just the user ID.   .Message - The `formatted_body` field of the message.   .Caption - The `formatted_body` field of the message, if it's a caption. Otherwise an empty string.   .FileName - The name of the file being sent.
 
 | config.bridge.tag_only_on_create
-| string
-| `nil`
-|
+| bool
+| `true`
+| Should room tags only be synced when creating the portal? Tags mean things like favorite/pin and archive/low priority. Tags currently can't be synced back to the remote network, so a continuous sync means tagging from Matrix will be undone.
 
 | config.database.max_conn_idle_time
 | string
@@ -347,48 +337,48 @@ helm uninstall mautrix-signal-release
 
 | config.direct_media.allow_proxy
 | bool
-| `false`
-|
+| `true`
+| If the remote network supports media downloads over HTTP, then the bridge will use MSC3860/MSC3916 media download redirects if the requester supports it. Optionally, you can force redirects and not allow proxying at all by setting this to false. This option does nothing if the remote network does not support media downloads over HTTP.
 
 | config.direct_media.enabled
 | bool
 | `false`
-|
+| Should custom mxc:// URIs be used instead of reuploading media?
 
 | config.direct_media.media_id_prefix
 | string
-| `""`
-|
+| `nil`
+| Optionally specify a custom prefix for the media ID part of the MXC URI.
 
 | config.direct_media.server_key
 | string
 | `""`
-|
+| Matrix server signing key to make the federation tester pass, same format as synapse's .signing.key file. This key is also used to sign the mxc:// URIs to ensure only the bridge can generate them.
 
 | config.direct_media.server_name
 | string
-| `""`
-|
+| `"discord-media.example.com"`
+| The server name to use for the custom mxc:// URIs. This server name will effectively be a real Matrix server, it just won't implement anything other than media. You must either set up .well-known delegation from this domain to the bridge, or proxy the domain directly to the bridge.
 
 | config.direct_media.well_known_response
 | string
-| `""`
-|
+| `nil`
+| Optionally a custom .well-known response. This defaults to `server_name:443`
 
 | config.double_puppet.allow_discovery
 | bool
 | `false`
-| Allow using double puppeting from any server with a valid client .well-known file.
+| Whether to allow client API URL discovery for other servers. When using this option, users on other servers can use double puppeting even if their server URLs aren't explicitly added to the servers map above.
 
 | config.double_puppet.secrets
 | object
-| `{"example.com":"foobar"}`
-| Shared secrets for https://github.com/devture/matrix-synapse-shared-secret-auth  If set, double puppeting will be enabled automatically for local users instead of users having to find an access token and run `login-matrix` manually.
+| `{"example.com":"as_token:foobar"}`
+| Shared secrets for automatic double puppeting. See https://docs.mau.fi/bridges/general/double-puppeting.html for instructions.
 
 | config.double_puppet.servers
 | object
 | `{"example.com":"https://example.com"}`
-| Servers to always allow double puppeting from
+| Servers to always allow double puppeting from. This is only for other servers and should NOT contain the server the bridge is on.
 
 | config.encryption.allow
 | bool
@@ -643,22 +633,22 @@ helm uninstall mautrix-signal-release
 | config.public_media.enabled
 | bool
 | `false`
-|
+| Should public media be enabled at all? The public_address field under the appservice section MUST be set when enabling public media.
 
 | config.public_media.expiry
 | int
 | `0`
-|
+| Number of seconds that public media URLs are valid for. If set to 0, URLs will never expire.
 
 | config.public_media.hash_length
 | int
-| `0`
-|
+| `32`
+| Length of hash to use for public media URLs. Must be between 0 and 32.
 
 | config.public_media.signing_key
 | string
-| `""`
-|
+| `"generate"`
+| A key for signing public media URLs. If set to "generate", a random key will be generated.
 
 | config.signal.device_name
 | string

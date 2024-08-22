@@ -1,0 +1,51 @@
+{{- if .Values.networkPolicy.enabled }}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "headscale.fullname" . }}
+  labels:
+    {{- include "headscale.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "headscale.selectorLabels" . | nindent 6 }}
+  policyTypes:
+    - Ingress
+    {{- if .Values.networkPolicy.egress.enabled }}
+    - Egress
+    {{- end }}
+  ingress:
+    {{- with .Values.networkPolicy.ingress.http }}
+    - ports:
+        - port: {{ $.Values.service.port.http }}
+          protocol: TCP
+      from:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.networkPolicy.ingress.metrics }}
+    - ports:
+        - port: {{ $.Values.service.port.metrics }}
+          protocol: TCP
+      from:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.networkPolicy.ingress.grpc }}
+    - ports:
+        - port: {{ $.Values.service.port.grpc }}
+          protocol: TCP
+      from:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.networkPolicy.ingress.derp }}
+    - ports:
+        - port: {{ $.Values.service.derp.port }}
+          protocol: TCP
+      from:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+  {{- with .Values.networkPolicy.egress }}
+  egress:
+    {{- toYaml .extra | nindent 4 }}
+  {{- end }}
+{{- end }}

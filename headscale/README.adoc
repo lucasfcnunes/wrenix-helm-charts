@@ -2,7 +2,7 @@
 
 = headscale
 
-image::https://img.shields.io/badge/Version-0.3.4-informational?style=flat-square[Version: 0.3.4]
+image::https://img.shields.io/badge/Version-0.4.0-informational?style=flat-square[Version: 0.4.0]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-0.22.3-informational?style=flat-square[AppVersion: 0.22.3]
 == Maintainers
@@ -271,6 +271,41 @@ helm uninstall headscale-release
 | string
 | `""`
 |
+
+| networkPolicy.egress.enabled
+| bool
+| `false`
+| activate egress no networkpolicy
+
+| networkPolicy.egress.extra
+| list
+| `[]`
+| egress rules
+
+| networkPolicy.enabled
+| bool
+| `false`
+|
+
+| networkPolicy.ingress.derp
+| list
+| `[{"ipBlock":{"cidr":"0.0.0.0/0"}},{"ipBlock":{"cidr":"::/0"}}]`
+| ingress for derp
+
+| networkPolicy.ingress.grpc
+| list
+| `[]`
+| ingress for grpc port
+
+| networkPolicy.ingress.http
+| list
+| `[]`
+| ingress for http port (e.g. ingress-controller)
+
+| networkPolicy.ingress.metrics
+| list
+| `[]`
+| ingress for metrics port (e.g. prometheus)
 
 | nodeSelector
 | object

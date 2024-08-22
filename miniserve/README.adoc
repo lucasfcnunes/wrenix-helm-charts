@@ -2,7 +2,7 @@
 
 = miniserve
 
-image::https://img.shields.io/badge/Version-0.3.7-informational?style=flat-square[Version: 0.3.7]
+image::https://img.shields.io/badge/Version-0.4.0-informational?style=flat-square[Version: 0.4.0]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-0.27.0-informational?style=flat-square[AppVersion: 0.27.0]
 == Maintainers
@@ -276,6 +276,26 @@ helm uninstall miniserve-release
 | string
 | `""`
 |
+
+| networkPolicy.egress.enabled
+| bool
+| `true`
+| activate egress no networkpolicy
+
+| networkPolicy.egress.extra
+| list
+| `[]`
+| egress rules
+
+| networkPolicy.enabled
+| bool
+| `false`
+|
+
+| networkPolicy.ingress.http
+| list
+| `[]`
+| ingress for http port (e.g. ingress-controller)
 
 | nodeSelector
 | object

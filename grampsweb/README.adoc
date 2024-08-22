@@ -2,7 +2,7 @@
 
 = grampsweb
 
-image::https://img.shields.io/badge/Version-0.1.15-informational?style=flat-square[Version: 0.1.15]
+image::https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square[Version: 0.2.0]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-24.7.1-informational?style=flat-square[AppVersion: 24.7.1]
 == Maintainers
@@ -186,6 +186,26 @@ helm uninstall grampsweb-release
 | string
 | `""`
 |
+
+| networkPolicy.egress.enabled
+| bool
+| `true`
+| activate egress no networkpolicy
+
+| networkPolicy.egress.extra
+| list
+| `[]`
+| egress rules
+
+| networkPolicy.enabled
+| bool
+| `false`
+|
+
+| networkPolicy.ingress.http
+| list
+| `[]`
+| ingress for http port (e.g. ingress-controller)
 
 | nodeSelector
 | object

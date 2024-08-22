@@ -187,6 +187,21 @@ service:
     type: LoadBalancer
     port: 25
 
+networkPolicy:
+  enabled: false
+  ingress:
+    # -- ingress for http port (e.g. ingress-controller)
+    http: []
+    # -- ingress for metrics port (e.g. prometheus)
+    metrics: []
+    # -- ingress for smtp
+    smtp: []
+  egress:
+    # -- activate egress no networkpolicy
+    enabled: true
+    # -- egress rules
+    extra: []
+
 ingress:
   enabled: false
   className: ""

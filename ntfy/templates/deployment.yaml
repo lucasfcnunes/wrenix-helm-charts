@@ -63,9 +63,11 @@ spec:
               containerPort: {{ .Values.ntfy.metrics.port }}
               protocol: TCP
             {{- end }}
+            {{- if .Values.service.smtp.enabled }}
             - name: smtp
               containerPort: {{ .Values.service.smtp.port }}
               protocol: TCP
+            {{- end }}
           livenessProbe:
             httpGet:
               path: /v1/health

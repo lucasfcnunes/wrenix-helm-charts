@@ -2,7 +2,7 @@
 
 = ntfy
 
-image::https://img.shields.io/badge/Version-0.3.2-informational?style=flat-square[Version: 0.3.2]
+image::https://img.shields.io/badge/Version-0.4.0-informational?style=flat-square[Version: 0.4.0]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-2.11.0-informational?style=flat-square[AppVersion: 2.11.0]
 == Maintainers
@@ -166,6 +166,36 @@ helm uninstall ntfy-release
 | string
 | `""`
 |
+
+| networkPolicy.egress.enabled
+| bool
+| `true`
+| activate egress no networkpolicy
+
+| networkPolicy.egress.extra
+| list
+| `[]`
+| egress rules
+
+| networkPolicy.enabled
+| bool
+| `false`
+|
+
+| networkPolicy.ingress.http
+| list
+| `[]`
+| ingress for http port (e.g. ingress-controller)
+
+| networkPolicy.ingress.metrics
+| list
+| `[]`
+| ingress for metrics port (e.g. prometheus)
+
+| networkPolicy.ingress.smtp
+| list
+| `[]`
+| ingress for smtp
 
 | nodeSelector
 | object

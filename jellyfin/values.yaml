@@ -84,6 +84,17 @@ grafana:
       grafana_dashboard: "1"
     annotations: {}
 
+networkPolicy:
+  enabled: false
+  ingress:
+    # -- ingress for http port (e.g. ingress-controller, prometheus)
+    http: []
+  egress:
+    # -- activate egress no networkpolicy
+    enabled: true
+    # -- egress rules
+    extra: []
+
 ingress:
   enabled: false
   className: ""

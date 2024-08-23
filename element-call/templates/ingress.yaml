@@ -29,9 +29,12 @@ spec:
                 name: {{ $fullName }}
                 port:
                   name: http
+    {{- if .Values.service.lkJWT.enabled }}
+    {{- if (eq .Values.service.lkJWT.ingress.host .Values.service.call.ingress.host)}}
     - host: {{ .Values.service.lkJWT.ingress.host | quote }}
       http:
         paths:
+    {{- end }}
           - path: /sfu/get
             pathType: Exact
             backend:
@@ -39,4 +42,5 @@ spec:
                 name: {{ $fullName }}-lk-jwt
                 port:
                   name: http
+    {{- end }}
 {{- end }}

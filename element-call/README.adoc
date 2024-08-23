@@ -2,7 +2,7 @@
 
 = element-call
 
-image::https://img.shields.io/badge/Version-0.0.2-informational?style=flat-square[Version: 0.0.2]
+image::https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square[Version: 0.1.0]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-0.6.0-informational?style=flat-square[AppVersion: 0.6.0]
 == Maintainers
@@ -157,6 +157,26 @@ helm uninstall element-call-release
 | `"http"`
 |
 
+| service.call.networkPolicy.egress.enabled
+| bool
+| `true`
+| activate egress no networkpolicy
+
+| service.call.networkPolicy.egress.extra
+| list
+| `[]`
+| egress rules
+
+| service.call.networkPolicy.enabled
+| bool
+| `false`
+|
+
+| service.call.networkPolicy.ingress.http
+| list
+| `[]`
+| ingress for http port (e.g. ingress-controller)
+
 | service.call.nodeSelector
 | object
 | `{}`
@@ -247,6 +267,11 @@ helm uninstall element-call-release
 | `""`
 |
 
+| service.lkJWT.enabled
+| bool
+| `true`
+|
+
 | service.lkJWT.image.pullPolicy
 | string
 | `"IfNotPresent"`
@@ -281,6 +306,26 @@ helm uninstall element-call-release
 | string
 | `"http"`
 |
+
+| service.lkJWT.networkPolicy.egress.enabled
+| bool
+| `false`
+| activate egress no networkpolicy
+
+| service.lkJWT.networkPolicy.egress.extra
+| list
+| `[]`
+| egress rules
+
+| service.lkJWT.networkPolicy.enabled
+| bool
+| `false`
+|
+
+| service.lkJWT.networkPolicy.ingress.http
+| list
+| `[]`
+| ingress for http port (e.g. ingress-controller)
 
 | service.lkJWT.nodeSelector
 | object

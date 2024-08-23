@@ -3,13 +3,11 @@ global:
     # -- if set it will overwrite all registry entries
     registry:
     # -- if set it will overwrite all pullPolicy
-    pullPolicy:  
+    pullPolicy:
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
-
-
 
 ingress:
   enabled: false
@@ -39,6 +37,16 @@ service:
     config: {}
     ingress:
       host:
+    networkPolicy:
+      enabled: false
+      ingress:
+        # -- ingress for http port (e.g. ingress-controller)
+        http: []
+      egress:
+        # -- activate egress no networkpolicy
+        enabled: true
+        # -- egress rules
+        extra: []
     livenessProbe:
       httpGet:
         path: /
@@ -77,6 +85,7 @@ service:
     affinity: {}
 
   lkJWT:
+    enabled: true
     replicaCount: 1
     image:
       registry: ghcr.io
@@ -89,6 +98,16 @@ service:
       secret: "secret"
     ingress:
       host:
+    networkPolicy:
+      enabled: false
+      ingress:
+        # -- ingress for http port (e.g. ingress-controller)
+        http: []
+      egress:
+        # -- activate egress no networkpolicy
+        enabled: false
+        # -- egress rules
+        extra: []
     livenessProbe:
       httpGet:
         path: /healthz

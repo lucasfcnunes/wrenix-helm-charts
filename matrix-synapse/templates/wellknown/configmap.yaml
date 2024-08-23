@@ -20,5 +20,7 @@ data:
     {{- else }}
     {{- dict "m.homeserver" (dict "base_url" (printf "https://%s/" (.Values.publicServerName | default .Values.serverName))) | toJson | nindent 4 }}
     {{- end }}
-  {{- (.Files.Glob "files/well-known/*" ).AsConfig | nindent 2 }}
+  element.json: |-
+    {{- toJson .Values.wellknown.element | nindent 4 }}
+  {{- (.Files.Glob "files/well-known/nginx.conf" ).AsConfig | nindent 2 }}
 {{- end -}}{{/* end-if .wellknown.enabled */}}

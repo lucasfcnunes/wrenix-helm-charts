@@ -176,6 +176,18 @@ spec:
               serviceName: {{ $wkName }}
               servicePort: {{ $.Values.wellknown.service.port | default 80 }}
             {{- end }}
+          - path: /.well-known/element
+            backend:
+            {{- if $v1Ingress }}
+              service:
+                name: {{ $wkName }}
+                port:
+                  number: {{ $.Values.wellknown.service.port | default 80 }}
+            pathType: Prefix
+            {{- else }}
+              serviceName: {{ $wkName }}
+              servicePort: {{ $.Values.wellknown.service.port | default 80 }}
+            {{- end }}
           {{-   else }}
           - path: /.well-known/matrix
             backend:

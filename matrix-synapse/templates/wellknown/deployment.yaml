@@ -61,6 +61,9 @@ spec:
               mountPath: "/usr/share/nginx/html/.well-known/matrix/server"
               subPath: "server"
             - name: "data"
+              mountPath: "/usr/share/nginx/html/.well-known/element/element.json"
+              subPath: "element.json"
+            - name: "data"
               mountPath: "/etc/nginx/conf.d/default.conf"
               subPath: "nginx.conf"
       {{- with .Values.wellknown.nodeSelector }}

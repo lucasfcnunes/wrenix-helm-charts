@@ -641,6 +641,10 @@ wellknown:
   #  m.homeserver:
   #    base_url: https://matrix.example.com
   client: {}
+  # -- Data to serve on .well-known/element/element.json
+  #  call:
+  #    widget_url: https://call.element.io
+  element: {}
 
 ## This configuration is for setting up the internally provided Postgres server,
 ## if you instead want to use an existing server, then you may want to set

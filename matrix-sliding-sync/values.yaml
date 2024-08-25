@@ -53,6 +53,13 @@ prometheus:
     enabled: false
     labels: {}
 
+grafana:
+  dashboards:
+    enabled: false
+    labels:
+      grafana_dashboard: "1"
+    annotations: {}
+
 podAnnotations: {}
 podLabels: {}
 

@@ -2,7 +2,7 @@
 
 = matrix-sliding-sync
 
-image::https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square[Version: 0.2.0]
+image::https://img.shields.io/badge/Version-0.2.1-informational?style=flat-square[Version: 0.2.1]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-0.99.19-informational?style=flat-square[AppVersion: 0.99.19]
 == Maintainers
@@ -156,6 +156,21 @@ helm uninstall matrix-sliding-sync-release
 | string
 | `nil`
 | if set it will overwrite all registry entries
+
+| grafana.dashboards.annotations
+| object
+| `{}`
+|
+
+| grafana.dashboards.enabled
+| bool
+| `false`
+|
+
+| grafana.dashboards.labels.grafana_dashboard
+| string
+| `"1"`
+|
 
 | image.pullPolicy
 | string

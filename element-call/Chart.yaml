@@ -2,9 +2,9 @@ apiVersion: v2
 name: element-call
 description: Run Element-Call and his dependencies
 type: application
-version: 0.1.2
+version: 0.1.3
 # renovate: image=ghcr.io/element-hq/element-call
-appVersion: "0.6.3"
+appVersion: "0.6.4"
 maintainers:
   - name: WrenIX
     url: https://wrenix.eu

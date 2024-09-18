@@ -2,7 +2,7 @@
 
 = matrix-synapse
 
-image::https://img.shields.io/badge/Version-0.3.3-informational?style=flat-square[Version: 0.3.3]
+image::https://img.shields.io/badge/Version-0.3.4-informational?style=flat-square[Version: 0.3.4]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-1.115.0-informational?style=flat-square[AppVersion: 1.115.0]
 == Maintainers
@@ -569,7 +569,7 @@ helm uninstall matrix-synapse-release
 
 | volumePermissions.image.tag
 | string
-| `"3.20.2"`
+| `"3.20.3"`
 |
 
 | volumePermissions.resources

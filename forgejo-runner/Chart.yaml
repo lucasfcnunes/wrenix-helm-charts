@@ -2,7 +2,7 @@ apiVersion: v2
 name: forgejo-runner
 description: Deploy runner for an forgejo instance (default codeberg.org)
 type: application
-version: 0.2.9
+version: 0.2.10
 # renovate: image=code.forgejo.org/forgejo/runner
 appVersion: "3.5.1"
 maintainers:

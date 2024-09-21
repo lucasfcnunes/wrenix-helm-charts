@@ -36,21 +36,20 @@ headscale:
     grpc_listen_addr: ":50443"
 
     server_url: http://127.0.0.1:8080
+    disable_check_updates: true
 
     # SQLite config
-    db_type: sqlite3
-
-    # For production:
-    db_path: /var/lib/headscale/db.sqlite
-
-    # # Postgres config
-    # If using a Unix socket to connect to Postgres, set the socket path in the 'host' field and leave 'port' blank.
-    # db_type: postgres
-    # db_host: localhost
-    # db_port: 5432
-    # db_name: headscale
-    # db_user: foo
-    # db_pass: bar
+    database:
+      type: sqlite
+      sqlite:
+        # For production:
+        path: /var/lib/headscale/db.sqlite
+      postgres:
+        host: localhost
+        port: 5432
+        name: headscale
+        user: foo
+        pass: bar
     private_key_path: "/etc/headscale/secrets/wireguard.key"
     noise:
       private_key_path: "/etc/headscale/secrets/noise.key"
@@ -59,6 +58,10 @@ headscale:
     ## Use already defined certificates:
     tls_cert_path: "/etc/headscale/certs/tls.crt"
     tls_key_path: "/etc/headscale/certs/tls.key"
+    prefixes:
+      v6: fd7a:115c:a1e0::/48
+      v4: 100.64.0.0/10
+      allocation: sequential
     derp:
       server:
         enabled: true
@@ -66,12 +69,14 @@ headscale:
         region_code: "headscale"
         region_name: "Headscale Embedded DERP"
         stun_listen_addr: "0.0.0.0:3478"
+        private_key_path: "/etc/headscale/secrets/derp.key"
       urls: []
       # - https://controlplane.tailscale.com/derpmap/default
       paths: []
       # auto_update_enabled: true
       update_frequency: 24h
-    disable_check_updates: true
+    dns:
+      base_domain: example.com
 
 prometheus:
   servicemonitor:

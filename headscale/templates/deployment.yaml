@@ -40,7 +40,6 @@ spec:
           {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
-            - "headscale"
             - "serve"
           ports:
             - name: http
@@ -110,6 +109,8 @@ spec:
                path: "wireguard.key"
              - key: "noise.key"
                path: "noise.key"
+             - key: "derp.key"
+               path: "derp.key"
         {{- if .Values.headscale.certmanager.enabled }}
         - name: certs
           secret:

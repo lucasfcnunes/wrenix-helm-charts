@@ -54,7 +54,7 @@ for p in * ; do
   set -e
   echo "update docs"
   helm-docs -t ./README.md.gotmpl -t _docs.gotmpl -o README.md -g "${p}"
-  rm "${p}/README.adoc"
+  rm -f "${p}/README.adoc"
   echo
 
   echo "package and push helm-chart"

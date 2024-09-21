@@ -76,34 +76,10 @@ spec:
     spec:
       restartPolicy: "Never"
       serviceAccount: {{ $name }}
-      containers:
-       - name: upload-key
-         image: bitnami/kubectl
-         command:
-          - sh
-          - -c
-          - | 
-            # check if key already exists
-            key=$(kubectl get secret {{ $secretName }} -o jsonpath="{.data['wireguard.key']}" 2> /dev/null)
-            [ $? -ne 0 ] && echo "Failed to get existing secret" && exit 1
-            [ -n "$key" ] && echo "Key already created, exiting." && exit 0
-            # wait for wireguard key
-            while [ ! -f /etc/headscale/secrets/wireguard.key ]; do
-              echo "Waiting for wireguard key.."
-              sleep 5;
-            done
-            # update secret
-            kubectl patch secret {{ $secretName }} -p "{\"data\":{\"wireguard.key\":\"$(base64 /etc/headscale/secrets/wireguard.key | tr -d '\n')\"}}"
-            kubectl patch secret {{ $secretName }} -p "{\"data\":{\"noise.key\":\"$(base64 /etc/headscale/secrets/noise.key | tr -d '\n')\"}}"
-            [ $? -ne 0 ] && echo "Failed to update secret." && exit 1
-            echo "Signing key successfully created."
-         volumeMounts:
-          - mountPath: /etc/headscale/secrets
-            name: secrets
-            readOnly: true
+      initContainers:
        - name: generate-key
          {{- with .Values.image }}
-         image: "{{ .registry }}/{{ .repository }}:{{ .tag | default $.Chart.AppVersion }}"
+         image: "{{ .registry }}/{{ .repository }}:{{ .tag | default $.Chart.AppVersion }}-debug"
          {{- end }}
          imagePullPolicy: {{ .Values.image.pullPolicy }}
          command:
@@ -111,16 +87,49 @@ spec:
           - -c
           - |
             set -e
-            /bin/headscale generate private-key | tail -1 | sed 's/privkey://' > /etc/headscale/secrets/wireguard.key
-            chown 1001:1001 /etc/headscale/secrets/wireguard.key
-            /bin/headscale generate private-key | tail -1 | sed 's/privkey://' > /etc/headscale/secrets/noise.key
-            chown 1001:1001 /etc/headscale/secrets/noise.key
+            echo "generate private-keys"
+            headscale generate private-key --output json > /etc/headscale/secrets/wireguard.json
+            headscale generate private-key --output json > /etc/headscale/secrets/noise.json
+            headscale generate private-key --output json > /etc/headscale/secrets/derp.json
+            ls /etc/headscale/secrets/
          volumeMounts:
           - name: config
             mountPath: "/etc/headscale"
             readOnly: true
           - mountPath: "/etc/headscale/secrets"
             name: secrets
+      containers:
+       - name: upload-key
+         image: bitnami/kubectl
+         command:
+          - sh
+          - -c
+          - |
+            # check if key already exists
+            key=$(kubectl get secret {{ $secretName }} -o jsonpath="{.data}" 2> /dev/null)
+            [ $? -ne 0 ] && echo "Failed to get existing secret" && exit 1
+            if ! echo $key | jq -e 'has("wireguard.key")' 2> /dev/null ; then
+              echo "store wireguard.key"
+              kubectl patch secret {{ $secretName }} -p "{\"data\":{\"wireguard.key\":\"$(jq -r '.["private_key"] | split(":")[1] | @base64' /etc/headscale/secrets/wireguard.json)\"}}"
+            fi
+            if ! echo $key | jq -e 'has("noise.key")' 2> /dev/null ; then
+              echo "store noise.key"
+              kubectl patch secret {{ $secretName }} -p "{\"data\":{\"noise.key\":\"$(jq -r '.["private_key"] | @base64' /etc/headscale/secrets/noise.json)\"}}"
+            elif ! echo $key | jq -e '.["noise.key"] |@base64d | contains("privkey")' 2> /dev/null ; then
+              echo "patch noise.key"
+              newKey="privkey:$(echo $key | jq -r '.["noise.key"]|@base64d')"
+              kubectl patch secret {{ $secretName }} -p "{\"data\":{\"noise.key\":\"$(echo $newKey | base64 -w0)\"}}"
+            fi
+            if ! echo $key | jq -e 'has("derp.key")' 2> /dev/null ; then
+              echo "store derp.key"
+              kubectl patch secret {{ $secretName }} -p "{\"data\":{\"derp.key\":\"$(jq -r '.["private_key"] | @base64' /etc/headscale/secrets/derp.json)\"}}"
+            fi
+            [ $? -ne 0 ] && echo "Failed to update secret." && exit 1
+            echo "Signing key successfully created."
+         volumeMounts:
+          - mountPath: /etc/headscale/secrets
+            name: secrets
+            readOnly: true
       volumes:
        - name: config
          secret:

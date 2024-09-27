@@ -212,3 +212,11 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+# -- Additional environment variables to be set on runner container
+# Example:
+# extraEnvVars:
+#   - name: FOO
+#     value: "bar"
+#
+extraEnvVars: []

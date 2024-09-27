@@ -60,6 +60,7 @@ metadata:
   name: {{ $secretName }}
   annotations:
     helm.sh/resource-policy: keep
+    "helm.sh/hook": "pre-install,pre-upgrade"
 type: Opaque
 ---
 apiVersion: v1

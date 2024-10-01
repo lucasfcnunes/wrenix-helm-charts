@@ -29,12 +29,32 @@ spec:
       serviceAccountName: {{ include "postgresql.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- with .Values.autoupgrade }}
+      {{- if .enabled }}
+      initContainers:
+        - name: upgrade
+          securityContext:
+            {{- toYaml .securityContext | nindent 12 }}
+          {{- with .image }}
+          image: "{{ coalesce $.Values.global.image.registry .registry }}/{{ .repository }}:{{ .tag }}"
+          imagePullPolicy: {{ coalesce $.Values.global.image.pullPolicy .pullPolicy }}
+          {{- end }}
+          env:
+            - name: "PGAUTO_ONESHOT"
+              value: "yes"
+          volumeMounts:
+            - name: "data"
+              mountPath: "/var/lib/postgresql/data"
+      {{- end }}{{/* end-if autoupgrade.enabled */}}
+      {{- end }}{{/* end-with autoupgrade */}}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- with .Values.image }}
+          image: "{{ coalesce $.Values.global.image.registry .registry }}/{{ .repository }}:{{ .tag | default $.Chart.AppVersion }}"
+          imagePullPolicy: {{ coalesce $.Values.global.image.pullPolicy .pullPolicy }}
+          {{- end }}
           env:
             - name: "POSTGRES_PASSWORD"
               value: {{ .Values.postgres.password | quote }}

@@ -2,9 +2,9 @@
 
 = postgresql
 
-image::https://img.shields.io/badge/Version-0.1.10-informational?style=flat-square[Version: 0.1.10]
+image::https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square[Version: 0.2.0]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
-image::https://img.shields.io/badge/AppVersion-16.4-alpine-informational?style=flat-square[AppVersion: 16.4-alpine]
+image::https://img.shields.io/badge/AppVersion-17.0-alpine-informational?style=flat-square[AppVersion: 17.0-alpine]
 == Maintainers
 
 .Maintainers
@@ -52,10 +52,50 @@ helm uninstall postgresql-release
 | `{}`
 |
 
+| autoupgrade.enabled
+| bool
+| `true`
+|
+
+| autoupgrade.image.pullPolicy
+| string
+| `"IfNotPresent"`
+|
+
+| autoupgrade.image.registry
+| string
+| `"docker.io"`
+|
+
+| autoupgrade.image.repository
+| string
+| `"pgautoupgrade/pgautoupgrade"`
+|
+
+| autoupgrade.image.tag
+| string
+| `"17-alpine"`
+|
+
+| autoupgrade.securityContext
+| object
+| `{}`
+|
+
 | fullnameOverride
 | string
 | `""`
 |
+
+| global.image.pullPolicy
+| string
+| `nil`
+| if set it will overwrite all pullPolicy
+
+| global.image.registry
+| string
+| `nil`
+| if set it will overwrite all registry entries
 
 | image.pullPolicy
 | string

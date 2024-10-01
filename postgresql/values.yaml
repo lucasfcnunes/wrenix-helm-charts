@@ -1,6 +1,9 @@
-# Default values for postgresql.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+global:
+  image:
+    # -- if set it will overwrite all registry entries
+    registry:
+    # -- if set it will overwrite all pullPolicy
+    pullPolicy:
 
 image:
   registry: docker.io
@@ -115,3 +118,19 @@ job:
   #    owner: "existing_user_which_will_get_grant"
   #    additionalParams: "" # Optional
   databases: {}
+
+autoupgrade:
+  enabled: true
+  image:
+    registry: docker.io
+    repository: pgautoupgrade/pgautoupgrade
+    pullPolicy: IfNotPresent
+    tag: "17-alpine"
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000

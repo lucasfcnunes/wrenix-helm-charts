@@ -76,5 +76,14 @@ spec:
                name: {{ include "conduit.fullname" . }}-wellknown
                port:
                  name: http
+         {{- if .Values.wellknown.rewriteRoot }}
+         - path: /
+           pathType: Exact
+           backend:
+             service:
+               name: {{ include "conduit.fullname" . }}-wellknown
+               port:
+                 name: http
+         {{- end }}
     {{- end }}
 {{- end }}

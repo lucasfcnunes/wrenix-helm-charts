@@ -1,0 +1,22 @@
+conduit:
+  server_name: test.wrenix.eu
+  wellKnown:
+    server: "overwritten-test:443"
+    client: "https://overwritten-test"
+
+wellknown:
+  enabled: true
+
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: test.wrenix.eu
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: test
+      hosts:
+        - test.wrenix.eu

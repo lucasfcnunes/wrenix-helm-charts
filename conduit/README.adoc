@@ -2,9 +2,9 @@
 
 = conduit
 
-image::https://img.shields.io/badge/Version-0.3.7-informational?style=flat-square[Version: 0.3.7]
+image::https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square[Version: 1.0.0]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
-image::https://img.shields.io/badge/AppVersion-0.8.0-informational?style=flat-square[AppVersion: 0.8.0]
+image::https://img.shields.io/badge/AppVersion-0.9.0-informational?style=flat-square[AppVersion: 0.9.0]
 == Maintainers
 
 .Maintainers
@@ -127,10 +127,15 @@ helm uninstall conduit-release
 | `"matrix.org"`
 |
 
-| conduit.wellKnownClient
+| conduit.wellKnown.client
 | string
-| `"your.server.name"`
-|
+| `""`
+| client well-known configuration in conduit
+
+| conduit.wellKnown.server
+| string
+| `"https://your.server.name"`
+| server well-known configuration in conduit
 
 | fullnameOverride
 | string
@@ -307,15 +312,10 @@ helm uninstall conduit-release
 | `{}`
 |
 
-| wellknown.client."m.homeserver".base_url
-| string
-| `"https://your.server.name/"`
-|
-
-| wellknown.client."org.matrix.msc3575.proxy".url
-| string
-| `"https://your.server.name/"`
-|
+| wellknown.client
+| object
+| `{"m.homeserver":{"base_url":"https://your.server.name/"},"org.matrix.msc3575.proxy":{"url":"https://your.server.name/"}}`
+| client entry in well-known
 
 | wellknown.containerPort
 | int
@@ -324,7 +324,7 @@ helm uninstall conduit-release
 
 | wellknown.enabled
 | bool
-| `true`
+| `false`
 |
 
 | wellknown.env
@@ -351,6 +351,11 @@ helm uninstall conduit-release
 | string
 | `"1.27.2"`
 |
+
+| wellknown.nginxServerConf
+| string
+| `"server {\n    listen       {{ .containerPort }};\n    server_name  localhost;\n\n    location /.well-known/matrix/server {\n      return 200 {{ toJson .server | quote }};\n      types { } default_type \"application/json; charset=utf-8\";\n    }\n\n    location /.well-known/matrix/client {\n      return 200 {{ toJson .client | quote }};\n      types { } default_type \"application/json; charset=utf-8\";\n      add_header \"Access-Control-Allow-Origin\" *;\n    }\n\n    location / {\n      # return 200 'Welcome to the your.server.name conduit server!';\n      # types { } default_type \"text/plain; charset=utf-8\";\n      return 404;\n    }\n\n    location /nginx_health {\n      return 200 'OK';\n      types { } default_type \"text/plain; charset=utf-8\";\n    }\n}"`
+| nginx config
 
 | wellknown.nodeSelector
 | object
@@ -382,15 +387,20 @@ helm uninstall conduit-release
 | `{}`
 |
 
+| wellknown.rewriteRoot
+| bool
+| `false`
+| if ingress is enabled: specifies whether ingress should redirect the `/`-Location to the wellknown server
+
 | wellknown.securityContext
 | object
 | `{}`
 |
 
-| wellknown.server."m.server"
-| string
-| `"your.server.name:443"`
-|
+| wellknown.server
+| object
+| `{"m.server":"your.server.name:443"}`
+| server entry in well-known
 
 | wellknown.service.annotations
 | object

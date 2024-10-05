@@ -97,8 +97,12 @@ spec:
             - name: "CONDUIT_REGISTRATION_TOKEN"
               value: {{ . | quote }}
             {{- end }}
-            {{- with .Values.conduit.wellKnownClient }}
+            {{- with .Values.conduit.wellKnown.client }}
             - name: "CONDUIT_WELL_KNOWN_CLIENT"
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.conduit.wellKnown.server }}
+            - name: "CONDUIT_WELL_KNOWN_SERVER"
               value: {{ . | quote }}
             {{- end }}
           volumeMounts:

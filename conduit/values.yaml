@@ -40,10 +40,14 @@ conduit:
   # log: "warn,rocket=off,_=off,sled=off"
   log:
   registrationToken:
-  wellKnownClient: "your.server.name"
+  wellKnown:
+    # -- client well-known configuration in conduit
+    client: ""
+    # -- server well-known configuration in conduit
+    server: "https://your.server.name"
 
 wellknown:
-  enabled: true
+  enabled: false
   image:
     registry: docker.io
     repository: library/nginx
@@ -67,14 +71,47 @@ wellknown:
     port: 8080
     annotations: {}
 
-  # TO EDIT:
+  # -- if ingress is enabled: specifies whether ingress should redirect the `/`-Location to the wellknown server
+  rewriteRoot: false
+
+  # -- server entry in well-known
   server:
     "m.server": "your.server.name:443"
+  # -- client entry in well-known
   client:
     "m.homeserver":
       "base_url": "https://your.server.name/"
     "org.matrix.msc3575.proxy":
       "url": "https://your.server.name/"
+
+  # -- nginx config
+  nginxServerConf: |-
+      server {
+          listen       {{ .containerPort }};
+          server_name  localhost;
+
+          location /.well-known/matrix/server {
+            return 200 {{ toJson .server | quote }};
+            types { } default_type "application/json; charset=utf-8";
+          }
+
+          location /.well-known/matrix/client {
+            return 200 {{ toJson .client | quote }};
+            types { } default_type "application/json; charset=utf-8";
+            add_header "Access-Control-Allow-Origin" *;
+          }
+
+          location / {
+            # return 200 'Welcome to the your.server.name conduit server!';
+            # types { } default_type "text/plain; charset=utf-8";
+            return 404;
+          }
+
+          location /nginx_health {
+            return 200 'OK';
+            types { } default_type "text/plain; charset=utf-8";
+          }
+      }
 
 podLabels: {}
 podAnnotations: {}

@@ -24,6 +24,7 @@ spec:
         {{- with .Values.wellknown.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
+        type: wellknown
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:

@@ -2,7 +2,7 @@
 
 = conduit
 
-image::https://img.shields.io/badge/Version-0.3.5-informational?style=flat-square[Version: 0.3.5]
+image::https://img.shields.io/badge/Version-0.3.6-informational?style=flat-square[Version: 0.3.6]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-0.8.0-informational?style=flat-square[AppVersion: 0.8.0]
 == Maintainers
@@ -144,12 +144,12 @@ helm uninstall conduit-release
 
 | image.registry
 | string
-| `"registry.gitlab.com"`
+| `"docker.io"`
 |
 
 | image.repository
 | string
-| `"famedly/conduit/matrix-conduit"`
+| `"matrixconduit/matrix-conduit"`
 |
 
 | image.tag

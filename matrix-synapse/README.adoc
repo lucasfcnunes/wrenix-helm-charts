@@ -2,7 +2,7 @@
 
 = matrix-synapse
 
-image::https://img.shields.io/badge/Version-0.3.5-informational?style=flat-square[Version: 0.3.5]
+image::https://img.shields.io/badge/Version-0.3.6-informational?style=flat-square[Version: 0.3.6]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-1.116.0-informational?style=flat-square[AppVersion: 1.116.0]
 == Maintainers
@@ -629,7 +629,7 @@ helm uninstall matrix-synapse-release
 
 | wellknown.image.tag
 | string
-| `"1.27.1"`
+| `"1.27.2"`
 |
 
 | wellknown.nodeSelector

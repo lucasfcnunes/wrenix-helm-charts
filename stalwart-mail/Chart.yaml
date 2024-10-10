@@ -1,11 +1,11 @@
 apiVersion: v2
 name: stalwart-mail
 description: Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One Mail Server (IMAP, JMAP, SMTP)
-icon: https://stalw.art/home/apple-touch-icon.png
+icon: https://stalw.art/img/apple-touch-icon.png
 type: application
-version: 0.0.15
+version: 0.0.16
 # renovate: image=docker.io/stalwartlabs/mail-server
-appVersion: "0.10.1"
+appVersion: "0.10.4"
 maintainers:
   - name: WrenIX
     url: https://wrenix.eu

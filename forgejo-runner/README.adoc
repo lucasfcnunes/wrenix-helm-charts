@@ -2,7 +2,7 @@
 
 = forgejo-runner
 
-image::https://img.shields.io/badge/Version-0.2.14-informational?style=flat-square[Version: 0.2.14]
+image::https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square[Version: 0.3.0]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-3.5.1-informational?style=flat-square[AppVersion: 3.5.1]
 == Maintainers
@@ -207,6 +207,11 @@ helm uninstall forgejo-runner-release
 | object
 | `{}`
 |
+
+| autoscaling.behavior
+| object
+| `{}`
+| behavior of HPA Example:  scaleDown:    stabilizationWindowSeconds: 300    policies:      - type: Pods        value: 1        periodSeconds: 60  scaleUp:    stabilizationWindowSeconds: 0    policies:      - type: Pods        value: 1        periodSeconds: 60
 
 | autoscaling.enabled
 | bool

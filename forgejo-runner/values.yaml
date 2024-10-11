@@ -191,6 +191,21 @@ autoscaling:
   enabled: false
   minReplicas: 1
   maxReplicas: 100
+  # -- behavior of HPA
+  # Example:
+  #  scaleDown:
+  #    stabilizationWindowSeconds: 300
+  #    policies:
+  #      - type: Pods
+  #        value: 1
+  #        periodSeconds: 60
+  #  scaleUp:
+  #    stabilizationWindowSeconds: 0
+  #    policies:
+  #      - type: Pods
+  #        value: 1
+  #        periodSeconds: 60
+  behavior: {}
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 

@@ -61,6 +61,12 @@ zigbee2mqtt:
     serial:
       port: /dev/ttyACM0
 
+prometheus:
+  podmonitor:
+    enabled: false
+    labels: {}
+    bearerTokenSecret: {}
+
 persistence:
   enabled: false
   annotations: {}

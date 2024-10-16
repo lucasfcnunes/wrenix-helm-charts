@@ -8,7 +8,7 @@ spec:
   type: {{ .Values.service.type }}
   selector:
     {{- include "home-assistant.selectorLabels" . | nindent 4 }}
-    type: main
+    app.kubernetes.io/component: home-assistant
   ports:
     - port: {{ .Values.service.port }}
       targetPort: http

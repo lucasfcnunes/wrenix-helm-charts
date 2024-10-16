@@ -2,7 +2,7 @@
 
 = home-assistant
 
-image::https://img.shields.io/badge/Version-0.1.31-informational?style=flat-square[Version: 0.1.31]
+image::https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square[Version: 0.2.0]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-2024.10.2-informational?style=flat-square[AppVersion: 2024.10.2]
 == Maintainers
@@ -278,6 +278,21 @@ helm uninstall home-assistant-release
 |
 
 | podSecurityContext
+| object
+| `{}`
+|
+
+| prometheus.podmonitor.bearerTokenSecret
+| object
+| `{}`
+|
+
+| prometheus.podmonitor.enabled
+| bool
+| `false`
+|
+
+| prometheus.podmonitor.labels
 | object
 | `{}`
 |

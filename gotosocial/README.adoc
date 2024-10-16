@@ -2,9 +2,9 @@
 
 = gotosocial
 
-image::https://img.shields.io/badge/Version-0.2.2-informational?style=flat-square[Version: 0.2.2]
+image::https://img.shields.io/badge/Version-0.2.3-informational?style=flat-square[Version: 0.2.3]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
-image::https://img.shields.io/badge/AppVersion-0.16.0-informational?style=flat-square[AppVersion: 0.16.0]
+image::https://img.shields.io/badge/AppVersion-0.17.0-informational?style=flat-square[AppVersion: 0.17.0]
 == Maintainers
 
 .Maintainers

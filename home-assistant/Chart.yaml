@@ -2,9 +2,9 @@ apiVersion: v2
 name: home-assistant
 description: Home Assistant with tooling to run on an k3s pi
 type: application
-version: 0.2.0
+version: 0.2.1
 # renovate: image=ghcr.io/home-assistant/home-assistant
-appVersion: "2024.10.2"
+appVersion: "2024.10.3"
 maintainers:
   - name: WrenIX
     url: https://wrenix.eu

@@ -2,7 +2,7 @@
 
 = matrix-synapse
 
-image::https://img.shields.io/badge/Version-0.3.8-informational?style=flat-square[Version: 0.3.8]
+image::https://img.shields.io/badge/Version-0.3.9-informational?style=flat-square[Version: 0.3.9]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-1.118.0-informational?style=flat-square[AppVersion: 1.118.0]
 == Maintainers
@@ -407,10 +407,10 @@ helm uninstall matrix-synapse-release
 | `false`
 |
 
-| signingkey.job.annotations
+| signingkey.annotations
 | object
-| `{}`
-|
+| `{"helm.sh/hook":"pre-install,pre-upgrade","helm.sh/hook-delete-policy":"before-hook-creation,hook-succeeded"}`
+| Annotations to apply to the job and rbac for signing-key.
 
 | signingkey.job.enabled
 | bool

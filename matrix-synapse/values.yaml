@@ -36,6 +36,10 @@ publicServerName:
 ## The source of the signing key used by Synapse in federation.
 ##
 signingkey:
+  # -- Annotations to apply to the job and rbac for signing-key.
+  annotations:
+    "helm.sh/hook": "pre-install,pre-upgrade"
+    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
   ## Enable a Kubernetes job to generate and store a signing key if one does not
   ## exist.
   ## If you have already run a Matrix server at some point on your domain then
@@ -49,10 +53,6 @@ signingkey:
   ##
   job:
     enabled: true
-
-    ## Annotations to apply to the signing-key-job.
-    ##
-    annotations: {}
 
     publishImage:
       registry: docker.io

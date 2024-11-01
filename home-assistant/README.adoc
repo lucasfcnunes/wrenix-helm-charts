@@ -2,7 +2,7 @@
 
 = home-assistant
 
-image::https://img.shields.io/badge/Version-0.2.2-informational?style=flat-square[Version: 0.2.2]
+image::https://img.shields.io/badge/Version-0.2.3-informational?style=flat-square[Version: 0.2.3]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-2024.10.4-informational?style=flat-square[AppVersion: 2024.10.4]
 == Maintainers
@@ -399,7 +399,7 @@ helm uninstall home-assistant-release
 
 | zigbee2mqtt.image.tag
 | string
-| `"1.40.2"`
+| `"1.41.0"`
 |
 
 | zigbee2mqtt.ingress.hosts

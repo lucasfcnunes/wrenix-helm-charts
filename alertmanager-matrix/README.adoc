@@ -2,7 +2,7 @@
 
 = alertmanager-matrix
 
-image::https://img.shields.io/badge/Version-0.1.9-informational?style=flat-square[Version: 0.1.9]
+image::https://img.shields.io/badge/Version-0.1.10-informational?style=flat-square[Version: 0.1.10]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-0.5.0-informational?style=flat-square[AppVersion: 0.5.0]
 == Maintainers
@@ -214,12 +214,12 @@ helm uninstall alertmanager-matrix-release
 
 | image.registry
 | string
-| `"docker.io"`
+| `"registry.gitlab.com"`
 |
 
 | image.repository
 | string
-| `"silkeh/alertmanager_matrix"`
+| `"wrenix/alertmanager_matrix"`
 |
 
 | image.tag

@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  registry: docker.io
-  repository: silkeh/alertmanager_matrix
+  registry: registry.gitlab.com
+  repository: wrenix/alertmanager_matrix
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   # latest with current:

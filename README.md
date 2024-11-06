@@ -1,11 +1,12 @@
-+++
-title = "Helm Chart"
-template = "docs/section.html"
-sort_by = "weight"
-weight = 5
-+++
+---
+title: "Helm-Charts"
+weight: 1
+cascade:
+  - url: /:sections/:title/
+url: /:sections
+---
 
-# Usage
+## Usage
 
 Helm must be installed and setup to your kubernetes cluster to use the charts.
 Refer to Helm's [documentation](https://helm.sh/docs) to get started.

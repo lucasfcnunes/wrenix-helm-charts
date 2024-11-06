@@ -1,6 +1,7 @@
 #/bin/sh
 
-HELM_REPO=${HELM_REPO:-oci://codeberg.org/wrenix/helm-charts}
+HELM_REPO=${HELM_REPO:-codeberg.org/wrenix/helm-charts}
+HELM_REPO_URL="oci://${HELM_REPO}"
 COMMIT_SCOPE=${2:-fix}
 COMMIT_MESSAGE=${1:-"update appVersion"}
 
@@ -52,7 +53,11 @@ for p in * ; do
   helm-docs -t ./README.adoc.gotmpl -t _docs.gotmpl -o README.adoc -g "${p}"
 
   helm package "${p}"
-  helm push "${p}-${v}.tgz" "${HELM_REPO}";
+  helm push "${p}-${v}.tgz" "${HELM_REPO_URL}";
+
+  oras push "${HELM_REPO}/${p}:artifacthub.io" \
+    --config /dev/null:application/vnd.cncf.artifacthub.config.v1+yaml \
+    "${p}/artifacthub-repo.yml":application/vnd.cncf.artifacthub.repository-metadata.layer.v1.yaml
 
   git add "${p}/" "docs/modules/charts/nav.adoc" "docs/modules/charts/pages/${p}.adoc"
   git commit -m "${COMMIT_SCOPE}(${p}): ${COMMIT_MESSAGE}"

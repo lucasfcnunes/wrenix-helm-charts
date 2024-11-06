@@ -1,16 +1,9 @@
-+++
-title = {{ .Name | quote }}
+---
+title: {{ .Name | quote }}
 {{ if .Description }}
-description = {{.Description | quote }}
+description: {{.Description | quote }}
 {{ end }}
-
-weight = 30
-sort_by = "weight"
-template = "docs/page.html"
-
-[extra]
-toc = true
-+++
+---
 
 {{- define "chart.prerequirements" }}
 {{- end }}

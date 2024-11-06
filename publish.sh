@@ -5,9 +5,6 @@ COMMIT_SCOPE=${2:-fix}
 COMMIT_MESSAGE=${1:-"update appVersion"}
 
 
-helm-docs -t ./README.adoc.gotmpl -t _docs.gotmpl -o README.adoc
-
-./docs/modules/charts/generate.sh
 
 ct lint # || exit 1
 
@@ -50,6 +47,10 @@ for p in * ; do
       continue;
     fi
   fi
+
+  helm-docs -t ./README.md.gotmpl -t _docs.gotmpl -o README.md -g "${p}"
+  helm-docs -t ./README.adoc.gotmpl -t _docs.gotmpl -o README.adoc -g "${p}"
+
   helm package "${p}"
   helm push "${p}-${v}.tgz" "${HELM_REPO}";
 

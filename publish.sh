@@ -49,16 +49,20 @@ for p in * ; do
     fi
   fi
 
+  echo "update docs"
   helm-docs -t ./README.md.gotmpl -t _docs.gotmpl -o README.md -g "${p}"
   helm-docs -t ./README.adoc.gotmpl -t _docs.gotmpl -o README.adoc -g "${p}"
 
+  echo "package and push helm-chart"
   helm package "${p}"
   helm push "${p}-${v}.tgz" "${HELM_REPO_URL}";
 
+  echo "update artifacthub.io"
   oras push "${HELM_REPO}/${p}:artifacthub.io" \
     --config /dev/null:application/vnd.cncf.artifacthub.config.v1+yaml \
     "${p}/artifacthub-repo.yml":application/vnd.cncf.artifacthub.repository-metadata.layer.v1.yaml
 
+  echo "push to git"
   git add "${p}/" "docs/modules/charts/nav.adoc" "docs/modules/charts/pages/${p}.adoc"
   git commit -m "${COMMIT_SCOPE}(${p}): ${COMMIT_MESSAGE}"
   git tag "${tag}" --no-sign;

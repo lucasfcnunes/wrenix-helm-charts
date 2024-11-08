@@ -2,9 +2,9 @@
 
 = stalwart-mail
 
-image::https://img.shields.io/badge/Version-0.0.17-informational?style=flat-square[Version: 0.0.17]
+image::https://img.shields.io/badge/Version-0.0.18-informational?style=flat-square[Version: 0.0.18]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
-image::https://img.shields.io/badge/AppVersion-0.10.5-informational?style=flat-square[AppVersion: 0.10.5]
+image::https://img.shields.io/badge/AppVersion-0.10.6-informational?style=flat-square[AppVersion: 0.10.6]
 == Maintainers
 
 .Maintainers

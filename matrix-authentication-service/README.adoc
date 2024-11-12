@@ -2,7 +2,7 @@
 
 = matrix-authentication-service
 
-image::https://img.shields.io/badge/Version-0.0.6-informational?style=flat-square[Version: 0.0.6]
+image::https://img.shields.io/badge/Version-0.0.7-informational?style=flat-square[Version: 0.0.7]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-0.11.0-informational?style=flat-square[AppVersion: 0.11.0]
 == Maintainers

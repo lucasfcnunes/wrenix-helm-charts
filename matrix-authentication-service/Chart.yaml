@@ -4,7 +4,7 @@ name: matrix-authentication-service
 description: OAuth2.0 + OpenID Provider for Matrix Homeservers (per MSC3861)
 icon: https://matrix.org/images/matrix-logo.svg
 type: application
-version: 0.0.6
+version: "0.0.7"
 # renovate: image=ghcr.io/matrix-org/matrix-authentication-service
 appVersion: "0.11.0"
 maintainers:

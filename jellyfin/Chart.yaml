@@ -3,7 +3,7 @@ name: jellyfin
 description: The Free Software Media System
 icon: https://raw.githubusercontent.com/jellyfin/jellyfin-ux/master/branding/SVG/icon-transparent.svg
 type: application
-version: 0.3.4
+version: "0.3.5"
 # renovate: image=ghcr.io/jellyfin/jellyfin
 appVersion: "10.10.1"
 maintainers:

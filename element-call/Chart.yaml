@@ -2,7 +2,7 @@ apiVersion: v2
 name: element-call
 description: Run Element-Call and his dependencies
 type: application
-version: 0.1.4
+version: "0.1.5"
 # renovate: image=ghcr.io/element-hq/element-call
 appVersion: "0.6.6"
 maintainers:

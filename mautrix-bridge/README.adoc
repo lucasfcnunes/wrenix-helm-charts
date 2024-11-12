@@ -1,10 +1,9 @@
 
 
-= mautrix-signal
+= mautrix-bridge
 
 image::https://img.shields.io/badge/Version-0.0.13-informational?style=flat-square[Version: 0.0.13]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
-image::https://img.shields.io/badge/AppVersion-0.7.2-informational?style=flat-square[AppVersion: 0.7.2]
 == Maintainers
 
 .Maintainers
@@ -16,18 +15,9 @@ image::https://img.shields.io/badge/AppVersion-0.7.2-informational?style=flat-sq
 | <https://wrenix.eu>
 |===
 
-= Alpha
-
-WARNING
-====
-We stop working on this Helm-Chart.
-There are still many breaking change like:
-
-* https://github.com/stalwartlabs/mail-server/issues/211[storage.fts in toml configuration has two meanings]
-
-We hope that stalward mail-server becomes more stable.
-
-====
+For use of the bridge:
+* **signal**, use the `./values-signal.yaml`
+* **slack**, use the `./values-slack.yaml`
 
 == Usage
 
@@ -37,21 +27,21 @@ Once Helm has been set up correctly, fetch the charts as follows:
 
 [source,bash]
 ----
-helm pull oci://codeberg.org/wrenix/helm-charts/mautrix-signal
+helm pull oci://codeberg.org/wrenix/helm-charts/mautrix-bridge
 ----
 
 You can install a chart release using the following command:
 
 [source,bash]
 ----
-helm install mautrix-signal-release oci://codeberg.org/wrenix/helm-charts/mautrix-signal --values values.yaml
+helm install mautrix-bridge-release oci://codeberg.org/wrenix/helm-charts/mautrix-bridge --values values.yaml
 ----
 
 To uninstall a chart release use `helm`'s delete command:
 
 [source,bash]
 ----
-helm uninstall mautrix-signal-release
+helm uninstall mautrix-bridge-release
 ----
 
 == Values
@@ -252,7 +242,7 @@ helm uninstall mautrix-signal-release
 
 | config.bridge.command_prefix
 | string
-| `"!signal"`
+| `"!bridge"`
 | The prefix for commands. Only required in non-management rooms.
 
 | config.bridge.mute_only_on_create
@@ -707,7 +697,7 @@ helm uninstall mautrix-signal-release
 
 | image.repository
 | string
-| `"mautrix/signal"`
+| `""`
 |
 
 | image.tag

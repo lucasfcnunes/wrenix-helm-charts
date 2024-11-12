@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "mautrix-signal.fullname" . }}
+  name: {{ include "mautrix-bridge.fullname" . }}
   labels:
-    {{- include "mautrix-signal.labels" . | nindent 4 }}
+    {{- include "mautrix-bridge.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "mautrix-signal.selectorLabels" . | nindent 6 }}
+      {{- include "mautrix-bridge.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
@@ -19,7 +19,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
-        {{- include "mautrix-signal.labels" . | nindent 8 }}
+        {{- include "mautrix-bridge.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -28,7 +28,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "mautrix-signal.serviceAccountName" . }}
+      serviceAccountName: {{ include "mautrix-bridge.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -36,7 +36,7 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           {{- with .Values.image }}
-          image: "{{ coalesce $.Values.global.image.registry .registry }}/{{ .repository }}:{{ .tag | default (printf "v%s" $.Chart.AppVersion) }}"
+          image: "{{ coalesce $.Values.global.image.registry .registry }}/{{ .repository }}:{{ .tag }}"
           imagePullPolicy: {{ coalesce $.Values.global.image.pullPolicy .pullPolicy }}
           {{- end }}
           ports:
@@ -64,7 +64,7 @@ spec:
       volumes:
         - name: config
           secret:
-            secretName: {{ include "mautrix-signal.fullname" . }}
+            secretName: {{ include "mautrix-bridge.fullname" . }}
             items:
               - key: config.yaml
                 path: config.yaml
@@ -78,7 +78,7 @@ spec:
             path: {{ .Values.persistence.hostPath | quote }}
           {{- else }}{{/* else .persistence.hostPath */}}
           persistentVolumeClaim:
-            claimName: {{ coalesce .Values.persistence.existingClaim (include "mautrix-signal.fullname" .) }}
+            claimName: {{ coalesce .Values.persistence.existingClaim (include "mautrix-bridge.fullname" .) }}
           {{- end }}{{/* end-else .persistence.hostPath */}}
           {{- else }}{{/* else .persistence.enabled */}}
           emptyDir: {}

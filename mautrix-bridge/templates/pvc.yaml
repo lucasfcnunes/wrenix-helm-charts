@@ -8,9 +8,9 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ template "mautrix-signal.fullname" $ }}
+  name: {{ template "mautrix-bridge.fullname" $ }}
   labels:
-    {{- include "mautrix-signal.labels" $ | nindent 4 }}
+    {{- include "mautrix-bridge.labels" $ | nindent 4 }}
   {{- with .annotations }}
   annotations:
     {{ toYaml . | indent 4 }}

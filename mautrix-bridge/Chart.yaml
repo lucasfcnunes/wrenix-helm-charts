@@ -1,0 +1,8 @@
+apiVersion: v2
+name: mautrix-bridge
+description: A Matrix puppeting bridge mautrix.
+type: application
+version: 0.0.13
+maintainers:
+  - name: WrenIX
+    url: https://wrenix.eu

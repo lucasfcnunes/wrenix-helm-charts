@@ -3,7 +3,7 @@ name: hydrogen-web
 description: A Helm Chart to install hydrogen-web (a nextgen Matrix Webclient)
 icon: https://raw.githubusercontent.com/element-hq/hydrogen-web/master/src/platform/web/assets/icon.svg
 type: application
-version: 0.1.8
+version: "0.1.9"
 # renovate: image=ghcr.io/element-hq/hydrogen-web
 appVersion: "0.5.1"
 maintainers:

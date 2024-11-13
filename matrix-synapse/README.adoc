@@ -2,9 +2,9 @@
 
 = matrix-synapse
 
-image::https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square[Version: 1.0.1]
+image::https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square[Version: 1.0.2]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
-image::https://img.shields.io/badge/AppVersion-1.118.0-informational?style=flat-square[AppVersion: 1.118.0]
+image::https://img.shields.io/badge/AppVersion-1.119.0-informational?style=flat-square[AppVersion: 1.119.0]
 == Maintainers
 
 .Maintainers

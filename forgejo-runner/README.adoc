@@ -2,9 +2,9 @@
 
 = forgejo-runner
 
-image::https://img.shields.io/badge/Version-0.3.3-informational?style=flat-square[Version: 0.3.3]
+image::https://img.shields.io/badge/Version-0.4.0-informational?style=flat-square[Version: 0.4.0]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
-image::https://img.shields.io/badge/AppVersion-4.0.1-informational?style=flat-square[AppVersion: 4.0.1]
+image::https://img.shields.io/badge/AppVersion-5.0.0-informational?style=flat-square[AppVersion: 5.0.0]
 == Maintainers
 
 .Maintainers
@@ -106,8 +106,8 @@ helm uninstall forgejo-runner-release
 
 | runner.config.file.container.docker_host
 | string
-| `""`
-| overrides the docker client host with the specified one. If it's empty, act_runner will find an available docker host automatically. If it's "-", act_runner will find an available docker host automatically, but the docker host won't be mounted to the job containers and service containers. If it's not empty or "-", the specified docker host will be used. An error will be returned if it doesn't work.
+| `"-"`
+| overrides the docker client host with the specified one. If "-", an available docker host will automatically be found. If empty, an available docker host will automatically be found and mounted in the job container (e.g. /var/run/docker.sock). Otherwise the specified docker host will be used and an error will be returned if it doesn't work.
 
 | runner.config.file.container.enable_ipv6
 | bool
@@ -148,6 +148,11 @@ helm uninstall forgejo-runner-release
 | string
 | `nil`
 | The parent directory of a job's working directory. If it's empty, $HOME/.cache/act/ will be used.
+
+| runner.config.file.log.job_level
+| string
+| `"info"`
+| The level of logging for jobs, can be trace, debug, info, earn, error, fatal
 
 | runner.config.file.log.level
 | string

@@ -7,7 +7,7 @@ description: "Deploy runner for an forgejo instance (default codeberg.org)"
 
 # forgejo-runner
 
-![Version: 0.3.3](https://img.shields.io/badge/Version-0.3.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4.0.1](https://img.shields.io/badge/AppVersion-4.0.1-informational?style=flat-square)
+![Version: 0.4.0](https://img.shields.io/badge/Version-0.4.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 5.0.0](https://img.shields.io/badge/AppVersion-5.0.0-informational?style=flat-square)
 
 Deploy runner for an forgejo instance (default codeberg.org)
 
@@ -82,7 +82,7 @@ helm uninstall forgejo-runner-release
 | runner.config.file.cache.external_server | string | `""` | The external cache server URL. Valid only when enable is true. If it's specified, act_runner will use this URL as the ACTIONS_CACHE_URL rather than start a server by itself. The URL should generally end with "/". |
 | runner.config.file.cache.host | string | `""` | The host of the cache server. It's not for the address to listen, but the address to connect from job containers. So 0.0.0.0 is a bad choice, leave it empty to detect automatically. |
 | runner.config.file.cache.port | int | `0` | The port of the cache server. 0 means to use a random available port. |
-| runner.config.file.container.docker_host | string | `""` | overrides the docker client host with the specified one. If it's empty, act_runner will find an available docker host automatically. If it's "-", act_runner will find an available docker host automatically, but the docker host won't be mounted to the job containers and service containers. If it's not empty or "-", the specified docker host will be used. An error will be returned if it doesn't work. |
+| runner.config.file.container.docker_host | string | `"-"` | overrides the docker client host with the specified one. If "-", an available docker host will automatically be found. If empty, an available docker host will automatically be found and mounted in the job container (e.g. /var/run/docker.sock). Otherwise the specified docker host will be used and an error will be returned if it doesn't work. |
 | runner.config.file.container.enable_ipv6 | bool | `false` | Whether to create networks with IPv6 enabled. Requires the Docker daemon to be set up accordingly. Only takes effect if "network" is set to "". |
 | runner.config.file.container.force_pull | bool | `false` | Pull docker image(s) even if already present |
 | runner.config.file.container.network | string | `""` | Specifies the network to which the container will connect. Could be host, bridge or the name of a custom network. If it's empty, create a network automatically. |
@@ -91,6 +91,7 @@ helm uninstall forgejo-runner-release
 | runner.config.file.container.valid_volumes | list | `[]` | Volumes (including bind mounts) can be mounted to containers. Glob syntax is supported, see https://github.com/gobwas/glob You can specify multiple volumes. If the sequence is empty, no volumes can be mounted. For example, if you only allow containers to mount the `data` volume and all the json files in `/src`, you should change the config to: valid_volumes:   - data   - /src/*.json If you want to allow any volume, please use the following configuration: valid_volumes:   - '**' |
 | runner.config.file.container.workdir_parent | string | `nil` | The parent directory of a job's working directory. If it's empty, /workspace will be used. |
 | runner.config.file.host.workdir_parent | string | `nil` | The parent directory of a job's working directory. If it's empty, $HOME/.cache/act/ will be used. |
+| runner.config.file.log.job_level | string | `"info"` | The level of logging for jobs, can be trace, debug, info, earn, error, fatal |
 | runner.config.file.log.level | string | `"info"` | The level of logging, can be trace, debug, info, warn, error, fatal |
 | runner.config.file.runner.capacity | int | `1` | Execute how many tasks concurrently at the same time. |
 | runner.config.file.runner.env_file | string | `".env"` | Extra environment variables to run jobs from a file. It will be ignored if it's empty or the file doesn't exist. |

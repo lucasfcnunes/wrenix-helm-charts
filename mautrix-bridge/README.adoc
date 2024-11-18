@@ -2,7 +2,7 @@
 
 = mautrix-bridge
 
-image::https://img.shields.io/badge/Version-0.0.13-informational?style=flat-square[Version: 0.0.13]
+image::https://img.shields.io/badge/Version-0.0.14-informational?style=flat-square[Version: 0.0.14]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 == Maintainers
 
@@ -16,8 +16,8 @@ image::https://img.shields.io/badge/Version-application-informational?style=flat
 |===
 
 For use of the bridge:
-* **signal**, use the `./values-signal.yaml`
-* **slack**, use the `./values-slack.yaml`
+* **signal**, use the `./bridge-values/signal/values.yaml`
+* **slack**, use the `./bridge-values/slack/values.yaml`
 
 == Usage
 

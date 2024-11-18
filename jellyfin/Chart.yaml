@@ -3,9 +3,9 @@ name: jellyfin
 description: The Free Software Media System
 icon: https://raw.githubusercontent.com/jellyfin/jellyfin-ux/master/branding/SVG/icon-transparent.svg
 type: application
-version: "0.3.5"
+version: "0.3.6"
 # renovate: image=ghcr.io/jellyfin/jellyfin
-appVersion: "10.10.1"
+appVersion: "10.10.2"
 maintainers:
   - name: WrenIX
     url: https://wrenix.eu

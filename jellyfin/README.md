@@ -7,7 +7,7 @@ description: "The Free Software Media System"
 
 # jellyfin
 
-![Version: 0.3.6](https://img.shields.io/badge/Version-0.3.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 10.10.2](https://img.shields.io/badge/AppVersion-10.10.2-informational?style=flat-square)
+![Version: 0.3.7](https://img.shields.io/badge/Version-0.3.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 10.10.3](https://img.shields.io/badge/AppVersion-10.10.3-informational?style=flat-square)
 
 The Free Software Media System
 

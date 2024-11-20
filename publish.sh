@@ -40,7 +40,8 @@ for p in * ; do
       if [ "$tag" == "$lastTag" ]; then
         echo "changed helmchart should create new pkg - diff line count has:"
         echo $(git diff "${lastTag}" -- "${p}" | wc -l);
-        exit 1
+        echo
+        continue;
       fi
     else
       echo "nothing todo"
@@ -49,6 +50,7 @@ for p in * ; do
     fi
   fi
 
+  set -e
   echo "update docs"
   helm-docs -t ./README.md.gotmpl -t _docs.gotmpl -o README.md -g "${p}"
   helm-docs -t ./README.adoc.gotmpl -t _docs.gotmpl -o README.adoc -g "${p}"
@@ -58,15 +60,18 @@ for p in * ; do
   helm push "${p}-${v}.tgz" "${HELM_REPO_URL}";
 
   echo "update artifacthub.io"
+  set +e
   oras push "${HELM_REPO}/${p}:artifacthub.io" \
     --config /dev/null:application/vnd.cncf.artifacthub.config.v1+yaml \
     "${p}/artifacthub-repo.yml":application/vnd.cncf.artifacthub.repository-metadata.layer.v1.yaml
 
   echo "push to git"
+  set -e
   git add "${p}/" "docs/modules/charts/nav.adoc" "docs/modules/charts/pages/${p}.adoc"
   git commit -m "${COMMIT_SCOPE}(${p}): ${COMMIT_MESSAGE}"
   git tag "${tag}" --no-sign;
   git push --tags origin main;
+  set +e
 
   echo
 done

@@ -7,7 +7,7 @@ description: "Deploy runner for an forgejo instance (default codeberg.org)"
 
 # forgejo-runner
 
-![Version: 0.4.0](https://img.shields.io/badge/Version-0.4.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 5.0.0](https://img.shields.io/badge/AppVersion-5.0.0-informational?style=flat-square)
+![Version: 0.4.1](https://img.shields.io/badge/Version-0.4.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 5.0.1](https://img.shields.io/badge/AppVersion-5.0.1-informational?style=flat-square)
 
 Deploy runner for an forgejo instance (default codeberg.org)
 
@@ -17,12 +17,15 @@ Deploy runner for an forgejo instance (default codeberg.org)
 | ---- | ------ | --- |
 | WrenIX |  | <https://wrenix.eu> |
 
-== Accessing docker socket inside job containers
+{{< callout type="warning" >}}
+Me, wrenix, switch to woodpecker and maybe does not test every change.
+{{< /callout >}}
+
+## Accessing docker socket inside job containers
 
 To access the docker socket inside the job containers, the following example values may be used (see `values-dind-bypass.yaml`):
 
-[source,yaml]
-----
+``` yaml {filename="values.yaml"}
 runner:
   config:
     create: true
@@ -47,7 +50,7 @@ runner:
         valid_volumes:
           - /certs/client
 
-----
+```
 
 ## Usage
 

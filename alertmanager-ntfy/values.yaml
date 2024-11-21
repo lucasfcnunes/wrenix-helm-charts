@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  registry: docker.io
+  registry: codeberg.org
   repository: xenrox/ntfy-alertmanager
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.

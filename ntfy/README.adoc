@@ -2,7 +2,7 @@
 
 = ntfy
 
-image::https://img.shields.io/badge/Version-0.4.5-informational?style=flat-square[Version: 0.4.5]
+image::https://img.shields.io/badge/Version-0.4.6-informational?style=flat-square[Version: 0.4.6]
 image::https://img.shields.io/badge/Version-application-informational?style=flat-square[Type: application]
 image::https://img.shields.io/badge/AppVersion-2.11.0-informational?style=flat-square[AppVersion: 2.11.0]
 == Maintainers
@@ -159,7 +159,7 @@ helm uninstall ntfy-release
 
 | kubectl.image
 | object
-| `{"pullPolicy":"IfNotPresent","registry":"docker.io","repository":"bitnami/kubectl","tag":"1.31.2"}`
+| `{"pullPolicy":"IfNotPresent","registry":"docker.io","repository":"bitnami/kubectl","tag":"1.31.3"}`
 | image needed for setup (store generated VAPID / WebPush keys)
 
 | nameOverride

@@ -1,1 +1,0 @@
-../../../../matrix-sliding-sync/README.adoc

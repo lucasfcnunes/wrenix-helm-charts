@@ -1,1 +1,0 @@
-../../../../headscale-ui/README.adoc

@@ -1,1 +1,0 @@
-../../../../authentik-application/README.adoc

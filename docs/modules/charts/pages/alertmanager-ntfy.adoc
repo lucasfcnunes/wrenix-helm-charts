@@ -1,1 +1,0 @@
-../../../../alertmanager-ntfy/README.adoc

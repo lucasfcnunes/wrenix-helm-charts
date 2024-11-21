@@ -1,1 +1,0 @@
-../../../../matrix-authentication-service/README.adoc

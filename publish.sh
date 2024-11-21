@@ -53,7 +53,7 @@ for p in * ; do
   set -e
   echo "update docs"
   helm-docs -t ./README.md.gotmpl -t _docs.gotmpl -o README.md -g "${p}"
-  helm-docs -t ./README.adoc.gotmpl -t _docs.gotmpl -o README.adoc -g "${p}"
+  rm "${p}/README.adoc"
 
   echo "package and push helm-chart"
   helm package "${p}"
@@ -67,7 +67,7 @@ for p in * ; do
 
   echo "push to git"
   set -e
-  git add "${p}/" "docs/modules/charts/nav.adoc" "docs/modules/charts/pages/${p}.adoc"
+  git add "${p}/"
   git commit -m "${COMMIT_SCOPE}(${p}): ${COMMIT_MESSAGE}"
   git tag "${tag}" --no-sign;
   git push --tags origin main;

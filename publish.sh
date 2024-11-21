@@ -71,9 +71,9 @@ for p in * ; do
   echo
 
   echo "push to git"
-  set -e
   git add "${p}/"
   git commit -m "${COMMIT_SCOPE}(${p}): ${COMMIT_MESSAGE}"
+  set -e
   git tag "${tag}" --no-sign;
   git push --tags origin main;
   set +e

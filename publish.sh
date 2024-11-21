@@ -12,6 +12,7 @@ ct lint # || exit 1
 for p in * ; do
   if \
     [ ! -d $p ] || \
+    [ $p == docs ] || \
     [ ! -f $p/Chart.yaml ] \
     ; then
     continue
@@ -54,16 +55,20 @@ for p in * ; do
   echo "update docs"
   helm-docs -t ./README.md.gotmpl -t _docs.gotmpl -o README.md -g "${p}"
   rm "${p}/README.adoc"
+  echo
 
   echo "package and push helm-chart"
   helm package "${p}"
   helm push "${p}-${v}.tgz" "${HELM_REPO_URL}";
+  oras tag "${HELM_REPO}/${p}:${v}" "${v%\.[0-9]*}" "${v%\.[0-9]*\.[0-9]*}" "latest"
+  echo
 
   echo "update artifacthub.io"
   set +e
   oras push "${HELM_REPO}/${p}:artifacthub.io" \
     --config /dev/null:application/vnd.cncf.artifacthub.config.v1+yaml \
     "${p}/artifacthub-repo.yml":application/vnd.cncf.artifacthub.repository-metadata.layer.v1.yaml
+  echo
 
   echo "push to git"
   set -e

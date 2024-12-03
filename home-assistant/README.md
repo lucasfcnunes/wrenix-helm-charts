@@ -7,7 +7,7 @@ description: "Home Assistant with tooling to run on an k3s pi"
 
 # home-assistant
 
-![Version: 0.2.7](https://img.shields.io/badge/Version-0.2.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2024.11.3](https://img.shields.io/badge/AppVersion-2024.11.3-informational?style=flat-square)
+![Version: 0.2.8](https://img.shields.io/badge/Version-0.2.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2024.11.3](https://img.shields.io/badge/AppVersion-2024.11.3-informational?style=flat-square)
 
 Home Assistant with tooling to run on an k3s pi
 
@@ -113,7 +113,7 @@ helm uninstall home-assistant-release
 | zigbee2mqtt.image.pullPolicy | string | `"IfNotPresent"` |  |
 | zigbee2mqtt.image.registry | string | `"docker.io"` |  |
 | zigbee2mqtt.image.repository | string | `"koenkk/zigbee2mqtt"` |  |
-| zigbee2mqtt.image.tag | string | `"1.41.0"` |  |
+| zigbee2mqtt.image.tag | string | `"1.42.0"` |  |
 | zigbee2mqtt.ingress.hosts | list | `[]` |  |
 | zigbee2mqtt.securityContext.privileged | bool | `true` |  |
 

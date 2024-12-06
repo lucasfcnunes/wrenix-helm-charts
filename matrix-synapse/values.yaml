@@ -794,7 +794,7 @@ volumePermissions:
   image:
     registry: docker.io
     repository: library/alpine
-    tag: 3.20.3
+    tag: 3.21.0
     pullPolicy: Always
 
     ## Optionally specify an array of imagePullSecrets.

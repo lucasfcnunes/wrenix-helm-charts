@@ -144,13 +144,13 @@ dind:
     registry: docker.io
     repository: library/docker
     pullPolicy: IfNotPresent
-    tag: 27.3.1-dind
+    tag: 27.4.0-dind
 kubectl:
   image:
     registry: docker.io
     repository: bitnami/kubectl
     pullPolicy: IfNotPresent
-    tag: 1.31.3
+    tag: 1.31.4
 
 serviceAccount:
   # Specifies whether a service account should be created

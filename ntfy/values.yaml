@@ -16,7 +16,7 @@ kubectl:
     registry: docker.io
     repository: bitnami/kubectl
     pullPolicy: IfNotPresent
-    tag: 1.31.3
+    tag: 1.31.4
 
 imagePullSecrets: []
 nameOverride: ""

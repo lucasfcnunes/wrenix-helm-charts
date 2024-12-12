@@ -1,0 +1,20 @@
+{{- range $component := list "web" "taskworker" }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "pretix.fullname" $ }}-{{ $component }}
+  labels:
+    {{- include "pretix.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: {{ $component }}
+spec:
+  type: {{ $.Values.service.type }}
+  selector:
+    {{- include "pretix.selectorLabels" $ | nindent 4 }}
+    app.kubernetes.io/component: {{ $component }}
+  ports:
+    - port: {{ $.Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+{{- end }}

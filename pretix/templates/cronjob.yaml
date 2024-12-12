@@ -1,0 +1,84 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "pretix.fullname" . }}
+  labels:
+    {{- include "pretix.labels" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.cronSchedule | quote }}
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          annotations:
+            checksum/secret: {{ toYaml $.Values.env | sha256sum }}
+            {{- with .Values.podAnnotations }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          labels:
+            {{- include "pretix.labels" . | nindent 12 }}
+            app.kubernetes.io/component: cronjob
+            {{- with .Values.podLabels }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+        spec:
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          serviceAccountName: {{ include "pretix.serviceAccountName" . }}
+          securityContext:
+            {{- toYaml .Values.podSecurityContext | nindent 12 }}
+          restartPolicy: OnFailure
+          containers:
+            - name: {{ .Chart.Name }}
+              securityContext:
+                {{- toYaml .Values.securityContext | nindent 16 }}
+              {{- with .Values.image }}
+              image: "{{ .registry }}/{{ .repository }}:{{ .tag | default $.Chart.AppVersion }}"
+              imagePullPolicy: {{ .pullPolicy }}
+              {{- end }}
+              envFrom:
+                - secretRef:
+                    name: {{ include "pretix.fullname" . }}
+              env:
+                # Migrations are handled by helm hooks in pretix-migrate.yaml
+                - name: AUTOMIGRATE
+                  value: "skip"
+              command: [ "pretix" ]
+              args: [ "cron" ]
+              resources:
+                {{- toYaml .Values.resources | nindent 16 }}
+              volumeMounts:
+                - name: pretix-data
+                  mountPath: /data
+                {{- with .Values.volumeMounts }}
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+          volumes:
+            - name: pretix-data
+              {{- if .Values.persistence.hostPath }}
+              hostPath:
+                type: Directory
+                path: {{ .Values.persistence.hostPath | quote }}
+              {{- else if .Values.persistence.enabled }}
+              persistentVolumeClaim:
+                claimName: {{ with .Values.persistence.existingClaim }}{{ . }}{{- else }}{{ template "pretix.fullname" . }}{{- end }}
+              {{- else }}
+              emptyDir: {}
+              {{- end }}
+            {{- with .Values.volumes }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- with .Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.affinity }}
+          affinity:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}

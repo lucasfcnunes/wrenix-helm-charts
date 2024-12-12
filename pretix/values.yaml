@@ -1,0 +1,224 @@
+# Default values for pretix.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
+replicas:
+  web: 1
+  taskworker: 1
+
+# This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
+image:
+  registry: docker.io
+  repository: pretix/standalone
+  # This sets the pull policy for images.
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+cronSchedule: "*/30 * * * *"
+
+env:
+  PRETIX_PRETIX_INSTANCE_NAME: Pretix Helm
+  PRETIX_PRETIX_URL: http://localhost
+  PRETIX_PRETIX_CURRENCY: EUR
+  PRETIX_PRETIX_DATADIR: /data
+  PRETIX_PRETIX_TRUST_X_FORWARDED_FOR: on
+  PRETIX_PRETIX_TRUST_X_FORWARDED_PROTO: on
+  PRETIX_MAIL_FROM: test@example.com
+  PRETIX_MAIL_HOST:
+  PRETIX_MAIL_USER:
+  PRETIX_MAIL_PASSWORD:
+  PRETIX_MAIL_PORT: 587
+  PRETIX_MAIL_TLS: True
+  PRETIX_DATABASE_BACKEND: postgresql
+  PRETIX_DATABASE_NAME: pretix
+  PRETIX_DATABASE_USER: pretix
+  PRETIX_DATABASE_PASSWORD: pretix
+  PRETIX_DATABASE_HOST: pretix-postgresql
+  PRETIX_REDIS_LOCATION: redis://pretix-redis-master/0
+  PRETIX_REDIS_SESSIONS: true
+  PRETIX_CELERY_BACKEND: redis://pretix-redis-master/1
+  PRETIX_CELERY_BROKER: redis://pretix-redis-master/2
+  PRETIX_METRICS_ENABLED: false
+  PRETIX_METRICS_USER: pretix
+  PRETIX_METRICS_PASSPHRASE: pretix
+
+# This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+imagePullSecrets: []
+# This is to override the chart name.
+nameOverride: ""
+fullnameOverride: ""
+
+#This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# This is for setting Kubernetes Annotations to a Pod.
+# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/ 
+podAnnotations: {}
+
+# This is for setting Kubernetes Labels to a Pod.
+# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+podLabels: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+## Enable persistence using Persistent Volume Claims
+## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+##
+persistence:
+  enabled: true
+  annotations: {}
+  # -- Persistent Volume Storage Class
+  # If defined, storageClassName: <storageClass>
+  # If set to "-", storageClassName: "", which disables dynamic provisioning
+  # If undefined (the default) or set to null, no storageClassName spec is
+  #   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  #   GKE, AWS & OpenStack)
+  #
+  storageClass:
+
+  # -- A manually managed Persistent Volume and Claim
+  # Requires persistence.enabled: true
+  # If defined, PVC must be created manually before volume will be bound
+  existingClaim:
+
+  # -- Do not create an PVC, direct use hostPath in Pod
+  hostPath:
+  accessMode: ReadWriteOnce
+  size: 5Gi
+
+# This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
+service:
+  # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+  type: ClusterIP
+  # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
+  port: 80
+
+prometheus:
+  servicemonitor:
+    # -- broken, Host need to be localhost on request (instatt of ip)
+    # needs: https://github.com/prometheus-operator/prometheus-operator/pull/7003
+    enabled: false
+    labels: {}
+    # -- interval
+    interval:
+    # -- scrape timeout 
+    scrapeTimeout:
+  rules:
+    enabled: false
+    labels: {}
+    # current no default alertrules are provided
+    additionalRules: []
+
+grafana:
+  dashboards:
+    enabled: false
+    labels:
+      grafana_dashboard: "1"
+    annotations: {}
+
+# This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+# This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+livenessProbe:
+  httpGet:
+    path: /healthcheck/
+    port: http
+    httpHeaders:
+      - name: "host"
+        value: localhost
+readinessProbe:
+  httpGet:
+    path: /healthcheck/
+    port: http
+    httpHeaders:
+      - name: "host"
+        value: localhost
+
+#This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+# Additional volumes on the output Deployment definition.
+volumes: []
+# - name: foo
+#   secret:
+#     secretName: mysecret
+#     optional: false
+
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts: []
+# - name: foo
+#   mountPath: "/etc/foo"
+#   readOnly: true
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+
+postgresql:
+  enabled: true
+  auth:
+    database: pretix
+    username: pretix
+    password: pretix
+    postgresPassword: supersecureadminpassword
+
+redis:
+  enabled: true
+  architecture: standalone
+  auth:
+    enabled: false

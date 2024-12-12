@@ -1,0 +1,25 @@
+apiVersion: v2
+name: pretix
+description: Reinventing ticket presales, one ticket at a time.
+type: application
+version: 0.1.0
+# renovate: image=docker.io/pretix/standalone
+appVersion: "2024.11.0"
+keywords:
+  - event-tickets
+maintainers:
+  - name: WrenIX
+    url: https://wrenix.eu
+sources:
+  - https://github.com/pretix/pretix
+  - https://codeberg.org/wrenix/helm-charts/src/branch/main/pretix
+  - https://hub.docker.com/r/pretix/standalone
+dependencies:
+  - name: postgresql
+    version: "16.3.0"
+    repository: "oci://docker.io/bitnamicharts"
+    condition: postgresql.enabled
+  - name: redis
+    version: "20.5.0"
+    repository: "oci://docker.io/bitnamicharts"
+    condition: redis.enabled

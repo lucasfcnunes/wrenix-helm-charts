@@ -1,0 +1,29 @@
+{{- if and .Values.prometheus.rules.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "pretix.fullname" . }}
+  labels:
+    {{- include "pretix.labels" . | nindent 4 }}
+    {{- with .Values.prometheus.rules.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  groups:
+    - name: {{ template "pretix.fullname" . }}-Additional
+      rules:
+        - alert: "pretix: error in task"
+          expr: rate(pretix_task_runs_total{status!="success"}[1h])!=0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            {{`
+            summary: "pretix task of {{ $labels.instance }} has an error on {{ $labels.task_name }} in the last hour"
+            `}}
+    {{- with .Values.prometheus.rules.additionalRules }}
+    - name: {{ template "pretix.fullname" $ }}-Additional
+      rules:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+{{- end }}

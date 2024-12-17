@@ -4,19 +4,19 @@ name: matrix-synapse
 description: Matrix reference homeserver
 icon: https://matrix.org/images/matrix-logo.svg
 type: application
-version: "1.0.5"
+version: "1.0.6"
 # renovate: image=ghcr.io/element-hq/synapse
-appVersion: 1.120.2
+appVersion: 1.121.1
 maintainers:
   - name: WrenIX
     url: https://wrenix.eu
 
 dependencies:
   - name: postgresql
-    version: ^16.0.0
-    repository: https://charts.bitnami.com/bitnami
+    version: "^16.3.1"
+    repository: "oci://docker.io/bitnamicharts"
     condition: postgresql.enabled
   - name: redis
-    version: ^20.0.0
-    repository: https://charts.bitnami.com/bitnami
+    version: "20.6.0"
+    repository: "oci://docker.io/bitnamicharts"
     condition: redis.enabled

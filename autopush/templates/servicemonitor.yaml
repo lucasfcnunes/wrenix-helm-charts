@@ -1,0 +1,17 @@
+{{- if and .Values.prometheus.enabled .Values.prometheus.servicemonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "autopush.fullname" . }}
+  labels:
+    {{- include "autopush.labels" . | nindent 4 }}
+    {{- with .Values.prometheus.servicemonitor.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "autopush.selectorLabels" . | nindent 6 }}
+  endpoints:
+    - port: metrics
+{{- end }}

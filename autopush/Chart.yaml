@@ -1,0 +1,17 @@
+apiVersion: v2
+name: autopush
+description: A Helm chart for Kubernetes
+icon:
+type: application
+version: 0.0.1
+# renovate: image=docker.io/mozilla-services/autopush-rs
+appVersion: "1.72.2"
+maintainers:
+  - name: WrenIX
+    url: https://wrenix.eu
+
+dependencies:
+  - name: redis
+    version: "20.6.1"
+    repository: "oci://docker.io/bitnamicharts"
+    condition: redis.internal

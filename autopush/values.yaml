@@ -1,0 +1,279 @@
+global:
+  image:
+    # -- if set it will overwrite all registry entries
+    registry:
+    # -- if set it will overwrite all pullPolicy
+    pullPolicy:
+
+# -- This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+imagePullSecrets: []
+# -- This is to override the chart name.
+nameOverride: ""
+fullnameOverride: ""
+
+
+
+
+config:
+  logs:
+    # -- set log level of autopush
+    level: warn
+    # -- enable backtrace of autopush
+    backtrace: false
+  # -- run https://github.com/mozilla-services/autopush-rs/blob/master/scripts/fernet_key.py
+  cryptoKey: ""
+
+prometheus:
+  # -- start statsd sidecar and configure
+  enabled: true
+
+  servicemonitor:
+    enabled: false
+    labels: {}
+
+  image:
+    registry: docker.io
+    repository: prom/statsd-exporter
+    pullPolicy: IfNotPresent
+    tag: v0.28.0
+
+  # -- securityContext
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+  securityContext: {}
+
+  # -- We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+  resources: {}
+
+  # -- This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+  livenessProbe:
+    httpGet:
+      path: /
+      port: metrics
+  readinessProbe:
+    httpGet:
+      path: /
+      port: metrics
+
+  # -- Additional volumeMounts on the output Deployment definition.
+  # - name: foo
+  #   mountPath: "/etc/foo"
+  #   readOnly: true
+  volumeMounts: []
+
+## This configuration is for the internal Redis that's deployed for use with
+## workers/sharding, for an external Redis server you want to set enabled to
+## false and configure the externalRedis block.
+##
+redis:
+  internal: true
+  # -- Database ID for non-default database
+  dbid: 0
+
+  auth:
+    enabled: true
+    # -- XXX Change me!
+    password: autopush
+
+    # -- Or use existing secret with "redis-password" key instead of static password
+    existingSecret: 
+  external:
+    host: redis
+    port: 6379
+
+    # -- Password key to be retrieved from existing secret
+    existingSecretPasswordKey: redis-password
+
+
+  architecture: standalone
+  master:
+    kind: Deployment
+    persistence:
+      enabled: false
+    service:
+      port: 6379
+
+
+
+autoconnect:
+  # -- This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
+  replicaCount: 1
+  image:
+    registry: codeberg.org
+    repository: wrenix/autopush/autoconnect
+    pullPolicy: IfNotPresent
+    tag: latest
+  # -- This is for setting Kubernetes Annotations to a Pod.
+  # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/ 
+  podAnnotations: {}
+  # -- This is for setting Kubernetes Labels to a Pod.
+  # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+  podLabels: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  # -- securityContext
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+  securityContext: {}
+
+  # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
+  service:
+    # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+    type: ClusterIP
+    # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
+    port: 80
+
+  # -- We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+  resources: {}
+
+  # -- This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: http
+  readinessProbe:
+    httpGet:
+      path: /health
+      port: http
+
+  # -- Additional volumeMounts on the output Deployment definition.
+  # - name: foo
+  #   mountPath: "/etc/foo"
+  #   readOnly: true
+  volumeMounts: []
+
+autoendpoint:
+  # -- This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
+  replicaCount: 1
+  image:
+    registry: codeberg.org
+    repository: wrenix/autopush/autoendpoint
+    pullPolicy: IfNotPresent
+    tag: latest
+
+  # This is for setting Kubernetes Annotations to a Pod.
+  # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/ 
+  podAnnotations: {}
+  # This is for setting Kubernetes Labels to a Pod.
+  # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+  podLabels: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
+  service:
+    # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+    type: ClusterIP
+    # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
+    port: 80
+
+  # -- We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+  resources: {}
+
+  # -- This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: http
+  readinessProbe:
+    httpGet:
+      path: /health
+      port: http
+
+  # -- Additional volumeMounts on the output Deployment definition.
+  # - name: foo
+  #   mountPath: "/etc/foo"
+  #   readOnly: true
+  volumeMounts: []
+
+
+#This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  host: chart-example.local
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+
+# -- Additional volumes on the output Deployment definition.
+# - name: foo
+#   secret:
+#     secretName: mysecret
+#     optional: false
+volumes: []

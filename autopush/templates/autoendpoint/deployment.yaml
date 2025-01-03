@@ -1,0 +1,88 @@
+{{- with .Values.autoendpoint }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "autopush.fullname" $ }}-autoendpoint
+  labels:
+    {{- include "autopush.labels" $ | nindent 4 }}
+spec:
+  replicas: {{ .replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "autopush.selectorLabels" $ | nindent 6 }}
+      app.kubernetes.io/component: autoendpoint
+  template:
+    metadata:
+      {{- with .podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "autopush.labels" $ | nindent 8 }}
+        app.kubernetes.io/component: autoendpoint
+        {{- with .podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "autopush.serviceAccountName" $ }}
+      securityContext:
+        {{- toYaml .podSecurityContext | nindent 8 }}
+      containers:
+        - name: autoendpoint
+          securityContext:
+            {{- toYaml .securityContext | nindent 12 }}
+          {{- with .image }}
+          image: "{{ coalesce $.Values.global.image.registry .registry }}/{{ .repository }}:{{ .tag | default (printf "v%s" $.Chart.AppVersion) }}"
+          imagePullPolicy: {{ coalesce $.Values.global.image.pullPolicy .pullPolicy }}
+          {{- end }}
+          envFrom:
+            - secretRef:
+                name: {{ include "autopush.fullname" $ }}-env
+          env:
+            - name: "AUTOEND__DB_DSN"
+              {{- if $.Values.redis.auth.enabled }}
+              value: "redis://:$(REDIS_HOST_PASSWORD)@$(REDIS_HOST)"
+              {{- else }}
+              value: "redis://$(REDIS_HOST)"
+              {{- end }}
+            - name: "AUTOEND__CRYPTO_KEYS"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "autopush.fullname" $ }}-env
+                  key: "CRYPTO_KEY"
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          livenessProbe:
+            {{- toYaml .livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .readinessProbe | nindent 12 }}
+          resources:
+            {{- toYaml .resources | nindent 12 }}
+          {{- with .volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+        {{- include "autopush.containerPrometheus" $ | nindent 8 }}
+      {{- with .volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

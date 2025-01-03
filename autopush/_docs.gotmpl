@@ -1,0 +1,15 @@
+{{ define "chart.prerequirements" -}}
+= Beta
+
+WARNING
+====
+We let it run in production, but it is not stable / complete.
+
+TODOs:
+  - [ ] official container with redis backend, see: https://github.com/mozilla-services/autopush-rs/pull/813
+  - [ ] automatical create CRYPT_KEY (instatt of key)
+  - [ ] better ingress / host name support
+  - [ ] Improve monitoring with alerts and grafana dashboard
+  
+====
+{{ end }}

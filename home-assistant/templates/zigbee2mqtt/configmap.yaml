@@ -10,7 +10,9 @@ data:
   ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT: '["console"]'
   {{- with .Values.zigbee2mqtt.config }}
   {{- with .homeassistant }}
-  ZIGBEE2MQTT_CONFIG_HOMEASSISTANT: {{ . | quote }}
+  {{- with .enabled }}
+  ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_ENABLED: {{ . | quote }}
+  {{- end }}
   {{- end }}
   {{- range $key, $value := .serial}}
   ZIGBEE2MQTT_CONFIG_SERIAL_{{ $key | upper }}: {{ $value | quote }}

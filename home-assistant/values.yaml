@@ -57,7 +57,8 @@ zigbee2mqtt:
   ingress:
     hosts: []
   config:
-    homeassistant: true
+    homeassistant:
+      enabled: true
     serial:
       port: /dev/ttyACM0
 

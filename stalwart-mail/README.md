@@ -7,7 +7,7 @@ description: "Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One M
 
 # stalwart-mail
 
-![Version: 0.0.20](https://img.shields.io/badge/Version-0.0.20-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.11.1](https://img.shields.io/badge/AppVersion-0.11.1-informational?style=flat-square)
+![Version: 0.0.21](https://img.shields.io/badge/Version-0.0.21-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.11.1](https://img.shields.io/badge/AppVersion-0.11.1-informational?style=flat-square)
 
 Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One Mail Server (IMAP, JMAP, SMTP)
 
@@ -89,6 +89,7 @@ helm uninstall stalwart-mail-release
 | config.metrics.prometheus.auth.secret | string | `"%{env:METRICS_SECRET}%"` |  |
 | config.metrics.prometheus.auth.username | string | `"%{env:METRICS_USERNAME}%"` |  |
 | config.metrics.prometheus.enable | bool | `true` |  |
+| config.server.allowed-ip."10.42.0.1/16" | string | `""` |  |
 | config.server.listener.http.bind[0] | string | `"[::]:80"` |  |
 | config.server.listener.http.protocol | string | `"http"` |  |
 | config.server.listener.https.bind[0] | string | `"[::]:443"` |  |

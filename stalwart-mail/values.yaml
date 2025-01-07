@@ -62,6 +62,8 @@ config:
         bind: ["[::]:443"]
         tls:
           implicit: true
+    allowed-ip:
+      "10.42.0.1/16": ""
 
   storage:
     data: "rocksdb"

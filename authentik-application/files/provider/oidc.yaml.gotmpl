@@ -22,12 +22,14 @@
   state: present
   attrs:
     authorization_flow: !Find [authentik_flows.flow, [slug, {{ .Values.blueprint.provider.authorizationFlow }}]]
+    invalidation_flow: !Find [authentik_flows.flow, [slug, {{ .Values.blueprint.provider.invalidationFlow }}]]
     {{- with .Values.blueprint.provider.oidc }}
     client_type: {{ .clientType | quote }}
     client_id: {{ $clientID | quote }}
     client_secret: {{ $clientSecret | quote }}
     redirect_uris:
-      - {{ .redirectURL | quote }}
+      - matching_mode: "strict"
+        url: {{ .redirectURL | quote }}
     {{- with .tokenDuration }}
     access_token_validity: {{ . | quote }}
     {{- end }} 

@@ -7,7 +7,7 @@ description: "A Chart to deploy a secret for the authentik blueprint-sidecar."
 
 # authentik-application
 
-![Version: 0.4.4](https://img.shields.io/badge/Version-0.4.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 0.4.5](https://img.shields.io/badge/Version-0.4.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 A Chart to deploy a secret for the authentik blueprint-sidecar.
 
@@ -121,6 +121,7 @@ helm uninstall authentik-application-release
 | blueprint.labels | object | `{"goauthentik_blueprint":"1"}` | label of generated secret with blueprint |
 | blueprint.provider.authorizationFlow | string | `"default-provider-authorization-implicit-consent"` |  |
 | blueprint.provider.enabled | bool | `true` | creat an provider for authentification (otherwise just a like in menu is created) |
+| blueprint.provider.invalidationFlow | string | `"default-provider-invalidation-flow"` |  |
 | blueprint.provider.name | string | `""` |  |
 | blueprint.provider.oidc.clientID | string | `nil` | client id - generated if secret enabled |
 | blueprint.provider.oidc.clientSecret | string | `nil` | client secret - generated if secret enabled |

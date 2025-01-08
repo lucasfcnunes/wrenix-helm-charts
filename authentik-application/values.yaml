@@ -16,6 +16,7 @@ blueprint:
     enabled: true
     name: ""
     authorizationFlow: "default-provider-authorization-implicit-consent"
+    invalidationFlow: "default-provider-invalidation-flow"
     # -- type of application connection, current support: oidc, saml and proxy
     type: "oidc"
     oidc:

@@ -7,7 +7,7 @@ description: "A Chart to deploy a secret for the authentik blueprint-sidecar."
 
 # authentik-application
 
-![Version: 0.4.3](https://img.shields.io/badge/Version-0.4.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 0.4.4](https://img.shields.io/badge/Version-0.4.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 A Chart to deploy a secret for the authentik blueprint-sidecar.
 

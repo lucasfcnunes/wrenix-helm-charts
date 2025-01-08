@@ -26,7 +26,8 @@
     client_type: {{ .clientType | quote }}
     client_id: {{ $clientID | quote }}
     client_secret: {{ $clientSecret | quote }}
-    redirect_uris: {{ .redirectURL }}
+    redirect_uris:
+      - {{ .redirectURL | quote }}
     {{- with .tokenDuration }}
     access_token_validity: {{ . | quote }}
     {{- end }} 

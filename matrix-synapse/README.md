@@ -7,7 +7,7 @@ description: "Matrix reference homeserver"
 
 # matrix-synapse
 
-![Version: 1.0.8](https://img.shields.io/badge/Version-1.0.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.121.1](https://img.shields.io/badge/AppVersion-1.121.1-informational?style=flat-square)
+![Version: 1.0.9](https://img.shields.io/badge/Version-1.0.9-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.121.1](https://img.shields.io/badge/AppVersion-1.121.1-informational?style=flat-square)
 
 Matrix reference homeserver
 
@@ -44,7 +44,7 @@ helm uninstall matrix-synapse-release
 | Repository | Name | Version |
 |------------|------|---------|
 | oci://docker.io/bitnamicharts | postgresql | ^16.3.1 |
-| oci://docker.io/bitnamicharts | redis | 20.6.1 |
+| oci://docker.io/bitnamicharts | redis | 20.6.3 |
 
 ## Values
 
@@ -154,7 +154,7 @@ helm uninstall matrix-synapse-release
 | volumePermissions.image.pullPolicy | string | `"Always"` |  |
 | volumePermissions.image.registry | string | `"docker.io"` |  |
 | volumePermissions.image.repository | string | `"library/alpine"` |  |
-| volumePermissions.image.tag | string | `"3.21.1"` |  |
+| volumePermissions.image.tag | string | `"3.21.2"` |  |
 | volumePermissions.resources | object | `{}` |  |
 | volumePermissions.uid | int | `666` |  |
 | wellknown.affinity | object | `{}` |  |

@@ -7,7 +7,7 @@ description: "A Helm chart for Kubernetes"
 
 # autopush
 
-![Version: 0.0.4](https://img.shields.io/badge/Version-0.0.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.72.2](https://img.shields.io/badge/AppVersion-1.72.2-informational?style=flat-square)
+![Version: 0.0.5](https://img.shields.io/badge/Version-0.0.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.72.2](https://img.shields.io/badge/AppVersion-1.72.2-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -123,6 +123,11 @@ helm uninstall autopush-release
 | prometheus.readinessProbe.httpGet.path | string | `"/"` |  |
 | prometheus.readinessProbe.httpGet.port | string | `"metrics"` |  |
 | prometheus.resources | object | `{}` | We usually recommend not to specify default resources and to leave this as a conscious choice for the user. This also increases chances charts run on environments with little resources, such as Minikube. If you do want to specify resources, uncomment the following lines, adjust them as necessary, and remove the curly braces after 'resources:'. limits:   cpu: 100m   memory: 128Mi requests:   cpu: 100m   memory: 128Mi |
+| prometheus.rules.additionalRules | list | `[]` |  |
+| prometheus.rules.default.alertLabels | object | `{}` |  |
+| prometheus.rules.default.enabled | bool | `true` |  |
+| prometheus.rules.enabled | bool | `false` |  |
+| prometheus.rules.labels | object | `{}` |  |
 | prometheus.securityContext | object | `{}` | securityContext capabilities:   drop:   - ALL readOnlyRootFilesystem: true runAsNonRoot: true runAsUser: 1000 |
 | prometheus.servicemonitor.enabled | bool | `false` |  |
 | prometheus.servicemonitor.labels | object | `{}` |  |

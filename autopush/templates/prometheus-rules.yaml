@@ -1,0 +1,38 @@
+{{- if and .Values.prometheus.rules.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "autopush.fullname" . }}
+  labels:
+    {{- include "autopush.labels" . | nindent 4 }}
+    {{- with .Values.prometheus.rules.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  groups:
+    {{- if .Values.prometheus.rules.default.enabled }}
+    - name: {{ template "autopush.fullname" . }}-Endpoint
+      rules:
+        - alert: "autopush: No Subscription API Error"
+          expr: 'sum(increase(autoendpoint_api_error_no_subscription{}[1h])) without (container,endpoint,pod,instance) > 0'
+          for: 5m
+          labels:
+            severity: critical
+            {{- with .Values.prometheus.rules.default.alertLabels }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          annotations:
+            {{`
+            summary: "autoendpoint: No Subscription API Error in {{ $labels.namespace }}/{{ $labels.job }} increate in the last hour"
+            `}}
+    {{/*
+    - name: {{ template "autopush.fullname" . }}-Push
+      rules:
+    */}}
+    {{- end }}
+    {{- with .Values.prometheus.rules.additionalRules }}
+    - name: {{ template "autopush.fullname" $ }}-Additional
+      rules:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+{{- end }}

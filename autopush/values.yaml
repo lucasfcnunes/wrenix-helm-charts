@@ -30,6 +30,13 @@ prometheus:
   servicemonitor:
     enabled: false
     labels: {}
+  rules:
+    enabled: false
+    labels: {}
+    default:
+      enabled: true
+      alertLabels: {}
+    additionalRules: []
 
   image:
     registry: docker.io

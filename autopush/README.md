@@ -7,7 +7,7 @@ description: "A Helm chart for Kubernetes"
 
 # autopush
 
-![Version: 0.0.5](https://img.shields.io/badge/Version-0.0.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.72.2](https://img.shields.io/badge/AppVersion-1.72.2-informational?style=flat-square)
+![Version: 0.0.6](https://img.shields.io/badge/Version-0.0.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.72.2](https://img.shields.io/badge/AppVersion-1.72.2-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -70,7 +70,7 @@ helm uninstall autopush-release
 | autoconnect.image.tag | string | `"latest"` |  |
 | autoconnect.livenessProbe | object | `{"httpGet":{"path":"/health","port":"http"}}` | This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/ |
 | autoconnect.nodeSelector | object | `{}` |  |
-| autoconnect.podAnnotations | object | `{}` | This is for setting Kubernetes Annotations to a Pod. For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/  |
+| autoconnect.podAnnotations | object | `{}` | This is for setting Kubernetes Annotations to a Pod. For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/ |
 | autoconnect.podLabels | object | `{}` | This is for setting Kubernetes Labels to a Pod. For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/ |
 | autoconnect.podSecurityContext | object | `{}` |  |
 | autoconnect.readinessProbe.httpGet.path | string | `"/health"` |  |
@@ -107,6 +107,9 @@ helm uninstall autopush-release
 | fullnameOverride | string | `""` |  |
 | global.image.pullPolicy | string | `nil` | if set it will overwrite all pullPolicy |
 | global.image.registry | string | `nil` | if set it will overwrite all registry entries |
+| grafana.dashboards.annotations | object | `{}` |  |
+| grafana.dashboards.enabled | bool | `false` |  |
+| grafana.dashboards.labels.grafana_dashboard | string | `"1"` |  |
 | imagePullSecrets | list | `[]` | This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/ |
 | ingress.annotations | object | `{}` |  |
 | ingress.className | string | `""` |  |

@@ -97,7 +97,7 @@ config:
       # This has all the Sender variables available under message_formats (but without the .Sender prefix).
       # Note that you need to manually remove the displayname from message_formats above.
       displayname_format: "{{ .DisambiguatedName }}"
-  
+
     # -- Permissions for using the bridge.
     # Permitted values:
     #    relay - Talk through the relaybot (if enabled), no access otherwise
@@ -160,7 +160,7 @@ config:
     # -- How often should the websocket be pinged? Pinging will be disabled if this is zero.
     ping_interval_seconds: 0
 
-  
+
   # Application service host/registration related details.
   # Changing these values requires regeneration of the registration.
   appservice:
@@ -211,7 +211,7 @@ config:
     # -- Whether or not created rooms should have federation enabled.
     # If false, created portal rooms will never be federated.
     federate_rooms: true
-    
+
   # Settings for provisioning API
   provisioning:
     # -- Prefix for the provisioning API paths.
@@ -274,23 +274,23 @@ config:
     unread_hours_threshold: 720
     # Settings for backfilling threads within other backfills.
     threads:
-        # -- Maximum number of messages to backfill in a new thread.
-        max_initial_messages: 50
+      # -- Maximum number of messages to backfill in a new thread.
+      max_initial_messages: 50
     # Settings for the backwards backfill queue. This only applies when connecting to
     # Beeper as standard Matrix servers don't support inserting messages into history.
     queue:
-        # -- Should the backfill queue be enabled?
-        enabled: false
-        # -- Number of messages to backfill in one batch.
-        batch_size: 100
-        # -- Delay between batches in seconds.
-        batch_delay: 20
-        # -- Maximum number of batches to backfill per portal.
-        # If set to -1, all available messages will be backfilled.
-        max_batches: -1
-        # -- Optional network-specific overrides for max batches.
-        # Interpretation of this field depends on the network connector.
-        max_batches_override: {}
+      # -- Should the backfill queue be enabled?
+      enabled: false
+      # -- Number of messages to backfill in one batch.
+      batch_size: 100
+      # -- Delay between batches in seconds.
+      batch_delay: 20
+      # -- Maximum number of batches to backfill per portal.
+      # If set to -1, all available messages will be backfilled.
+      max_batches: -1
+      # -- Optional network-specific overrides for max batches.
+      # Interpretation of this field depends on the network connector.
+      max_batches_override: {}
 
 
   # Settings for enabling double puppeting

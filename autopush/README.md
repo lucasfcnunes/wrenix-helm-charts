@@ -7,7 +7,7 @@ description: "A Helm chart for Kubernetes"
 
 # autopush
 
-![Version: 0.0.6](https://img.shields.io/badge/Version-0.0.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.72.2](https://img.shields.io/badge/AppVersion-1.72.2-informational?style=flat-square)
+![Version: 0.0.7](https://img.shields.io/badge/Version-0.0.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.72.2](https://img.shields.io/badge/AppVersion-1.72.2-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -137,16 +137,19 @@ helm uninstall autopush-release
 | prometheus.volumeMounts | list | `[]` | Additional volumeMounts on the output Deployment definition. - name: foo   mountPath: "/etc/foo"   readOnly: true |
 | redis.architecture | string | `"standalone"` |  |
 | redis.auth.enabled | bool | `true` |  |
+| redis.auth.existingSecret | string | `""` | name of an existing secret with Redis credentials (instead of auth.password), must be created ahead of time |
 | redis.auth.existingSecret | string | `nil` | Or use existing secret with "redis-password" key instead of static password |
+| redis.auth.existingSecretPasswordKey | string | `""` | Password key to be retrieved from existing secret |
 | redis.auth.password | string | `"autopush"` | XXX Change me! |
 | redis.dbid | int | `0` | Database ID for non-default database |
 | redis.external.existingSecretPasswordKey | string | `"redis-password"` | Password key to be retrieved from existing secret |
 | redis.external.host | string | `"redis"` |  |
 | redis.external.port | int | `6379` |  |
+| redis.global.storageClass | string | `""` |  |
 | redis.internal | bool | `true` |  |
-| redis.master.kind | string | `"Deployment"` |  |
-| redis.master.persistence.enabled | bool | `false` |  |
+| redis.master.persistence.enabled | bool | `true` |  |
 | redis.master.service.port | int | `6379` |  |
+| redis.replica.persistence.enabled | bool | `true` |  |
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.automount | bool | `true` |  |
 | serviceAccount.create | bool | `true` |  |

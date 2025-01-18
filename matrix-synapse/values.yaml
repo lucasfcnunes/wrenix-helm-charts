@@ -721,25 +721,27 @@ redis:
 
   auth:
     enabled: true
-    # XXX Change me!
+    # -- XXX Change me!
     password: synapse
+    # -- name of an existing secret with Redis credentials (instead of auth.password), must be created ahead of time
+    existingSecret: ""
+    # -- Password key to be retrieved from existing secret
+    existingSecretPasswordKey: ""
 
-    ## Or use existing secret with "redis-password" key
-    ## instead of static password
-    ##
-    # existingSecret: redis-secret
+    # -- Or use existing secret with "redis-password" key instead of static password
+    existingSecret:
 
   architecture: standalone
+  global:
+    storageClass: ""
   master:
-    kind: Deployment
     persistence:
-      ## Note that Synapse only uses redis as a synchronization utility, so no
-      ## data will ever need to be persisted.
-      ##
-      enabled: false
+      enabled: true
     service:
       port: 6379
-
+  replica:
+    persistence:
+      enabled: true
 ## An externally configured Redis server to use for workers/sharding.
 ##
 externalRedis:

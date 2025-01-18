@@ -7,7 +7,7 @@ description: "Matrix reference homeserver"
 
 # matrix-synapse
 
-![Version: 1.0.10](https://img.shields.io/badge/Version-1.0.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.122.0](https://img.shields.io/badge/AppVersion-1.122.0-informational?style=flat-square)
+![Version: 1.0.11](https://img.shields.io/badge/Version-1.0.11-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.122.0](https://img.shields.io/badge/AppVersion-1.122.0-informational?style=flat-square)
 
 Matrix reference homeserver
 
@@ -111,11 +111,15 @@ helm uninstall matrix-synapse-release
 | publicServerName | string | `nil` | The public Matrix server name, this will be used for any public URLs in config as well as for client API links in the ingress. |
 | redis.architecture | string | `"standalone"` |  |
 | redis.auth.enabled | bool | `true` |  |
-| redis.auth.password | string | `"synapse"` |  |
+| redis.auth.existingSecret | string | `nil` | Or use existing secret with "redis-password" key instead of static password |
+| redis.auth.existingSecret | string | `""` | name of an existing secret with Redis credentials (instead of auth.password), must be created ahead of time |
+| redis.auth.existingSecretPasswordKey | string | `""` | Password key to be retrieved from existing secret |
+| redis.auth.password | string | `"synapse"` | XXX Change me! |
 | redis.enabled | bool | `true` |  |
-| redis.master.kind | string | `"Deployment"` |  |
-| redis.master.persistence.enabled | bool | `false` |  |
+| redis.global.storageClass | string | `""` |  |
+| redis.master.persistence.enabled | bool | `true` |  |
 | redis.master.service.port | int | `6379` |  |
+| redis.replica.persistence.enabled | bool | `true` |  |
 | serverName | string | `nil` | The Matrix domain name, this is what will be used for the domain part in your MXIDs. |
 | service.port | int | `8008` |  |
 | service.targetPort | string | `"http"` |  |

@@ -59,7 +59,7 @@ spec:
               containerPort: 8080
               protocol: TCP
             - name: router
-              containerPort: 8081
+              containerPort: {{ .service.ports.router }}
               protocol: TCP
           livenessProbe:
             {{- toYaml .livenessProbe | nindent 12 }}

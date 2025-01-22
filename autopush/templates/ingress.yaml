@@ -38,4 +38,26 @@ spec:
                 name: {{ include "autopush.fullname" $ }}-autoendpoint
                 port:
                   name: http
+          {{- with .Values.unifiedPush }}
+          {{- if .enabled }}
+          {{- if .config.gateway.generic.enable }}
+          - path: /generic/
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "autopush.fullname" $ }}-unifiedpush
+                port:
+                  name: http
+          {{- end }}
+          {{- if .config.gateway.matrix.enable }}
+          - path: /_matrix/push/v1/notify
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "autopush.fullname" $ }}-unifiedpush
+                port:
+                  name: http
+          {{- end }}
+          {{- end }}
+          {{- end }}
 {{- end }}

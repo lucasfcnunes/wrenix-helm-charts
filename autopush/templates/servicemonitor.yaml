@@ -12,6 +12,7 @@ spec:
   selector:
     matchLabels:
       {{- include "autopush.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/metrics: "true"
   endpoints:
     - port: metrics
 {{- end }}

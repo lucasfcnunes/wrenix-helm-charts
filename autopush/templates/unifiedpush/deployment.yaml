@@ -1,0 +1,97 @@
+{{- with .Values.unifiedPush }}
+{{- if .enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "autopush.fullname" $ }}-unifiedpush
+  labels:
+    {{- include "autopush.labels" $ | nindent 4 }}
+spec:
+  replicas: {{ .replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "autopush.selectorLabels" $ | nindent 6 }}
+      app.kubernetes.io/component: unifiedpush
+  template:
+    metadata:
+      {{- with .podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "autopush.labels" $ | nindent 8 }}
+        app.kubernetes.io/component: unifiedpush
+        {{- with .podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "autopush.serviceAccountName" $ }}
+      securityContext:
+        {{- toYaml .podSecurityContext | nindent 8 }}
+      containers:
+        - name: common-proxies
+          securityContext:
+            {{- toYaml .securityContext | nindent 12 }}
+          {{- with .image }}
+          image: "{{ coalesce $.Values.global.image.registry .registry }}/{{ .repository }}:{{ .tag | default (printf "v%s" $.Chart.AppVersion) }}"
+          imagePullPolicy: {{ coalesce $.Values.global.image.pullPolicy .pullPolicy }}
+          {{- end }}
+          env:
+            - name: "UP_LISTEN"
+              value: ":8080"
+            {{- if .config.verbose }}
+            - name: "UP_VERBOSE"
+              value: "true"
+            {{- end }}
+            {{- with .config.uaid }}
+            - name: "UP_UAID"
+              value: {{ . | quote }}
+            {{- end }}
+            {{- if .config.gateway.generic.enable }}
+            - name: "UP_GATEWAY_GENERIC_ENABLE"
+              value: "true"
+            {{- end }}
+            {{- if .config.gateway.matrix.enable }}
+            - name: "UP_GATEWAY_MATRIX_ENABLE"
+              value: "true"
+            {{- end }}
+            {{- with .config.gateway.allowedHosts }}
+            - name: "UP_GATEWAY_ALLOWEDHOSTS"
+              value: {{ join "," . | quote }}
+            {{- end }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            {{- toYaml .livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .readinessProbe | nindent 12 }}
+          resources:
+            {{- toYaml .resources | nindent 12 }}
+          {{- with .volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}
+{{- end }}

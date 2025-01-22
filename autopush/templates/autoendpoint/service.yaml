@@ -4,6 +4,7 @@ metadata:
   name: {{ include "autopush.fullname" . }}-autoendpoint
   labels:
     {{- include "autopush.labels" . | nindent 4 }}
+    app.kubernetes.io/metrics: "true"
 spec:
   type: {{ .Values.autoendpoint.service.type }}
   selector:

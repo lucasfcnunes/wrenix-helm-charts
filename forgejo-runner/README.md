@@ -7,7 +7,7 @@ description: "Deploy runner for an forgejo instance (default codeberg.org)"
 
 # forgejo-runner
 
-![Version: 0.4.10](https://img.shields.io/badge/Version-0.4.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.1.0](https://img.shields.io/badge/AppVersion-6.1.0-informational?style=flat-square)
+![Version: 0.4.11](https://img.shields.io/badge/Version-0.4.11-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.2.0](https://img.shields.io/badge/AppVersion-6.2.0-informational?style=flat-square)
 
 Deploy runner for an forgejo instance (default codeberg.org)
 
@@ -119,7 +119,7 @@ helm uninstall forgejo-runner-release
 | dind.image.pullPolicy | string | `"IfNotPresent"` |  |
 | dind.image.registry | string | `"docker.io"` |  |
 | dind.image.repository | string | `"library/docker"` |  |
-| dind.image.tag | string | `"27.5.0-dind"` |  |
+| dind.image.tag | string | `"27.5.1-dind"` |  |
 | extraEnvVars | list | `[]` | Additional environment variables to be set on runner container Example: extraEnvVars:   - name: FOO     value: "bar"  |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |

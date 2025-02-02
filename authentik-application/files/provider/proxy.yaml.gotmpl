@@ -6,6 +6,7 @@
   state: present
   attrs:
     authorization_flow: !Find [authentik_flows.flow, [slug, {{ .Values.blueprint.provider.authorizationFlow }}]]
+    invalidation_flow: !Find [authentik_flows.flow, [slug, {{ .Values.blueprint.provider.invalidationFlow }}]]
     mode: "forward_single"
     {{- with .Values.blueprint.provider.proxy }}
     external_host: {{ .externalHost | quote }}

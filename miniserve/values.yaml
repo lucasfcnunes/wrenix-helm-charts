@@ -74,6 +74,10 @@ data:
   showWGETFooter: true
   # -- Enable README.md rendering in directories
   readme: false
+  webdav:
+    # -- If enabled, respond to WebDAV requests (read-only).
+    enabled: false
+
   # -- used for commandline flags
   args: []
 

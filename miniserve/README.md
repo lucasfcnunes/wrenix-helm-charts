@@ -7,7 +7,7 @@ description: "A Helm chart for Kubernetes"
 
 # miniserve
 
-![Version: 0.4.3](https://img.shields.io/badge/Version-0.4.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.28.0](https://img.shields.io/badge/AppVersion-0.28.0-informational?style=flat-square)
+![Version: 0.4.4](https://img.shields.io/badge/Version-0.4.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.29.0](https://img.shields.io/badge/AppVersion-0.29.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -76,6 +76,7 @@ helm uninstall miniserve-release
 | data.upload.overwriteFiles | bool | `false` | Enable overriding existing files during file upload |
 | data.upload.rawMediaType | string | `""` | Directly specify the uploadable media type expression |
 | data.verbose | bool | `false` | Be verbose, includes emitting access logs |
+| data.webdav.enabled | bool | `false` | If enabled, respond to WebDAV requests (read-only). |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"docker.io/svenstaro/miniserve"` |  |

@@ -64,4 +64,9 @@ data:
   # MINISERVE_TLS_CERT:
   # MINISERVE_TLS_KEY:
   MINISERVE_README: {{ .readme | quote }}
+  {{- with .webdav }}
+  {{- if .enabled }}
+  MINISERVE_ENABLE_WEBDAV: "true"
+  {{- end }}
+  {{- end }}
   {{- end}}

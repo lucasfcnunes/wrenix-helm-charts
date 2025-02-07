@@ -7,7 +7,7 @@ description: "Conduit is a simple, fast and reliable chat server powered by Matr
 
 # conduit
 
-![Version: 1.0.2](https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.9.0](https://img.shields.io/badge/AppVersion-0.9.0-informational?style=flat-square)
+![Version: 1.0.3](https://img.shields.io/badge/Version-1.0.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.9.0](https://img.shields.io/badge/AppVersion-0.9.0-informational?style=flat-square)
 
 Conduit is a simple, fast and reliable chat server powered by Matrix.
 
@@ -103,7 +103,7 @@ helm uninstall conduit-release
 | wellknown.image.pullPolicy | string | `"IfNotPresent"` |  |
 | wellknown.image.registry | string | `"docker.io"` |  |
 | wellknown.image.repository | string | `"library/nginx"` |  |
-| wellknown.image.tag | string | `"1.27.3"` |  |
+| wellknown.image.tag | string | `"1.27.4"` |  |
 | wellknown.nginxServerConf | string | `"server {\n    listen       {{ .containerPort }};\n    server_name  localhost;\n\n    location /.well-known/matrix/server {\n      return 200 {{ toJson .server | quote }};\n      types { } default_type \"application/json; charset=utf-8\";\n    }\n\n    location /.well-known/matrix/client {\n      return 200 {{ toJson .client | quote }};\n      types { } default_type \"application/json; charset=utf-8\";\n      add_header \"Access-Control-Allow-Origin\" *;\n    }\n\n    location / {\n      # return 200 'Welcome to the your.server.name conduit server!';\n      # types { } default_type \"text/plain; charset=utf-8\";\n      return 404;\n    }\n\n    location /nginx_health {\n      return 200 'OK';\n      types { } default_type \"text/plain; charset=utf-8\";\n    }\n}"` | nginx config |
 | wellknown.nodeSelector | object | `{}` |  |
 | wellknown.podAnnotations | list | `[]` |  |

@@ -7,7 +7,7 @@ description: "OAuth2.0 + OpenID Provider for Matrix Homeservers (per MSC3861)"
 
 # matrix-authentication-service
 
-![Version: 0.0.7](https://img.shields.io/badge/Version-0.0.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.11.0](https://img.shields.io/badge/AppVersion-0.11.0-informational?style=flat-square)
+![Version: 0.0.8](https://img.shields.io/badge/Version-0.0.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.13.0](https://img.shields.io/badge/AppVersion-0.13.0-informational?style=flat-square)
 
 OAuth2.0 + OpenID Provider for Matrix Homeservers (per MSC3861)
 
@@ -122,7 +122,7 @@ helm uninstall matrix-authentication-service-release
 | global.image.registry | string | `nil` | if set it will overwrite all registry entries |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.registry | string | `"ghcr.io"` |  |
-| image.repository | string | `"matrix-org/matrix-authentication-service"` |  |
+| image.repository | string | `"element-hq/matrix-authentication-service"` |  |
 | image.tag | string | `nil` | Overrides the image tag whose default is the chart appVersion. |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |

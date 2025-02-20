@@ -3,9 +3,9 @@ name: grampsweb
 description: A Helm chart for gramps web
 icon: https://raw.githubusercontent.com/gramps-project/Gramps.js/main/images/icon512.png
 type: application
-version: "0.2.8"
+version: "0.2.9"
 # renovate: image=ghcr.io/gramps-project/grampsweb
-appVersion: "25.1.1"
+appVersion: "25.2.0"
 maintainers:
   - name: WrenIX
     url: https://wrenix.eu

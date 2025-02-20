@@ -7,7 +7,7 @@ description: "Matrix reference homeserver"
 
 # matrix-synapse
 
-![Version: 1.0.14](https://img.shields.io/badge/Version-1.0.14-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.124.0](https://img.shields.io/badge/AppVersion-1.124.0-informational?style=flat-square)
+![Version: 1.0.15](https://img.shields.io/badge/Version-1.0.15-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.124.0](https://img.shields.io/badge/AppVersion-1.124.0-informational?style=flat-square)
 
 Matrix reference homeserver
 
@@ -44,7 +44,7 @@ helm uninstall matrix-synapse-release
 | Repository | Name | Version |
 |------------|------|---------|
 | oci://docker.io/bitnamicharts | postgresql | ^16.3.1 |
-| oci://docker.io/bitnamicharts | redis | 20.7.0 |
+| oci://docker.io/bitnamicharts | redis | 20.7.1 |
 
 ## Values
 
@@ -111,7 +111,6 @@ helm uninstall matrix-synapse-release
 | publicServerName | string | `nil` | The public Matrix server name, this will be used for any public URLs in config as well as for client API links in the ingress. |
 | redis.architecture | string | `"standalone"` |  |
 | redis.auth.enabled | bool | `true` |  |
-| redis.auth.existingSecret | string | `nil` | Or use existing secret with "redis-password" key instead of static password |
 | redis.auth.existingSecret | string | `""` | name of an existing secret with Redis credentials (instead of auth.password), must be created ahead of time |
 | redis.auth.existingSecretPasswordKey | string | `""` | Password key to be retrieved from existing secret |
 | redis.auth.password | string | `"synapse"` | XXX Change me! |

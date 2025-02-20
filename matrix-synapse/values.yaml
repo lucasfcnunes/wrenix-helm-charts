@@ -728,9 +728,6 @@ redis:
     # -- Password key to be retrieved from existing secret
     existingSecretPasswordKey: ""
 
-    # -- Or use existing secret with "redis-password" key instead of static password
-    existingSecret:
-
   architecture: standalone
   global:
     storageClass: ""

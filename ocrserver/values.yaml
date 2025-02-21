@@ -88,6 +88,32 @@ readinessProbe:
     path: /status
     port: http
 
+networkPolicy:
+  # -- deploy networkpolicy
+  # @section -- NetworkPolicy
+  enabled: false
+  ingress:
+    # -- allow to http ports
+    # should be your ingress-controller
+    # @section -- NetworkPolicy
+    http: []
+  egress:
+    # -- activate egress no networkpolicy
+    # @section -- NetworkPolicy
+    enabled: true
+    # -- allow to http ports for fetch language
+    # @section -- NetworkPolicy
+    http: []
+    # -- rule to access DNS
+    # @section -- NetworkPolicy
+    dns:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: kube-system
+        podSelector:
+          matchLabels:
+            k8s-app: kube-dns
+
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
 autoscaling:
   enabled: false

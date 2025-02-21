@@ -1,0 +1,10 @@
+apiVersion: v2
+name: ocrserver
+description: Run OCR-Server
+type: application
+version: "0.0.1"
+# renovate: image=otiai10/ocrserver
+appVersion: "1.1.0"
+maintainers:
+  - name: WrenIX
+    url: https://wrenix.eu

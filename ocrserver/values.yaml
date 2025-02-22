@@ -114,6 +114,33 @@ networkPolicy:
           matchLabels:
             k8s-app: kube-dns
 
+languagedownloader:
+  enabled: true
+  languages:
+    - "deu"
+
+persistence:
+  enabled: true
+  annotations: {}
+  # -- Persistent Volume Storage Class
+  # If defined, storageClassName: <storageClass>
+  # If set to "-", storageClassName: "", which disables dynamic provisioning
+  # If undefined (the default) or set to null, no storageClassName spec is
+  #   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  #   GKE, AWS & OpenStack)
+  #
+  storageClass:
+
+  # -- A manually managed Persistent Volume and Claim
+  # Requires persistence.enabled: true
+  # If defined, PVC must be created manually before volume will be bound
+  existingClaim:
+
+  # -- Do not create an PVC, direct use hostPath in Pod
+  hostPath:
+  accessMode: ReadWriteOnce
+  size: 5Gi
+
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
 autoscaling:
   enabled: false

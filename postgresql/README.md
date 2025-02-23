@@ -7,7 +7,7 @@ description: "A Helm chart for running PostgreSQL (Postgres) database"
 
 # postgresql
 
-![Version: 0.2.4](https://img.shields.io/badge/Version-0.2.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 17.3-alpine](https://img.shields.io/badge/AppVersion-17.3--alpine-informational?style=flat-square)
+![Version: 0.2.5](https://img.shields.io/badge/Version-0.2.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 17.4-alpine](https://img.shields.io/badge/AppVersion-17.4--alpine-informational?style=flat-square)
 
 A Helm chart for running PostgreSQL (Postgres) database
 

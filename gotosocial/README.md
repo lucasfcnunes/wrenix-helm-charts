@@ -7,7 +7,7 @@ description: "With GoToSocial, you can keep in touch with your friends, post, re
 
 # gotosocial
 
-![Version: 0.2.9](https://img.shields.io/badge/Version-0.2.9-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.18.0](https://img.shields.io/badge/AppVersion-0.18.0-informational?style=flat-square)
+![Version: 0.2.10](https://img.shields.io/badge/Version-0.2.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.18.0](https://img.shields.io/badge/AppVersion-0.18.0-informational?style=flat-square)
 
 With GoToSocial, you can keep in touch with your friends, post, read, and share images and articles. All without being tracked or advertised to!
 
@@ -57,6 +57,8 @@ helm uninstall gotosocial-release
 | gotosocial.accounts.customCSSLength | int | `10000` | If accounts-allow-custom-css is true, this is the permitted length in characters for CSS uploaded by accounts on this instance. No effect if accounts-allow-custom-css is false. |
 | gotosocial.accounts.reasonRequired | bool | `true` | Are sign up requests required to submit a reason for the request (eg., an explanation of why they want to join the instance)? |
 | gotosocial.accounts.registrationOpen | bool | `true` | Do we want people to be able to just submit sign up requests, or do we want invite only? |
+| gotosocial.advancedRateLimitExceptions | list | `[]` |  |
+| gotosocial.advancedRateLimitRequests | int | `300` |  |
 | gotosocial.applicationName | string | `"gotosocial"` |  |
 | gotosocial.database.address | string | `""` | Database address or parameters. For Postgres, this should be the address or socket at which the database can be reached. |
 | gotosocial.database.database | string | `"gotosocial"` | Name of the database to use within the provided database type. |
@@ -107,6 +109,9 @@ helm uninstall gotosocial-release
 | gotosocial.tracing.endpoint | string | `""` | Endpoint of the trace ingester. When using the gRPC or HTTP based transports, provide the endpoint as a single address/port combination without a protocol scheme. |
 | gotosocial.tracing.insecureTransport | bool | `false` | Disable TLS for the gRPC and HTTP transport protocols. |
 | gotosocial.tracing.transport | string | `"grpc"` | Set the transport protocol for the tracing system. Can either be "grpc" for OTLP gRPC, or "http" for OTLP HTTP. |
+| gotosocial.trustedProxies[0] | string | `"10.42.0.0/16"` |  |
+| gotosocial.trustedProxies[1] | string | `"127.0.0.1/32"` |  |
+| gotosocial.trustedProxies[2] | string | `"::1"` |  |
 | gotosocial.tz | string | `"UTC"` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.registry | string | `"docker.io"` |  |

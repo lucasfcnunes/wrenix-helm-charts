@@ -82,7 +82,11 @@ spec:
           image: "{{ .Values.dind.image.registry }}/{{ .Values.dind.image.repository }}:{{ .Values.dind.image.tag }}"
           imagePullPolicy: {{ .Values.dind.image.pullPolicy }}
           resources:
+            {{- with .Values.dind.resources }}
+            {{- toYaml . | nindent 12 }}
+            {{- else }}
             {{- toYaml .Values.resources | nindent 12 }}
+            {{- end }}
           env:
             - name: DOCKER_TLS_CERTDIR
               value: /certs

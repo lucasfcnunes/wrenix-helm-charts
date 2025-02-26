@@ -7,7 +7,7 @@ description: "Deploy runner for an forgejo instance (default codeberg.org)"
 
 # forgejo-runner
 
-![Version: 0.4.15](https://img.shields.io/badge/Version-0.4.15-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.2.2](https://img.shields.io/badge/AppVersion-6.2.2-informational?style=flat-square)
+![Version: 0.4.16](https://img.shields.io/badge/Version-0.4.16-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.2.2](https://img.shields.io/badge/AppVersion-6.2.2-informational?style=flat-square)
 
 Deploy runner for an forgejo instance (default codeberg.org)
 
@@ -76,6 +76,16 @@ helm uninstall forgejo-runner-release
 
 ## Values
 
+### Docker in Docker
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| dind.image.pullPolicy | string | `"IfNotPresent"` | pull policy |
+| dind.image.registry | string | `"docker.io"` | image registry |
+| dind.image.repository | string | `"library/docker"` | image repository |
+| dind.image.tag | string | `"28.0.0-dind"` | image tag |
+| dind.resources | object | `{}` | We usually recommend not to specify default resources and to leave this as a conscious choice for the user. This also increases chances charts run on environments with little resources, such as Minikube. If you do want to specify resources, uncomment the following lines, adjust them as necessary, and remove the curly braces after 'resources:'. limits:   cpu: 100m   memory: 128Mi requests:   cpu: 100m   memory: 128Mi |
+
 ### Configuration yaml of runner (see: https://code.forgejo.org/forgejo/runner/src/branch/main/internal/pkg/config/config.example.yaml)
 
 | Key | Type | Default | Description |
@@ -116,16 +126,12 @@ helm uninstall forgejo-runner-release
 | autoscaling.maxReplicas | int | `100` |  |
 | autoscaling.minReplicas | int | `1` |  |
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
-| dind.image.pullPolicy | string | `"IfNotPresent"` |  |
-| dind.image.registry | string | `"docker.io"` |  |
-| dind.image.repository | string | `"library/docker"` |  |
-| dind.image.tag | string | `"28.0.0-dind"` |  |
 | extraEnvVars | list | `[]` | Additional environment variables to be set on runner container Example: extraEnvVars:   - name: FOO     value: "bar"  |
 | fullnameOverride | string | `""` |  |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.registry | string | `"code.forgejo.org"` |  |
-| image.repository | string | `"forgejo/runner"` |  |
-| image.tag | string | `""` |  |
+| image.pullPolicy | string | `"IfNotPresent"` | pull policy |
+| image.registry | string | `"code.forgejo.org"` | image registry |
+| image.repository | string | `"forgejo/runner"` | image repository |
+| image.tag | string | `""` | image tag - Overrides the image tag whose default is the chart appVersion. |
 | imagePullSecrets | list | `[]` |  |
 | kubectl.image.pullPolicy | string | `"IfNotPresent"` |  |
 | kubectl.image.registry | string | `"docker.io"` |  |
@@ -137,7 +143,7 @@ helm uninstall forgejo-runner-release
 | podLabels | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
 | replicaCount | int | `1` |  |
-| resources | object | `{}` |  |
+| resources | object | `{}` | We usually recommend not to specify default resources and to leave this as a conscious choice for the user. This also increases chances charts run on environments with little resources, such as Minikube. If you do want to specify resources, uncomment the following lines, adjust them as necessary, and remove the curly braces after 'resources:'. limits:   cpu: 100m   memory: 128Mi requests:   cpu: 100m   memory: 128Mi |
 | runner.config.create | bool | `true` |  |
 | runner.config.existingSecret | string | `""` | use existingSecret instatt |
 | runner.config.instance | string | `"https://codeberg.org"` |  |

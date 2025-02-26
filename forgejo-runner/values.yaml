@@ -5,10 +5,13 @@
 replicaCount: 1
 
 image:
+  # -- image registry
   registry: code.forgejo.org
+  # -- image repository
   repository: forgejo/runner
+  # -- pull policy
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
+  # -- image tag - Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
 imagePullSecrets: []
@@ -141,10 +144,31 @@ runner:
         workdir_parent:
 dind:
   image:
+    # -- image registry
+    # @section -- Docker in Docker
     registry: docker.io
+    # -- image repository
+    # @section -- Docker in Docker
     repository: library/docker
+    # -- pull policy
+    # @section -- Docker in Docker
     pullPolicy: IfNotPresent
+    # -- image tag
+    # @section -- Docker in Docker
     tag: 28.0.0-dind
+  # -- We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # @section -- Docker in Docker
+  resources: {}
+
 kubectl:
   image:
     registry: docker.io
@@ -178,17 +202,17 @@ securityContext:
   # runAsNonRoot: true
   # runAsUser: 1000
 
+# -- We usually recommend not to specify default resources and to leave this as a conscious
+# choice for the user. This also increases chances charts run on environments with little
+# resources, such as Minikube. If you do want to specify resources, uncomment the following
+# lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+# limits:
+#   cpu: 100m
+#   memory: 128Mi
+# requests:
+#   cpu: 100m
+#   memory: 128Mi
 resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
 
 autoscaling:
   enabled: false

@@ -5,13 +5,17 @@ global:
     # -- if set it will overwrite all pullPolicy
     pullPolicy:
 
+# -- replicas
 replicaCount: 1
 
 image:
+  # -- image registry (could be overwritten by global.image.registry)
   registry: ghcr.io
+  # -- image repository
   repository: miguelndecarvalho/speedtest-exporter
+  # -- This sets the pull policy for images. (could be overwritten by global.image.pullPolicy)
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
+  # -- image tag - Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
 config:

@@ -5,7 +5,7 @@ title: "speedtest-exporter"
 
 # speedtest-exporter
 
-![Version: 0.2.1](https://img.shields.io/badge/Version-0.2.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.5.4](https://img.shields.io/badge/AppVersion-3.5.4-informational?style=flat-square)
+![Version: 0.2.2](https://img.shields.io/badge/Version-0.2.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.5.4](https://img.shields.io/badge/AppVersion-3.5.4-informational?style=flat-square)
 
 ## Maintainers
 
@@ -53,10 +53,10 @@ helm uninstall speedtest-exporter-release
 | grafana.dashboards.annotations | object | `{}` |  |
 | grafana.dashboards.enabled | bool | `false` |  |
 | grafana.dashboards.labels.grafana_dashboard | string | `"1"` |  |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.registry | string | `"ghcr.io"` |  |
-| image.repository | string | `"miguelndecarvalho/speedtest-exporter"` |  |
-| image.tag | string | `""` |  |
+| image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. (could be overwritten by global.image.pullPolicy) |
+| image.registry | string | `"ghcr.io"` | image registry (could be overwritten by global.image.registry) |
+| image.repository | string | `"miguelndecarvalho/speedtest-exporter"` | image repository |
+| image.tag | string | `""` | image tag - Overrides the image tag whose default is the chart appVersion. |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.className | string | `""` |  |
@@ -82,7 +82,7 @@ helm uninstall speedtest-exporter-release
 | prometheus.servicemonitor.scrapeTimeout | string | `"2m"` | scrape timeout  |
 | readinessProbe.httpGet.path | string | `"/"` |  |
 | readinessProbe.httpGet.port | string | `"http"` |  |
-| replicaCount | int | `1` |  |
+| replicaCount | int | `1` | replicas |
 | resources | object | `{}` |  |
 | securityContext | object | `{}` |  |
 | service.port | int | `80` |  |

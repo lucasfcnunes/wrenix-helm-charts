@@ -3,7 +3,7 @@ name: speedtest-exporter
 description: 
 icon: https://b.cdnst.net/images/favicons/favicon-180.png
 type: application
-version: "0.2.1"
+version: "0.2.2"
 # renovate: image=ghcr.io/miguelndecarvalho/speedtest-exporter
 appVersion: "3.5.4"
 maintainers:

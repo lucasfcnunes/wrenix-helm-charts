@@ -7,7 +7,7 @@ description: "A Helm chart for running PostgreSQL (Postgres) database"
 
 # postgresql
 
-![Version: 0.2.5](https://img.shields.io/badge/Version-0.2.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 17.4-alpine](https://img.shields.io/badge/AppVersion-17.4--alpine-informational?style=flat-square)
+![Version: 0.2.6](https://img.shields.io/badge/Version-0.2.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 17.4-alpine](https://img.shields.io/badge/AppVersion-17.4--alpine-informational?style=flat-square)
 
 A Helm chart for running PostgreSQL (Postgres) database
 
@@ -53,10 +53,10 @@ helm uninstall postgresql-release
 | fullnameOverride | string | `""` |  |
 | global.image.pullPolicy | string | `nil` | if set it will overwrite all pullPolicy |
 | global.image.registry | string | `nil` | if set it will overwrite all registry entries |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.registry | string | `"docker.io"` |  |
-| image.repository | string | `"library/postgres"` |  |
-| image.tag | string | `""` |  |
+| image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. (could be overwritten by global.image.pullPolicy) |
+| image.registry | string | `"docker.io"` | image registry (could be overwritten by global.image.registry) |
+| image.repository | string | `"library/postgres"` | image repository |
+| image.tag | string | `""` | image tag - Overrides the image tag whose default is the chart appVersion. |
 | imagePullSecrets | list | `[]` |  |
 | job.annotations | object | `{"helm.sh/hook":"post-install,post-upgrade","helm.sh/hook-delete-policy":"before-hook-creation,hook-succeeded"}` | Annotations (usefull to delete job by helm afterwards) |
 | job.databases | object | `{}` | Bootstrap databases into postgresql server. When databases already exists, they will stay untouched.  databases:  "name_of_database":    owner: "existing_user_which_will_get_grant"    additionalParams: "" # Optional |

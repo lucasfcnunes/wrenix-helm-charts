@@ -6,10 +6,13 @@ global:
     pullPolicy:
 
 image:
+  # -- image registry (could be overwritten by global.image.registry)
   registry: docker.io
+  # -- image repository
   repository: library/postgres
+  # -- This sets the pull policy for images. (could be overwritten by global.image.pullPolicy)
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
+  # -- image tag - Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
 imagePullSecrets: []

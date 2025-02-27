@@ -7,7 +7,7 @@ description: "With GoToSocial, you can keep in touch with your friends, post, re
 
 # gotosocial
 
-![Version: 0.2.13](https://img.shields.io/badge/Version-0.2.13-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.18.1](https://img.shields.io/badge/AppVersion-0.18.1-informational?style=flat-square)
+![Version: 0.2.14](https://img.shields.io/badge/Version-0.2.14-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.18.1](https://img.shields.io/badge/AppVersion-0.18.1-informational?style=flat-square)
 
 With GoToSocial, you can keep in touch with your friends, post, read, and share images and articles. All without being tracked or advertised to!
 
@@ -113,10 +113,10 @@ helm uninstall gotosocial-release
 | gotosocial.trustedProxies[1] | string | `"127.0.0.1/32"` |  |
 | gotosocial.trustedProxies[2] | string | `"::1"` |  |
 | gotosocial.tz | string | `"UTC"` |  |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.registry | string | `"docker.io"` |  |
-| image.repository | string | `"superseriousbusiness/gotosocial"` |  |
-| image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion. |
+| image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. (could be overwritten by global.image.pullPolicy) |
+| image.registry | string | `"docker.io"` | image registry (could be overwritten by global.image.registry) |
+| image.repository | string | `"superseriousbusiness/gotosocial"` | image repository |
+| image.tag | string | `""` | image tag - Overrides the image tag whose default is the chart appVersion. |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.className | string | `""` |  |
@@ -139,7 +139,7 @@ helm uninstall gotosocial-release
 | podSecurityContext | object | `{}` |  |
 | prometheus.servicemonitor.enabled | bool | `false` |  |
 | prometheus.servicemonitor.labels | object | `{}` |  |
-| replicaCount | int | `1` |  |
+| replicaCount | int | `1` | replicas |
 | resources | object | `{}` |  |
 | securityContext | object | `{}` |  |
 | service.port | int | `8080` |  |

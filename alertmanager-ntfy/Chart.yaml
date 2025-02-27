@@ -2,7 +2,7 @@ apiVersion: v2
 name: alertmanager-ntfy
 description: Receiver for alertmanager to forward to ntfy.sh
 type: application
-version: 0.1.5
+version: "0.1.6"
 # renovate: image=codeberg.org/xenrox/ntfy-alertmanager
 appVersion: "0.4.0"
 maintainers:

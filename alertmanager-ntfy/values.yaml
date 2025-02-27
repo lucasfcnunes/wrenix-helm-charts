@@ -1,14 +1,22 @@
-# Default values for ntfy-alertmanager.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+global:
+  image:
+    # -- if set it will overwrite all registry entries
+    registry:
+    # -- if set it will overwrite all pullPolicy
+    pullPolicy:
 
+
+# -- replicas
 replicaCount: 1
 
 image:
+  # -- image registry (could be overwritten by global.image.registry)
   registry: codeberg.org
+  # -- image repository
   repository: xenrox/ntfy-alertmanager
+  # -- This sets the pull policy for images. (could be overwritten by global.image.pullPolicy)
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
+  # -- image tag - Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
 ntfyAlertmanager:

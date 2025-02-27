@@ -27,12 +27,16 @@ autoscaling:
 
 service:
   call:
+    # -- replicas
     replicaCount: 1
     image:
+      # -- image registry (could be overwritten by global.image.registry)
       registry: ghcr.io
+      # -- image repository
       repository: element-hq/element-call
+      # -- This sets the pull policy for images. (could be overwritten by global.image.pullPolicy)
       pullPolicy: IfNotPresent
-      # -- Overrides the image tag whose default is the chart appVersion.
+      # -- image tag - Overrides the image tag whose default is the chart appVersion
       tag:
     config: {}
     ingress:
@@ -85,16 +89,34 @@ service:
     affinity: {}
 
   lkJWT:
+    # -- enable to deploy livekit jwt service for element-call
+    # @section -- livekit JWT
     enabled: true
+    # -- replicas
+    # @section -- livekit JWT
     replicaCount: 1
     image:
+      # -- image registry (could be overwritten by global.image.registry)
+      # @section -- livekit JWT
       registry: ghcr.io
+      # -- image repository
+      # @section -- livekit JWT
       repository: element-hq/lk-jwt-service
+      # -- This sets the pull policy for images. (could be overwritten by global.image.pullPolicy)
+      # @section -- livekit JWT
       pullPolicy: IfNotPresent
+      # -- image tag
+      # @section -- livekit JWT
       tag: sha-4a29504
     config:
+      # -- url to livekit
+      # @section -- livekit JWT
       url: ""
+      # -- key to livekit
+      # @section -- livekit JWT
       key: "devkey"
+      # -- secret to livekit
+      # @section -- livekit JWT
       secret: "secret"
     ingress:
       host:
@@ -102,11 +124,14 @@ service:
       enabled: false
       ingress:
         # -- ingress for http port (e.g. ingress-controller)
+        # @section -- livekit JWT
         http: []
       egress:
         # -- activate egress no networkpolicy
+        # @section -- livekit JWT
         enabled: false
         # -- egress rules
+        # @section -- livekit JWT
         extra: []
     livenessProbe:
       httpGet:
@@ -118,14 +143,18 @@ service:
         port: http
     resources: {}
     serviceAccount:
-      # Specifies whether a service account should be created
+      # -- Specifies whether a service account should be created
+      # @section -- livekit JWT
       create: true
-      # Automatically mount a ServiceAccount's API credentials?
+      # -- Automatically mount a ServiceAccount's API credentials?
+      # @section -- livekit JWT
       automount: true
-      # Annotations to add to the service account
+      # -- Annotations to add to the service account
+      # @section -- livekit JWT
       annotations: {}
-      # The name of the service account to use.
+      # -- The name of the service account to use.
       # If not set and create is true, a name is generated using the fullname template
+      # @section -- livekit JWT
       name: ""
 
     podAnnotations: {}

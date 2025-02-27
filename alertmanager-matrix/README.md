@@ -7,7 +7,7 @@ description: "Service for managing and receiving Alertmanager alerts on Matrix"
 
 # alertmanager-matrix
 
-![Version: 0.1.11](https://img.shields.io/badge/Version-0.1.11-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.5.0](https://img.shields.io/badge/AppVersion-0.5.0-informational?style=flat-square)
+![Version: 0.1.12](https://img.shields.io/badge/Version-0.1.12-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.5.0](https://img.shields.io/badge/AppVersion-0.5.0-informational?style=flat-square)
 
 Service for managing and receiving Alertmanager alerts on Matrix
 
@@ -72,13 +72,15 @@ helm uninstall alertmanager-matrix-release
 | bot.matrix.userID | string | `"bot"` |  |
 | bot.messageType | string | `"m.notice"` |  |
 | bot.showLabels | bool | `false` |  |
-| bot.template.html | string | `"{{ range .Alerts }}\n  <font color=\"{{.StatusString|color}}\">\n    {{.StatusString|icon}}\n    <b>{{.StatusString|upper}}</b>\n    {{.AlertName}}:\n  </font>\n  {{.Summary}}\n  {{if ne .Fingerprint \"\"}}\n    ({{.Fingerprint}})\n  {{end}}\n  {{if $.ShowLabels}}\n    <br/>\n    <b>Labels:</b>\n    <code>{{.LabelString}}</code>\n   {{end}}\n   <br/>\n{{- end -}}\n"` |  |
+| bot.template.html | string | `"{{ range .Alerts }}\n  <font color=\"{{.StatusString|color}}\">\n    {{.StatusString|icon}}\n    <b>{{.StatusString|upper}}</b>\n    {{.AlertName}}:\n  </font>\n  {{.Summary}}\n  {{if ne .Fingerprint \"\"}}\n    ({{.Fingerprint}})\n  {{end}}\n  {{if $.ShowLabels}}\n    <br/>\n    <b>Labels:</b>\n    <code>{{.LabelString}}</code>\n  {{end}}\n  <br/>\n{{- end -}}\n"` |  |
 | bot.template.text | string | `"{{ range .Alerts }}\n  {{- .StatusString|icon}} {{ .StatusString|upper }}{{ .AlertName }}: {{ .Summary }} {{ if ne .Fingerprint \"\" -}}\n    ({{.Fingerprint}})\n  {{- end}}\n  {{- if $.ShowLabels -}}\n    , labels:\n    {{- .LabelString}}\n  {{- end }}\n{{ end -}}\n"` |  |
 | fullnameOverride | string | `""` |  |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.registry | string | `"registry.gitlab.com"` |  |
-| image.repository | string | `"wrenix/alertmanager_matrix"` |  |
-| image.tag | string | `""` |  |
+| global.image.pullPolicy | string | `nil` | if set it will overwrite all pullPolicy |
+| global.image.registry | string | `nil` | if set it will overwrite all registry entries |
+| image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. (could be overwritten by global.image.pullPolicy) |
+| image.registry | string | `"registry.gitlab.com"` | image registry (could be overwritten by global.image.registry) |
+| image.repository | string | `"wrenix/alertmanager_matrix"` | image repository |
+| image.tag | string | `""` | image tag - Overrides the image tag whose default is the chart appVersion. latest with current:  - amd64      @sha256:2afd6d70f39fdfa98f11758090506f7845aee33cc8d900f9fe39a2574c272063  - 386 /x86   @sha256:beca95e9595de7169ab34406936b585d6676ce03a7fe51815b3a6a4944f9dd6d  - arm v6     @sha256:ce40ea204497bfc9b2e796cf984eba53ba7c59164d39dcd4c11f0ca561e57eca  - arm v7     @sha256:59ce3dfc73be5f70b873fe095e1eee4e0fe1f256b39f8f051ad0a2ffe9d1177e  - arm v8     @sha256:fdbf50e944f8118dd1a44dde21b9cc098fb13837031e2f2492c148848c3d3cc8  - ppc64le    @sha256:4ce02adbf4efe3ad04422e35bd4e87442a7c899fea13988adaeb985c720e0c63  - s390x      @sha256:a202252cc00664a17caa5760f749b35a7b71253d1b1474b861f233e83ada1c76 |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.className | string | `""` |  |
@@ -97,7 +99,7 @@ helm uninstall alertmanager-matrix-release
 | podAnnotations | object | `{}` |  |
 | podLabels | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
-| replicaCount | int | `1` |  |
+| replicaCount | int | `1` | replicas |
 | resources | object | `{}` |  |
 | securityContext | object | `{}` |  |
 | service.port | int | `4051` |  |

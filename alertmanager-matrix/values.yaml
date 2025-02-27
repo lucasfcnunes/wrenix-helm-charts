@@ -1,14 +1,22 @@
-# Default values for alertmanager-matrix.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+global:
+  image:
+    # -- if set it will overwrite all registry entries
+    registry:
+    # -- if set it will overwrite all pullPolicy
+    pullPolicy:
 
+
+# -- replicas
 replicaCount: 1
 
 image:
+  # -- image registry (could be overwritten by global.image.registry)
   registry: registry.gitlab.com
+  # -- image repository
   repository: wrenix/alertmanager_matrix
+  # -- This sets the pull policy for images. (could be overwritten by global.image.pullPolicy)
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
+  # -- image tag - Overrides the image tag whose default is the chart appVersion.
   # latest with current:
   #  - amd64      @sha256:2afd6d70f39fdfa98f11758090506f7845aee33cc8d900f9fe39a2574c272063
   #  - 386 /x86   @sha256:beca95e9595de7169ab34406936b585d6676ce03a7fe51815b3a6a4944f9dd6d
@@ -79,8 +87,8 @@ bot:
           <br/>
           <b>Labels:</b>
           <code>{{.LabelString}}</code>
-         {{end}}
-         <br/>
+        {{end}}
+        <br/>
       {{- end -}}
 
 serviceAccount:

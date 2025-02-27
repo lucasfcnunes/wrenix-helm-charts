@@ -7,7 +7,7 @@ description: "Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One M
 
 # stalwart-mail
 
-![Version: 0.0.25](https://img.shields.io/badge/Version-0.0.25-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.11.6](https://img.shields.io/badge/AppVersion-0.11.6-informational?style=flat-square)
+![Version: 0.0.26](https://img.shields.io/badge/Version-0.0.26-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.11.6](https://img.shields.io/badge/AppVersion-0.11.6-informational?style=flat-square)
 
 Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One Mail Server (IMAP, JMAP, SMTP)
 
@@ -136,10 +136,10 @@ helm uninstall stalwart-mail-release
 | fullnameOverride | string | `""` |  |
 | global.image.pullPolicy | string | `nil` | if set it will overwrite all pullPolicy |
 | global.image.registry | string | `nil` | if set it will overwrite all registry entries |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.registry | string | `"docker.io"` |  |
-| image.repository | string | `"stalwartlabs/mail-server"` |  |
-| image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion. |
+| image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. (could be overwritten by global.image.pullPolicy) |
+| image.registry | string | `"docker.io"` | image registry (could be overwritten by global.image.registry) |
+| image.repository | string | `"stalwartlabs/mail-server"` | image repository |
+| image.tag | string | `""` | image tag - Overrides the image tag whose default is the chart appVersion. |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.className | string | `""` |  |
@@ -166,7 +166,7 @@ helm uninstall stalwart-mail-release
 | prometheus.servicemonitor.labels | object | `{}` |  |
 | readinessProbe.httpGet.path | string | `"/healthz/ready"` |  |
 | readinessProbe.httpGet.port | string | `"http"` |  |
-| replicaCount | int | `1` |  |
+| replicaCount | int | `1` | replicas |
 | resources | object | `{}` |  |
 | secrets.env.METRICS_SECRET | string | `"scrape_metrics_password"` |  |
 | secrets.env.METRICS_USERNAME | string | `"scrape_metrics_user"` |  |

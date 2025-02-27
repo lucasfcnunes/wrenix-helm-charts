@@ -1,15 +1,20 @@
-# Default values for forgejo-runner.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+global:
+  image:
+    # -- if set it will overwrite all registry entries
+    registry:
+    # -- if set it will overwrite all pullPolicy
+    pullPolicy:
 
+
+# -- replicas
 replicaCount: 1
 
 image:
-  # -- image registry
+  # -- image registry (could be overwritten by global.image.registry)
   registry: code.forgejo.org
   # -- image repository
   repository: forgejo/runner
-  # -- pull policy
+  # -- This sets the pull policy for images. (could be overwritten by global.image.pullPolicy)
   pullPolicy: IfNotPresent
   # -- image tag - Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -144,13 +149,13 @@ runner:
         workdir_parent:
 dind:
   image:
-    # -- image registry
+    # -- image registry (could be overwritten by global.image.registry)
     # @section -- Docker in Docker
     registry: docker.io
     # -- image repository
     # @section -- Docker in Docker
     repository: library/docker
-    # -- pull policy
+    # -- This sets the pull policy for images. (could be overwritten by global.image.pullPolicy)
     # @section -- Docker in Docker
     pullPolicy: IfNotPresent
     # -- image tag

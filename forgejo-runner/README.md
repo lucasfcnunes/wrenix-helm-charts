@@ -7,7 +7,7 @@ description: "Deploy runner for an forgejo instance (default codeberg.org)"
 
 # forgejo-runner
 
-![Version: 0.4.16](https://img.shields.io/badge/Version-0.4.16-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.2.2](https://img.shields.io/badge/AppVersion-6.2.2-informational?style=flat-square)
+![Version: 0.4.17](https://img.shields.io/badge/Version-0.4.17-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.2.2](https://img.shields.io/badge/AppVersion-6.2.2-informational?style=flat-square)
 
 Deploy runner for an forgejo instance (default codeberg.org)
 
@@ -80,8 +80,8 @@ helm uninstall forgejo-runner-release
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| dind.image.pullPolicy | string | `"IfNotPresent"` | pull policy |
-| dind.image.registry | string | `"docker.io"` | image registry |
+| dind.image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. (could be overwritten by global.image.pullPolicy) |
+| dind.image.registry | string | `"docker.io"` | image registry (could be overwritten by global.image.registry) |
 | dind.image.repository | string | `"library/docker"` | image repository |
 | dind.image.tag | string | `"28.0.0-dind"` | image tag |
 | dind.resources | object | `{}` | We usually recommend not to specify default resources and to leave this as a conscious choice for the user. This also increases chances charts run on environments with little resources, such as Minikube. If you do want to specify resources, uncomment the following lines, adjust them as necessary, and remove the curly braces after 'resources:'. limits:   cpu: 100m   memory: 128Mi requests:   cpu: 100m   memory: 128Mi |
@@ -128,8 +128,10 @@ helm uninstall forgejo-runner-release
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | extraEnvVars | list | `[]` | Additional environment variables to be set on runner container Example: extraEnvVars:   - name: FOO     value: "bar"  |
 | fullnameOverride | string | `""` |  |
-| image.pullPolicy | string | `"IfNotPresent"` | pull policy |
-| image.registry | string | `"code.forgejo.org"` | image registry |
+| global.image.pullPolicy | string | `nil` | if set it will overwrite all pullPolicy |
+| global.image.registry | string | `nil` | if set it will overwrite all registry entries |
+| image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. (could be overwritten by global.image.pullPolicy) |
+| image.registry | string | `"code.forgejo.org"` | image registry (could be overwritten by global.image.registry) |
 | image.repository | string | `"forgejo/runner"` | image repository |
 | image.tag | string | `""` | image tag - Overrides the image tag whose default is the chart appVersion. |
 | imagePullSecrets | list | `[]` |  |
@@ -142,7 +144,7 @@ helm uninstall forgejo-runner-release
 | podAnnotations | object | `{}` |  |
 | podLabels | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
-| replicaCount | int | `1` |  |
+| replicaCount | int | `1` | replicas |
 | resources | object | `{}` | We usually recommend not to specify default resources and to leave this as a conscious choice for the user. This also increases chances charts run on environments with little resources, such as Minikube. If you do want to specify resources, uncomment the following lines, adjust them as necessary, and remove the curly braces after 'resources:'. limits:   cpu: 100m   memory: 128Mi requests:   cpu: 100m   memory: 128Mi |
 | runner.config.create | bool | `true` |  |
 | runner.config.existingSecret | string | `""` | use existingSecret instatt |

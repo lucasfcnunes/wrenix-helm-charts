@@ -38,9 +38,9 @@ spec:
           securityContext:
             {{- toYaml .Values.wellknown.securityContext | nindent 12 }}
           {{- with .Values.wellknown.image }}
-          image: "{{ .registry }}/{{ .repository }}:{{ .tag }}"
+          image: "{{ coalesce $.Values.global.image.registry .registry }}/{{ .repository }}:{{ .tag | default $.Chart.AppVersion }}"
+          imagePullPolicy: {{ coalesce $.Values.global.image.pullPolicy .pullPolicy }}
           {{- end }}
-          imagePullPolicy: {{ .Values.wellknown.image.pullPolicy }}
           ports:
             - name: http
               containerPort: {{ .Values.wellknown.containerPort }}

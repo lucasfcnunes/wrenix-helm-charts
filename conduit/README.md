@@ -7,7 +7,7 @@ description: "Conduit is a simple, fast and reliable chat server powered by Matr
 
 # conduit
 
-![Version: 1.0.3](https://img.shields.io/badge/Version-1.0.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.9.0](https://img.shields.io/badge/AppVersion-0.9.0-informational?style=flat-square)
+![Version: 1.0.4](https://img.shields.io/badge/Version-1.0.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.9.0](https://img.shields.io/badge/AppVersion-0.9.0-informational?style=flat-square)
 
 Conduit is a simple, fast and reliable chat server powered by Matrix.
 
@@ -41,6 +41,36 @@ helm uninstall conduit-release
 
 ## Values
 
+### well known
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| wellknown.affinity | object | `{}` | pod affinity |
+| wellknown.client | object | `{"m.homeserver":{"base_url":"https://your.server.name/"},"org.matrix.msc3575.proxy":{"url":"https://your.server.name/"}}` | client entry in well-known |
+| wellknown.containerPort | int | `80` | port webservice |
+| wellknown.enabled | bool | `false` | enable/deploy add extra webservice for well-known urls |
+| wellknown.env | list | `[]` | pod env |
+| wellknown.image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. (could be overwritten by global.image.pullPolicy) |
+| wellknown.image.registry | string | `"docker.io"` | image registry (could be overwritten by global.image.registry) |
+| wellknown.image.repository | string | `"library/nginx"` | image repository |
+| wellknown.image.tag | string | `"1.27.4"` | image tag |
+| wellknown.nginxServerConf | string | `"server {\n    listen       {{ .containerPort }};\n    server_name  localhost;\n\n    location /.well-known/matrix/server {\n      return 200 {{ toJson .server | quote }};\n      types { } default_type \"application/json; charset=utf-8\";\n    }\n\n    location /.well-known/matrix/client {\n      return 200 {{ toJson .client | quote }};\n      types { } default_type \"application/json; charset=utf-8\";\n      add_header \"Access-Control-Allow-Origin\" *;\n    }\n\n    location / {\n      # return 200 'Welcome to the your.server.name conduit server!';\n      # types { } default_type \"text/plain; charset=utf-8\";\n      return 404;\n    }\n\n    location /nginx_health {\n      return 200 'OK';\n      types { } default_type \"text/plain; charset=utf-8\";\n    }\n}"` | nginx config |
+| wellknown.nodeSelector | object | `{}` | pod node selector |
+| wellknown.podAnnotations | list | `[]` | pod annotations |
+| wellknown.podLabels | object | `{}` | pod labels |
+| wellknown.podSecurityContext | object | `{}` | securityContext of Pod |
+| wellknown.replicaCount | int | `1` | replicas |
+| wellknown.resources | object | `{}` | pod resources |
+| wellknown.rewriteRoot | bool | `false` | if ingress is enabled: specifies whether ingress should redirect the `/`-Location to the wellknown server |
+| wellknown.securityContext | object | `{}` | securityContext of container |
+| wellknown.server | object | `{"m.server":"your.server.name:443"}` | server entry in well-known |
+| wellknown.service.annotations | object | `{}` | annotations of service |
+| wellknown.service.port | int | `8080` | port of service |
+| wellknown.service.type | string | `"ClusterIP"` | service type |
+| wellknown.tolerations | list | `[]` | pod tolerations |
+
+### Other Values
+
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
@@ -62,10 +92,12 @@ helm uninstall conduit-release
 | conduit.wellKnown.client | string | `""` | client well-known configuration in conduit |
 | conduit.wellKnown.server | string | `"https://your.server.name"` | server well-known configuration in conduit |
 | fullnameOverride | string | `""` |  |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.registry | string | `"docker.io"` |  |
-| image.repository | string | `"matrixconduit/matrix-conduit"` |  |
-| image.tag | string | `""` |  |
+| global.image.pullPolicy | string | `nil` | if set it will overwrite all pullPolicy |
+| global.image.registry | string | `nil` | if set it will overwrite all registry entries |
+| image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. (could be overwritten by global.image.pullPolicy) |
+| image.registry | string | `"docker.io"` | image registry (could be overwritten by global.image.registry) |
+| image.repository | string | `"matrixconduit/matrix-conduit"` | image repository |
+| image.tag | string | `""` | image tag - Overrides the image tag whose default is the chart appVersion. |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.className | string | `""` |  |
@@ -86,7 +118,7 @@ helm uninstall conduit-release
 | podAnnotations | object | `{}` |  |
 | podLabels | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
-| replicaCount | int | `1` |  |
+| replicaCount | int | `1` | replicas |
 | resources | object | `{}` |  |
 | securityContext | object | `{}` |  |
 | service.port | int | `6167` |  |
@@ -95,28 +127,5 @@ helm uninstall conduit-release
 | serviceAccount.create | bool | `true` |  |
 | serviceAccount.name | string | `""` |  |
 | tolerations | list | `[]` |  |
-| wellknown.affinity | object | `{}` |  |
-| wellknown.client | object | `{"m.homeserver":{"base_url":"https://your.server.name/"},"org.matrix.msc3575.proxy":{"url":"https://your.server.name/"}}` | client entry in well-known |
-| wellknown.containerPort | int | `80` |  |
-| wellknown.enabled | bool | `false` |  |
-| wellknown.env | list | `[]` |  |
-| wellknown.image.pullPolicy | string | `"IfNotPresent"` |  |
-| wellknown.image.registry | string | `"docker.io"` |  |
-| wellknown.image.repository | string | `"library/nginx"` |  |
-| wellknown.image.tag | string | `"1.27.4"` |  |
-| wellknown.nginxServerConf | string | `"server {\n    listen       {{ .containerPort }};\n    server_name  localhost;\n\n    location /.well-known/matrix/server {\n      return 200 {{ toJson .server | quote }};\n      types { } default_type \"application/json; charset=utf-8\";\n    }\n\n    location /.well-known/matrix/client {\n      return 200 {{ toJson .client | quote }};\n      types { } default_type \"application/json; charset=utf-8\";\n      add_header \"Access-Control-Allow-Origin\" *;\n    }\n\n    location / {\n      # return 200 'Welcome to the your.server.name conduit server!';\n      # types { } default_type \"text/plain; charset=utf-8\";\n      return 404;\n    }\n\n    location /nginx_health {\n      return 200 'OK';\n      types { } default_type \"text/plain; charset=utf-8\";\n    }\n}"` | nginx config |
-| wellknown.nodeSelector | object | `{}` |  |
-| wellknown.podAnnotations | list | `[]` |  |
-| wellknown.podLabels | object | `{}` |  |
-| wellknown.podSecurityContext | object | `{}` |  |
-| wellknown.replicaCount | int | `1` |  |
-| wellknown.resources | object | `{}` |  |
-| wellknown.rewriteRoot | bool | `false` | if ingress is enabled: specifies whether ingress should redirect the `/`-Location to the wellknown server |
-| wellknown.securityContext | object | `{}` |  |
-| wellknown.server | object | `{"m.server":"your.server.name:443"}` | server entry in well-known |
-| wellknown.service.annotations | object | `{}` |  |
-| wellknown.service.port | int | `8080` |  |
-| wellknown.service.type | string | `"ClusterIP"` |  |
-| wellknown.tolerations | list | `[]` |  |
 
 Autogenerated from chart metadata using [helm-docs](https://github.com/norwoodj/helm-docs)

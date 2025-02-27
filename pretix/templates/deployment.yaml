@@ -41,8 +41,8 @@ spec:
           securityContext:
             {{- toYaml $.Values.securityContext | nindent 12 }}
           {{- with $.Values.image }}
-          image: "{{ .registry }}/{{ .repository }}:{{ .tag | default $.Chart.AppVersion }}"
-          imagePullPolicy: {{ .pullPolicy }}
+          image: "{{ coalesce $.Values.global.image.registry .registry }}/{{ .repository }}:{{ .tag | default $.Chart.AppVersion }}"
+          imagePullPolicy: {{ coalesce $.Values.global.image.pullPolicy .pullPolicy }}
           {{- end }}
           env:
             # Migrations are handled by helm hooks in pretix-migrate.yaml

@@ -7,7 +7,7 @@ description: "A Helm chart for Kubernetes"
 
 # autopush
 
-![Version: 0.0.12](https://img.shields.io/badge/Version-0.0.12-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.72.2](https://img.shields.io/badge/AppVersion-1.72.2-informational?style=flat-square)
+![Version: 0.0.13](https://img.shields.io/badge/Version-0.0.13-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.72.2](https://img.shields.io/badge/AppVersion-1.72.2-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -61,47 +61,80 @@ helm uninstall autopush-release
 
 ## Values
 
+### Autoconnect
+
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| autoconnect.affinity | object | `{}` |  |
-| autoconnect.image.pullPolicy | string | `"IfNotPresent"` |  |
-| autoconnect.image.registry | string | `"codeberg.org"` |  |
-| autoconnect.image.repository | string | `"wrenix/autopush/autoconnect"` |  |
-| autoconnect.image.tag | string | `"latest"` |  |
-| autoconnect.livenessProbe | object | `{"httpGet":{"path":"/health","port":"http"}}` | This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/ |
-| autoconnect.nodeSelector | object | `{}` |  |
+| autoconnect.image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. (could be overwritten by global.image.pullPolicy) |
+| autoconnect.image.registry | string | `"codeberg.org"` | image registry (could be overwritten by global.image.registry) |
+| autoconnect.image.repository | string | `"wrenix/autopush/autoconnect"` | image repository |
+| autoconnect.image.tag | string | `"latest"` | image tag - Overrides the image tag whose default is the chart appVersion. |
+| autoconnect.livenessProbe | object | `{"httpGet":{"path":"/health","port":"http"}}` | This is to setup the liveness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/ |
 | autoconnect.podAnnotations | object | `{}` | This is for setting Kubernetes Annotations to a Pod. For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/ |
 | autoconnect.podLabels | object | `{}` | This is for setting Kubernetes Labels to a Pod. For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/ |
-| autoconnect.podSecurityContext | object | `{}` |  |
-| autoconnect.readinessProbe.httpGet.path | string | `"/health"` |  |
-| autoconnect.readinessProbe.httpGet.port | string | `"http"` |  |
+| autoconnect.readinessProbe | object | `{"httpGet":{"path":"/health","port":"http"}}` | This is to setup the readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/ |
 | autoconnect.replicaCount | int | `1` | This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/ |
 | autoconnect.resources | object | `{}` | We usually recommend not to specify default resources and to leave this as a conscious choice for the user. This also increases chances charts run on environments with little resources, such as Minikube. If you do want to specify resources, uncomment the following lines, adjust them as necessary, and remove the curly braces after 'resources:'. limits:   cpu: 100m   memory: 128Mi requests:   cpu: 100m   memory: 128Mi |
 | autoconnect.securityContext | object | `{}` | securityContext capabilities:   drop:   - ALL readOnlyRootFilesystem: true runAsNonRoot: true runAsUser: 1000 |
-| autoconnect.service.ports.http | int | `80` |  |
-| autoconnect.service.ports.router | int | `8081` |  |
-| autoconnect.service.type | string | `"ClusterIP"` |  |
-| autoconnect.tolerations | list | `[]` |  |
+| autoconnect.service.ports.http | int | `80` | port of http service |
+| autoconnect.service.ports.router | int | `8081` | port of internal router service |
+| autoconnect.service.type | string | `"ClusterIP"` | This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types |
 | autoconnect.volumeMounts | list | `[]` | Additional volumeMounts on the output Deployment definition. - name: foo   mountPath: "/etc/foo"   readOnly: true |
-| autoendpoint.affinity | object | `{}` |  |
-| autoendpoint.image.pullPolicy | string | `"IfNotPresent"` |  |
-| autoendpoint.image.registry | string | `"codeberg.org"` |  |
-| autoendpoint.image.repository | string | `"wrenix/autopush/autoendpoint"` |  |
-| autoendpoint.image.tag | string | `"latest"` |  |
-| autoendpoint.livenessProbe | object | `{"httpGet":{"path":"/health","port":"http"}}` | This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/ |
-| autoendpoint.nodeSelector | object | `{}` |  |
-| autoendpoint.podAnnotations | object | `{}` |  |
-| autoendpoint.podLabels | object | `{}` |  |
-| autoendpoint.podSecurityContext | object | `{}` |  |
-| autoendpoint.readinessProbe.httpGet.path | string | `"/health"` |  |
-| autoendpoint.readinessProbe.httpGet.port | string | `"http"` |  |
+
+### Autoendpoint
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| autoendpoint.image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. (could be overwritten by global.image.pullPolicy) |
+| autoendpoint.image.registry | string | `"codeberg.org"` | image registry (could be overwritten by global.image.registry) |
+| autoendpoint.image.repository | string | `"wrenix/autopush/autoendpoint"` | image repository |
+| autoendpoint.image.tag | string | `"latest"` | image tag - Overrides the image tag whose default is the chart appVersion. |
+| autoendpoint.livenessProbe | object | `{"httpGet":{"path":"/health","port":"http"}}` | This is to setup the liveness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/ |
+| autoendpoint.podAnnotations | object | `{}` | This is for setting Kubernetes Annotations to a Pod. For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/ |
+| autoendpoint.podLabels | object | `{}` | This is for setting Kubernetes Labels to a Pod. For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/ |
+| autoendpoint.readinessProbe | object | `{"httpGet":{"path":"/health","port":"http"}}` | This is to setup the readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/ |
 | autoendpoint.replicaCount | int | `1` | This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/ |
 | autoendpoint.resources | object | `{}` | We usually recommend not to specify default resources and to leave this as a conscious choice for the user. This also increases chances charts run on environments with little resources, such as Minikube. If you do want to specify resources, uncomment the following lines, adjust them as necessary, and remove the curly braces after 'resources:'. limits:   cpu: 100m   memory: 128Mi requests:   cpu: 100m   memory: 128Mi |
-| autoendpoint.securityContext | object | `{}` |  |
-| autoendpoint.service.port | int | `80` |  |
-| autoendpoint.service.type | string | `"ClusterIP"` |  |
-| autoendpoint.tolerations | list | `[]` |  |
+| autoendpoint.service.port | int | `80` | This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports |
+| autoendpoint.service.type | string | `"ClusterIP"` | This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types |
 | autoendpoint.volumeMounts | list | `[]` | Additional volumeMounts on the output Deployment definition. - name: foo   mountPath: "/etc/foo"   readOnly: true |
+
+### UnifiedPush
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
+| serviceAccount.automount | bool | `true` | Automatically mount a ServiceAccount's API credentials? |
+| serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
+| serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
+| unifiedPush.enabled | bool | `false` | enable/deploy common-proxy for unifiedpush |
+| unifiedPush.image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. (could be overwritten by global.image.pullPolicy) |
+| unifiedPush.image.registry | string | `"docker.io"` | image registry (could be overwritten by global.image.registry) |
+| unifiedPush.image.repository | string | `"unifiedpush/common-proxies"` | image repository |
+| unifiedPush.image.tag | string | `"v2.2.0"` | image tag |
+| unifiedPush.livenessProbe | object | `{"httpGet":{"path":"/health","port":"http"}}` | This is to setup the liveness more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/ |
+| unifiedPush.podAnnotations | object | `{}` | This is for setting Kubernetes Annotations to a Pod. For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/ |
+| unifiedPush.podLabels | object | `{}` | This is for setting Kubernetes Labels to a Pod. For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/ |
+| unifiedPush.readinessProbe | object | `{"httpGet":{"path":"/health","port":"http"}}` | This is to setup the readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/ |
+| unifiedPush.replicaCount | int | `1` | This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/ |
+| unifiedPush.resources | object | `{}` | We usually recommend not to specify default resources and to leave this as a conscious choice for the user. This also increases chances charts run on environments with little resources, such as Minikube. If you do want to specify resources, uncomment the following lines, adjust them as necessary, and remove the curly braces after 'resources:'. limits:   cpu: 100m   memory: 128Mi requests:   cpu: 100m   memory: 128Mi |
+| unifiedPush.service.port | int | `80` | This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports |
+| unifiedPush.service.type | string | `"ClusterIP"` | This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types |
+| unifiedPush.volumeMounts | list | `[]` | Additional volumeMounts on the output Deployment definition. - name: foo   mountPath: "/etc/foo"   readOnly: true |
+
+### Other Values
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| autoconnect.affinity | object | `{}` |  |
+| autoconnect.nodeSelector | object | `{}` |  |
+| autoconnect.podSecurityContext | object | `{}` |  |
+| autoconnect.tolerations | list | `[]` |  |
+| autoendpoint.affinity | object | `{}` |  |
+| autoendpoint.nodeSelector | object | `{}` |  |
+| autoendpoint.podSecurityContext | object | `{}` |  |
+| autoendpoint.securityContext | object | `{}` |  |
+| autoendpoint.tolerations | list | `[]` |  |
 | config.cryptoKey | string | `""` | run https://github.com/mozilla-services/autopush-rs/blob/master/scripts/fernet_key.py |
 | config.logs.backtrace | bool | `false` | enable backtrace of autopush |
 | config.logs.level | string | `"warn"` | set log level of autopush |
@@ -139,7 +172,6 @@ helm uninstall autopush-release
 | redis.architecture | string | `"standalone"` |  |
 | redis.auth.enabled | bool | `true` |  |
 | redis.auth.existingSecret | string | `""` | name of an existing secret with Redis credentials (instead of auth.password), must be created ahead of time |
-| redis.auth.existingSecret | string | `nil` | Or use existing secret with "redis-password" key instead of static password |
 | redis.auth.existingSecretPasswordKey | string | `""` | Password key to be retrieved from existing secret |
 | redis.auth.password | string | `"autopush"` | XXX Change me! |
 | redis.dbid | int | `0` | Database ID for non-default database |
@@ -151,35 +183,16 @@ helm uninstall autopush-release
 | redis.master.persistence.enabled | bool | `true` |  |
 | redis.master.service.port | int | `6379` |  |
 | redis.replica.persistence.enabled | bool | `true` |  |
-| serviceAccount.annotations | object | `{}` |  |
-| serviceAccount.automount | bool | `true` |  |
-| serviceAccount.create | bool | `true` |  |
-| serviceAccount.name | string | `""` |  |
 | unifiedPush.affinity | object | `{}` |  |
 | unifiedPush.config.gateway.allowedHosts | list | `[]` |  |
 | unifiedPush.config.gateway.generic.enable | bool | `true` |  |
 | unifiedPush.config.gateway.matrix.enable | bool | `true` |  |
 | unifiedPush.config.uaid | string | `""` |  |
 | unifiedPush.config.verbose | bool | `false` |  |
-| unifiedPush.enabled | bool | `false` |  |
-| unifiedPush.image.pullPolicy | string | `"IfNotPresent"` |  |
-| unifiedPush.image.registry | string | `"docker.io"` |  |
-| unifiedPush.image.repository | string | `"unifiedpush/common-proxies"` |  |
-| unifiedPush.image.tag | string | `"v2.2.0"` |  |
-| unifiedPush.livenessProbe | object | `{"httpGet":{"path":"/health","port":"http"}}` | This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/ |
 | unifiedPush.nodeSelector | object | `{}` |  |
-| unifiedPush.podAnnotations | object | `{}` |  |
-| unifiedPush.podLabels | object | `{}` |  |
 | unifiedPush.podSecurityContext | object | `{}` |  |
-| unifiedPush.readinessProbe.httpGet.path | string | `"/health"` |  |
-| unifiedPush.readinessProbe.httpGet.port | string | `"http"` |  |
-| unifiedPush.replicaCount | int | `1` | This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/ |
-| unifiedPush.resources | object | `{}` | We usually recommend not to specify default resources and to leave this as a conscious choice for the user. This also increases chances charts run on environments with little resources, such as Minikube. If you do want to specify resources, uncomment the following lines, adjust them as necessary, and remove the curly braces after 'resources:'. limits:   cpu: 100m   memory: 128Mi requests:   cpu: 100m   memory: 128Mi |
 | unifiedPush.securityContext | object | `{}` |  |
-| unifiedPush.service.port | int | `80` |  |
-| unifiedPush.service.type | string | `"ClusterIP"` |  |
 | unifiedPush.tolerations | list | `[]` |  |
-| unifiedPush.volumeMounts | list | `[]` | Additional volumeMounts on the output Deployment definition. - name: foo   mountPath: "/etc/foo"   readOnly: true |
 | volumes | list | `[]` | Additional volumes on the output Deployment definition. - name: foo   secret:     secretName: mysecret     optional: false |
 
 Autogenerated from chart metadata using [helm-docs](https://github.com/norwoodj/helm-docs)

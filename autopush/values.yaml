@@ -104,8 +104,6 @@ redis:
     # -- Password key to be retrieved from existing secret
     existingSecretPasswordKey: ""
 
-    # -- Or use existing secret with "redis-password" key instead of static password
-    existingSecret:
   external:
     host: redis
     port: 6379
@@ -128,17 +126,28 @@ redis:
 
 autoconnect:
   # -- This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
+  # @section -- Autoconnect
   replicaCount: 1
   image:
+    # -- image registry (could be overwritten by global.image.registry)
+    # @section -- Autoconnect
     registry: codeberg.org
+    # -- image repository
+    # @section -- Autoconnect
     repository: wrenix/autopush/autoconnect
+    # -- This sets the pull policy for images. (could be overwritten by global.image.pullPolicy)
+    # @section -- Autoconnect
     pullPolicy: IfNotPresent
+    # -- image tag - Overrides the image tag whose default is the chart appVersion.
+    # @section -- Autoconnect
     tag: latest
   # -- This is for setting Kubernetes Annotations to a Pod.
   # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+  # @section -- Autoconnect
   podAnnotations: {}
   # -- This is for setting Kubernetes Labels to a Pod.
   # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+  # @section -- Autoconnect
   podLabels: {}
 
   nodeSelector: {}
@@ -157,15 +166,21 @@ autoconnect:
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
+  # @section -- Autoconnect
   securityContext: {}
 
   # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
   service:
-    # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+    # -- This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+    # @section -- Autoconnect
     type: ClusterIP
     # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
     ports:
+      # -- port of http service
+      # @section -- Autoconnect
       http: 80
+      # -- port of internal router service
+        # @section -- Autoconnect
       router: 8081
 
   # -- We usually recommend not to specify default resources and to leave this as a conscious
@@ -178,13 +193,17 @@ autoconnect:
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
+  # @section -- Autoconnect
   resources: {}
 
-  # -- This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+  # -- This is to setup the liveness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+  # @section -- Autoconnect
   livenessProbe:
     httpGet:
       path: /health
       port: http
+  # -- This is to setup the readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+  # @section -- Autoconnect
   readinessProbe:
     httpGet:
       path: /health
@@ -194,22 +213,34 @@ autoconnect:
   # - name: foo
   #   mountPath: "/etc/foo"
   #   readOnly: true
+  # @section -- Autoconnect
   volumeMounts: []
 
 autoendpoint:
   # -- This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
+  # @section -- Autoendpoint
   replicaCount: 1
   image:
+    # -- image registry (could be overwritten by global.image.registry)
+    # @section -- Autoendpoint
     registry: codeberg.org
+    # -- image repository
+    # @section -- Autoendpoint
     repository: wrenix/autopush/autoendpoint
+    # -- This sets the pull policy for images. (could be overwritten by global.image.pullPolicy)
+    # @section -- Autoendpoint
     pullPolicy: IfNotPresent
+    # -- image tag - Overrides the image tag whose default is the chart appVersion.
+    # @section -- Autoendpoint
     tag: latest
 
-  # This is for setting Kubernetes Annotations to a Pod.
+  # -- This is for setting Kubernetes Annotations to a Pod.
   # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+  # @section -- Autoendpoint
   podAnnotations: {}
-  # This is for setting Kubernetes Labels to a Pod.
+  # -- This is for setting Kubernetes Labels to a Pod.
   # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+  # @section -- Autoendpoint
   podLabels: {}
 
   nodeSelector: {}
@@ -231,9 +262,11 @@ autoendpoint:
 
   # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
   service:
-    # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+    # -- This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+    # @section -- Autoendpoint
     type: ClusterIP
-    # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
+    # -- This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
+    # @section -- Autoendpoint
     port: 80
 
   # -- We usually recommend not to specify default resources and to leave this as a conscious
@@ -246,13 +279,17 @@ autoendpoint:
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
+  # @section -- Autoendpoint
   resources: {}
 
-  # -- This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+  # -- This is to setup the liveness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+  # @section -- Autoendpoint
   livenessProbe:
     httpGet:
       path: /health
       port: http
+  # -- This is to setup the readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+  # @section -- Autoendpoint
   readinessProbe:
     httpGet:
       path: /health
@@ -262,16 +299,28 @@ autoendpoint:
   # - name: foo
   #   mountPath: "/etc/foo"
   #   readOnly: true
+  # @section -- Autoendpoint
   volumeMounts: []
 
 unifiedPush:
+  # -- enable/deploy common-proxy for unifiedpush
+  # @section -- UnifiedPush
   enabled: false
   # -- This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
+  # @section -- UnifiedPush
   replicaCount: 1
   image:
+    # -- image registry (could be overwritten by global.image.registry)
+    # @section -- UnifiedPush
     registry: docker.io
+    # -- image repository
+    # @section -- UnifiedPush
     repository: unifiedpush/common-proxies
+    # -- This sets the pull policy for images. (could be overwritten by global.image.pullPolicy)
+    # @section -- UnifiedPush
     pullPolicy: IfNotPresent
+    # -- image tag
+    # @section -- UnifiedPush
     tag: "v2.2.0"
 
   config:
@@ -284,11 +333,13 @@ unifiedPush:
         enable: true
       allowedHosts: []
 
-  # This is for setting Kubernetes Annotations to a Pod.
+  # -- This is for setting Kubernetes Annotations to a Pod.
   # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+  # @section -- UnifiedPush
   podAnnotations: {}
-  # This is for setting Kubernetes Labels to a Pod.
+  # -- This is for setting Kubernetes Labels to a Pod.
   # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+  # @section -- UnifiedPush
   podLabels: {}
 
   nodeSelector: {}
@@ -310,9 +361,11 @@ unifiedPush:
 
   # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
   service:
-    # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+    # -- This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+    # @section -- UnifiedPush
     type: ClusterIP
-    # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
+    # -- This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
+    # @section -- UnifiedPush
     port: 80
 
   # -- We usually recommend not to specify default resources and to leave this as a conscious
@@ -325,13 +378,17 @@ unifiedPush:
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
+  # @section -- UnifiedPush
   resources: {}
 
-  # -- This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+  # -- This is to setup the liveness more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+  # @section -- UnifiedPush
   livenessProbe:
     httpGet:
       path: /health
       port: http
+  # -- This is to setup the readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+  # @section -- UnifiedPush
   readinessProbe:
     httpGet:
       path: /health
@@ -341,19 +398,24 @@ unifiedPush:
   # - name: foo
   #   mountPath: "/etc/foo"
   #   readOnly: true
+  # @section -- UnifiedPush
   volumeMounts: []
 
 
 # This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
 serviceAccount:
-  # Specifies whether a service account should be created
+  # -- Specifies whether a service account should be created
+  # @section -- UnifiedPush
   create: true
-  # Automatically mount a ServiceAccount's API credentials?
+  # -- Automatically mount a ServiceAccount's API credentials?
+  # @section -- UnifiedPush
   automount: true
-  # Annotations to add to the service account
+  # -- Annotations to add to the service account
+  # @section -- UnifiedPush
   annotations: {}
-  # The name of the service account to use.
+  # -- The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
+  # @section -- UnifiedPush
   name: ""
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/

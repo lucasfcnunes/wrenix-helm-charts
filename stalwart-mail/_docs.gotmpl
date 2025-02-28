@@ -1,14 +1,16 @@
 {{ define "chart.prerequirements" -}}
-= Alpha
-
-WARNING
-====
+## Alpha
+{{`{{< callout type="warning" >}}`}}
 We stop working on this Helm-Chart.
 There are still many breaking change like:
 
 * https://github.com/stalwartlabs/mail-server/issues/211[storage.fts in toml configuration has two meanings]
 
-We hope that stalward mail-server becomes more stable.
+* When configuring smtp relay conditions, each condition must be alphabetically correct, so the statement interpolates in the correct order. Use a new list to compensate:
+  - config.queue.outbound.next-hop[0].if
+  - config.queue.outbound.next-hop[0].then
+  - config.queue.outbound.next-hop[1].else
 
-====
+We hope that stalward mail-server becomes more stable.
+{{`{{< /callout >}}`}}
 {{ end }}

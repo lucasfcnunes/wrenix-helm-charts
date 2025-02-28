@@ -7,7 +7,7 @@ description: "Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One M
 
 # stalwart-mail
 
-![Version: 0.0.26](https://img.shields.io/badge/Version-0.0.26-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.11.6](https://img.shields.io/badge/AppVersion-0.11.6-informational?style=flat-square)
+![Version: 0.0.27](https://img.shields.io/badge/Version-0.0.27-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.11.6](https://img.shields.io/badge/AppVersion-0.11.6-informational?style=flat-square)
 
 Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One Mail Server (IMAP, JMAP, SMTP)
 
@@ -17,18 +17,20 @@ Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One Mail Server (IM
 | ---- | ------ | --- |
 | WrenIX |  | <https://wrenix.eu> |
 
-= Alpha
-
-WARNING
-====
+## Alpha
+{{< callout type="warning" >}}
 We stop working on this Helm-Chart.
 There are still many breaking change like:
 
 * https://github.com/stalwartlabs/mail-server/issues/211[storage.fts in toml configuration has two meanings]
 
-We hope that stalward mail-server becomes more stable.
+* When configuring smtp relay conditions, each condition must be alphabetically correct, so the statement interpolates in the correct order. Use a new list to compensate:
+  - config.queue.outbound.next-hop[0].if
+  - config.queue.outbound.next-hop[0].then
+  - config.queue.outbound.next-hop[1].else
 
-====
+We hope that stalward mail-server becomes more stable.
+{{< /callout >}}
 
 ## Usage
 

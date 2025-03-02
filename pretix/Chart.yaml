@@ -2,9 +2,9 @@ apiVersion: v2
 name: pretix
 description: Reinventing ticket presales, one ticket at a time.
 type: application
-version: "0.1.10"
+version: "0.1.11"
 # renovate: image=docker.io/pretix/standalone
-appVersion: "2025.1.0"
+appVersion: "2025.2.0"
 keywords:
   - event-tickets
 maintainers:
@@ -20,6 +20,6 @@ dependencies:
     repository: "oci://docker.io/bitnamicharts"
     condition: postgresql.enabled
   - name: redis
-    version: "20.8.0"
+    version: "20.10.0"
     repository: "oci://docker.io/bitnamicharts"
     condition: redis.enabled

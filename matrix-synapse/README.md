@@ -7,7 +7,7 @@ description: "Matrix reference homeserver"
 
 # matrix-synapse
 
-![Version: 1.0.17](https://img.shields.io/badge/Version-1.0.17-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.125.0](https://img.shields.io/badge/AppVersion-1.125.0-informational?style=flat-square)
+![Version: 1.0.18](https://img.shields.io/badge/Version-1.0.18-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.125.0](https://img.shields.io/badge/AppVersion-1.125.0-informational?style=flat-square)
 
 Matrix reference homeserver
 
@@ -114,6 +114,7 @@ helm uninstall matrix-synapse-release
 | redis.auth.existingSecret | string | `""` | name of an existing secret with Redis credentials (instead of auth.password), must be created ahead of time |
 | redis.auth.existingSecretPasswordKey | string | `""` | Password key to be retrieved from existing secret |
 | redis.auth.password | string | `"synapse"` | XXX Change me! |
+| redis.auth.usePasswordFiles | bool | `false` |  |
 | redis.enabled | bool | `true` |  |
 | redis.global.storageClass | string | `""` |  |
 | redis.master.persistence.enabled | bool | `true` |  |

@@ -3,7 +3,7 @@ name: home-assistant
 description: Home Assistant with tooling to run on an k3s pi
 icon: https://www.home-assistant.io/images/favicon-192x192.png
 type: application
-version: "0.3.9"
+version: "0.3.10"
 # renovate: image=ghcr.io/home-assistant/home-assistant
 appVersion: "2025.2.5"
 maintainers:

@@ -7,7 +7,7 @@ description: "Home Assistant with tooling to run on an k3s pi"
 
 # home-assistant
 
-![Version: 0.3.9](https://img.shields.io/badge/Version-0.3.9-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2025.2.5](https://img.shields.io/badge/AppVersion-2025.2.5-informational?style=flat-square)
+![Version: 0.3.10](https://img.shields.io/badge/Version-0.3.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2025.2.5](https://img.shields.io/badge/AppVersion-2025.2.5-informational?style=flat-square)
 
 Home Assistant with tooling to run on an k3s pi
 
@@ -70,7 +70,7 @@ helm uninstall home-assistant-release
 | nats.image.pullPolicy | string | `"IfNotPresent"` |  |
 | nats.image.registry | string | `"docker.io"` |  |
 | nats.image.repository | string | `"library/nats"` |  |
-| nats.image.tag | string | `"2.10.25-scratch"` |  |
+| nats.image.tag | string | `"2.10.26-scratch"` |  |
 | nats.livenessProbe.tcpSocket.port | string | `"nats"` |  |
 | nats.readinessProbe.tcpSocket.port | string | `"nats"` |  |
 | nats.resources.limits.cpu | string | `"100m"` |  |
@@ -113,7 +113,7 @@ helm uninstall home-assistant-release
 | zigbee2mqtt.image.pullPolicy | string | `"IfNotPresent"` |  |
 | zigbee2mqtt.image.registry | string | `"docker.io"` |  |
 | zigbee2mqtt.image.repository | string | `"koenkk/zigbee2mqtt"` |  |
-| zigbee2mqtt.image.tag | string | `"2.1.1"` |  |
+| zigbee2mqtt.image.tag | string | `"2.1.3"` |  |
 | zigbee2mqtt.ingress.hosts | list | `[]` |  |
 | zigbee2mqtt.securityContext.privileged | bool | `true` |  |
 

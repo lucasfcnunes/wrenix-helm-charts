@@ -7,7 +7,7 @@ description: "A Helm chart for Kubernetes"
 
 # autopush
 
-![Version: 0.0.13](https://img.shields.io/badge/Version-0.0.13-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.72.2](https://img.shields.io/badge/AppVersion-1.72.2-informational?style=flat-square)
+![Version: 0.0.14](https://img.shields.io/badge/Version-0.0.14-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.72.2](https://img.shields.io/badge/AppVersion-1.72.2-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -57,7 +57,7 @@ helm uninstall autopush-release
 
 | Repository | Name | Version |
 |------------|------|---------|
-| oci://docker.io/bitnamicharts | redis | 20.8.0 |
+| oci://docker.io/bitnamicharts | redis | 20.10.0 |
 
 ## Values
 

@@ -2,7 +2,7 @@ apiVersion: v2
 name: pretix
 description: Reinventing ticket presales, one ticket at a time.
 type: application
-version: "0.1.11"
+version: "0.1.12"
 # renovate: image=docker.io/pretix/standalone
 appVersion: "2025.2.0"
 keywords:

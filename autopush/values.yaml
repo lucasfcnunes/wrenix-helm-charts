@@ -99,7 +99,6 @@ redis:
     enabled: true
     # -- XXX Change me!
     password: autopush
-    usePasswordFiles: false
     # -- name of an existing secret with Redis credentials (instead of auth.password), must be created ahead of time
     existingSecret: ""
     # -- Password key to be retrieved from existing secret

@@ -7,7 +7,7 @@ description: "A Helm chart for Kubernetes"
 
 # autopush
 
-![Version: 0.0.15](https://img.shields.io/badge/Version-0.0.15-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.72.2](https://img.shields.io/badge/AppVersion-1.72.2-informational?style=flat-square)
+![Version: 0.0.16](https://img.shields.io/badge/Version-0.0.16-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.72.2](https://img.shields.io/badge/AppVersion-1.72.2-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -57,7 +57,7 @@ helm uninstall autopush-release
 
 | Repository | Name | Version |
 |------------|------|---------|
-| oci://docker.io/bitnamicharts | redis | 20.10.0 |
+| oci://docker.io/bitnamicharts | redis | 20.11.3 |
 
 ## Values
 
@@ -174,7 +174,6 @@ helm uninstall autopush-release
 | redis.auth.existingSecret | string | `""` | name of an existing secret with Redis credentials (instead of auth.password), must be created ahead of time |
 | redis.auth.existingSecretPasswordKey | string | `""` | Password key to be retrieved from existing secret |
 | redis.auth.password | string | `"autopush"` | XXX Change me! |
-| redis.auth.usePasswordFiles | bool | `false` |  |
 | redis.dbid | int | `0` | Database ID for non-default database |
 | redis.external.existingSecretPasswordKey | string | `"redis-password"` | Password key to be retrieved from existing secret |
 | redis.external.host | string | `"redis"` |  |

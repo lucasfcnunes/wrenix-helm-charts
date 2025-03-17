@@ -7,7 +7,7 @@ description: "Home Assistant with tooling to run on an k3s pi"
 
 # home-assistant
 
-![Version: 0.3.13](https://img.shields.io/badge/Version-0.3.13-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2025.3.2](https://img.shields.io/badge/AppVersion-2025.3.2-informational?style=flat-square)
+![Version: 0.3.14](https://img.shields.io/badge/Version-0.3.14-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2025.3.3](https://img.shields.io/badge/AppVersion-2025.3.3-informational?style=flat-square)
 
 Home Assistant with tooling to run on an k3s pi
 

@@ -8,10 +8,14 @@ global:
 replicaCount: 1
 
 image:
+  # -- image registry (could be overwritten by global.image.registry)
   registry: dock.mau.dev
+  # -- image repository
   repository: ""
-  tag: ""
+  # -- This sets the pull policy for images. (could be overwritten by global.image.pullPolicy)
   pullPolicy: IfNotPresent
+  # -- image tag
+  tag: ""
 
 imagePullSecrets: []
 nameOverride: ""

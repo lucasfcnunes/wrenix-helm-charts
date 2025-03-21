@@ -7,7 +7,7 @@ description: "A Matrix puppeting bridge mautrix."
 
 # mautrix-bridge
 
-![Version: 0.0.18](https://img.shields.io/badge/Version-0.0.18-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 0.0.19](https://img.shields.io/badge/Version-0.0.19-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 A Matrix puppeting bridge mautrix.
 
@@ -174,10 +174,10 @@ helm uninstall mautrix-bridge-release
 | fullnameOverride | string | `""` |  |
 | global.image.pullPolicy | string | `nil` | if set it will overwrite all pullPolicy |
 | global.image.registry | string | `nil` | if set it will overwrite all registry entries |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.registry | string | `"dock.mau.dev"` |  |
-| image.repository | string | `""` |  |
-| image.tag | string | `""` |  |
+| image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. (could be overwritten by global.image.pullPolicy) |
+| image.registry | string | `"dock.mau.dev"` | image registry (could be overwritten by global.image.registry) |
+| image.repository | string | `""` | image repository |
+| image.tag | string | `""` | image tag |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.className | string | `""` |  |

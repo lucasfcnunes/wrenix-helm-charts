@@ -7,7 +7,7 @@ description: "A Helm chart for Kubernetes"
 
 # miniserve
 
-![Version: 0.4.4](https://img.shields.io/badge/Version-0.4.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.29.0](https://img.shields.io/badge/AppVersion-0.29.0-informational?style=flat-square)
+![Version: 0.4.5](https://img.shields.io/badge/Version-0.4.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.29.0](https://img.shields.io/badge/AppVersion-0.29.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -78,9 +78,12 @@ helm uninstall miniserve-release
 | data.verbose | bool | `false` | Be verbose, includes emitting access logs |
 | data.webdav.enabled | bool | `false` | If enabled, respond to WebDAV requests (read-only). |
 | fullnameOverride | string | `""` |  |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.repository | string | `"docker.io/svenstaro/miniserve"` |  |
-| image.tag | string | `""` |  |
+| global.image.pullPolicy | string | `nil` | if set it will overwrite all pullPolicy |
+| global.image.registry | string | `nil` | if set it will overwrite all registry entries |
+| image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. (could be overwritten by global.image.pullPolicy) |
+| image.registry | string | `"docker.io"` | image registry (could be overwritten by global.image.registry) |
+| image.repository | string | `"svenstaro/miniserve"` | image repository |
+| image.tag | string | `""` | image tag - Overrides the image tag whose default is the chart appVersion. |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.className | string | `""` |  |
@@ -105,7 +108,7 @@ helm uninstall miniserve-release
 | podAnnotations | object | `{}` |  |
 | podLabels | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
-| replicaCount | int | `1` |  |
+| replicaCount | int | `1` | replicas |
 | resources.limits.memory | string | `"256Mi"` |  |
 | resources.requests.cpu | string | `"80m"` |  |
 | resources.requests.memory | string | `"128Mi"` |  |

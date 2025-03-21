@@ -1,13 +1,22 @@
-# Default values for web-static.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+global:
+  image:
+    # -- if set it will overwrite all registry entries
+    registry:
+    # -- if set it will overwrite all pullPolicy
+    pullPolicy:
 
+
+# -- replicas
 replicaCount: 1
 
 image:
-  repository: "docker.io/svenstaro/miniserve"
+  # -- image registry (could be overwritten by global.image.registry)
+  registry: docker.io
+  # -- image repository
+  repository: "svenstaro/miniserve"
+  # -- This sets the pull policy for images. (could be overwritten by global.image.pullPolicy)
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
+  # -- image tag - Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
 imagePullSecrets: []

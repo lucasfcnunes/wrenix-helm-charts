@@ -8,17 +8,19 @@ global:
     pullPolicy:
 
 image:
+  # -- image registry (could be overwritten by global.image.registry)
   registry: ghcr.io
+  # -- image repository
   repository: element-hq/synapse
+  # -- This sets the pull policy for images. (could be overwritten by global.image.pullPolicy)
+  pullPolicy: IfNotPresent
   # -- Overrides the image tag whose default is the chart appVersion.
   tag:
-  pullPolicy: IfNotPresent
-  ## Optionally specify an array of imagePullSecrets.
-  ## Secrets must be manually created in the namespace.
-  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-  ##
-  # pullSecrets:
-  #   - myRegistryKeySecretName
+  # -- Optionally specify an array of imagePullSecrets.
+  # Secrets must be manually created in the namespace.
+  # ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  #
+  pullSecrets: []
 
 # -- Override part of the installed name, will still keep release name.
 nameOverride:

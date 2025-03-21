@@ -7,7 +7,7 @@ description: "Matrix reference homeserver"
 
 # matrix-synapse
 
-![Version: 1.0.19](https://img.shields.io/badge/Version-1.0.19-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.126.0](https://img.shields.io/badge/AppVersion-1.126.0-informational?style=flat-square)
+![Version: 1.0.20](https://img.shields.io/badge/Version-1.0.20-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.126.0](https://img.shields.io/badge/AppVersion-1.126.0-informational?style=flat-square)
 
 Matrix reference homeserver
 
@@ -71,9 +71,10 @@ helm uninstall matrix-synapse-release
 | grafana.dashboards.annotations | object | `{}` |  |
 | grafana.dashboards.enabled | bool | `false` |  |
 | grafana.dashboards.labels.grafana_dashboard | string | `"1"` |  |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.registry | string | `"ghcr.io"` |  |
-| image.repository | string | `"element-hq/synapse"` |  |
+| image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. (could be overwritten by global.image.pullPolicy) |
+| image.pullSecrets | list | `[]` | Optionally specify an array of imagePullSecrets. Secrets must be manually created in the namespace. ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/  |
+| image.registry | string | `"ghcr.io"` | image registry (could be overwritten by global.image.registry) |
+| image.repository | string | `"element-hq/synapse"` | image repository |
 | image.tag | string | `nil` | Overrides the image tag whose default is the chart appVersion. |
 | ingress.annotations | object | `{}` |  |
 | ingress.csHosts | list | `[]` |  |

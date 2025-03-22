@@ -47,7 +47,7 @@ spec:
             - "--show-labels"
             {{- end }}
             - "--message-type"
-            - {{ .Values.bot.messageType }}
+            - {{ .Values.bot.matrix.messageType }}
             - "--icon-file"
             - "/config/icon.yaml"
             - "--color-file"

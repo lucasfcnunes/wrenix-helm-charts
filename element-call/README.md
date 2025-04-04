@@ -7,7 +7,7 @@ description: "Run Element-Call and his dependencies"
 
 # element-call
 
-![Version: 0.1.11](https://img.shields.io/badge/Version-0.1.11-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.9.0](https://img.shields.io/badge/AppVersion-0.9.0-informational?style=flat-square)
+![Version: 0.1.12](https://img.shields.io/badge/Version-0.1.12-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.9.0](https://img.shields.io/badge/AppVersion-0.9.0-informational?style=flat-square)
 
 Run Element-Call and his dependencies
 
@@ -52,7 +52,7 @@ helm uninstall element-call-release
 | service.lkJWT.image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. (could be overwritten by global.image.pullPolicy) |
 | service.lkJWT.image.registry | string | `"ghcr.io"` | image registry (could be overwritten by global.image.registry) |
 | service.lkJWT.image.repository | string | `"element-hq/lk-jwt-service"` | image repository |
-| service.lkJWT.image.tag | string | `"0.2.1"` | image tag |
+| service.lkJWT.image.tag | string | `"0.2.2"` | image tag |
 | service.lkJWT.networkPolicy.egress.enabled | bool | `false` | activate egress no networkpolicy |
 | service.lkJWT.networkPolicy.egress.extra | list | `[]` | egress rules |
 | service.lkJWT.networkPolicy.ingress.http | list | `[]` | ingress for http port (e.g. ingress-controller) |

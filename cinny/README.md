@@ -7,7 +7,7 @@ description: "A Helm Chart to install cinny (yet another matrix client)"
 
 # cinny
 
-![Version: 0.2.4](https://img.shields.io/badge/Version-0.2.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4.6.0](https://img.shields.io/badge/AppVersion-4.6.0-informational?style=flat-square)
+![Version: 0.2.5](https://img.shields.io/badge/Version-0.2.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4.6.0](https://img.shields.io/badge/AppVersion-4.6.0-informational?style=flat-square)
 
 A Helm Chart to install cinny (yet another matrix client)
 
@@ -61,12 +61,12 @@ helm uninstall cinny-release
 | config.featuredCommunities.servers[1] | string | `"matrix.org"` |  |
 | config.featuredCommunities.servers[2] | string | `"monero.social"` |  |
 | config.featuredCommunities.servers[3] | string | `"mozilla.org"` |  |
-| config.featuredCommunities.spaces"[0] | string | `"#cinny-space:matrix.org"` |  |
-| config.featuredCommunities.spaces"[1] | string | `"#community:matrix.org"` |  |
-| config.featuredCommunities.spaces"[2] | string | `"#space:envs.net"` |  |
-| config.featuredCommunities.spaces"[3] | string | `"#science-space:matrix.org"` |  |
-| config.featuredCommunities.spaces"[4] | string | `"#libregaming-games:tchncs.de"` |  |
-| config.featuredCommunities.spaces"[5] | string | `"#mathematics-on:matrix.org"` |  |
+| config.featuredCommunities.spaces[0] | string | `"#cinny-space:matrix.org"` |  |
+| config.featuredCommunities.spaces[1] | string | `"#community:matrix.org"` |  |
+| config.featuredCommunities.spaces[2] | string | `"#space:envs.net"` |  |
+| config.featuredCommunities.spaces[3] | string | `"#science-space:matrix.org"` |  |
+| config.featuredCommunities.spaces[4] | string | `"#libregaming-games:tchncs.de"` |  |
+| config.featuredCommunities.spaces[5] | string | `"#mathematics-on:matrix.org"` |  |
 | config.hashRouter.basename | string | `"/"` |  |
 | config.hashRouter.enabled | bool | `false` |  |
 | config.homeserverList[0] | string | `"converser.eu"` |  |

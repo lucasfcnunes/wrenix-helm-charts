@@ -35,7 +35,7 @@ config:
   allowCustomHomeservers: true
   featuredCommunities:
     openAsDefault: false
-    spaces":
+    spaces:
       - "#cinny-space:matrix.org"
       - "#community:matrix.org"
       - "#space:envs.net"

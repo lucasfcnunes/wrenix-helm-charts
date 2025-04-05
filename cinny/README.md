@@ -7,7 +7,7 @@ description: "A Helm Chart to install cinny (yet another matrix client)"
 
 # cinny
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4.6.0](https://img.shields.io/badge/AppVersion-4.6.0-informational?style=flat-square)
+![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 4.6.0](https://img.shields.io/badge/AppVersion-4.6.0-informational?style=flat-square)
 
 A Helm Chart to install cinny (yet another matrix client)
 
@@ -91,6 +91,10 @@ helm uninstall cinny-release
 | ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | ingress.tls | list | `[]` |  |
 | nameOverride | string | `""` |  |
+| networkPolicy.egress.enabled | bool | `true` | activate egress no networkpolicy |
+| networkPolicy.egress.extra | list | `[]` | egress rules |
+| networkPolicy.enabled | bool | `false` |  |
+| networkPolicy.ingress.http | list | `[]` | ingress for http port (e.g. ingress-controller) |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |
 | podLabels | object | `{}` |  |

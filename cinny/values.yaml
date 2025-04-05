@@ -85,6 +85,17 @@ service:
   type: ClusterIP
   port: 8080
 
+networkPolicy:
+  enabled: false
+  ingress:
+    # -- ingress for http port (e.g. ingress-controller)
+    http: []
+  egress:
+    # -- activate egress no networkpolicy
+    enabled: true
+    # -- egress rules
+    extra: []
+
 ingress:
   enabled: false
   className: ""

@@ -39,12 +39,6 @@ spec:
           image: "{{ coalesce $.Values.global.image.registry .registry }}/{{ .repository }}:{{ .tag | default (printf "v%s" $.Chart.AppVersion) }}"
           imagePullPolicy: {{ coalesce $.Values.global.image.pullPolicy .pullPolicy }}
           {{- end }}
-          env:
-            - name: "CONFIG_OVERRIDE"
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "cinny.fullname" . }}-config
-                  key: config.json
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -59,6 +53,15 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: "/app/config.json"
+              name: "config"
+              subPath: "config.json"
+      volumes:
+        - name: "config"
+          configMap:
+            name: {{ include "cinny.fullname" . }}-config
+            key: config.json
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

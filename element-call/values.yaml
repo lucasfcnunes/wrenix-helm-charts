@@ -107,7 +107,7 @@ service:
       pullPolicy: IfNotPresent
       # -- image tag
       # @section -- livekit JWT
-      tag: 0.2.2
+      tag: 0.2.3
     config:
       # -- url to livekit
       # @section -- livekit JWT

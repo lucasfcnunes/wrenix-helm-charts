@@ -1,0 +1,83 @@
+{{- if and .Values.prometheus.rules.enabled }}
+{{- $fullname := include "postgresql.fullname" . }}
+{{- $filter := printf `namespace="%s",service=~"%s.*"` .Release.Namespace $fullname }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ $fullname }}
+  labels:
+    {{- include "postgresql.labels" . | nindent 4 }}
+    {{- with .Values.prometheus.rules.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  groups:
+    - name: {{ $fullname }}-Default
+      rules:
+        - alert: "PostgreSQLDown"
+          expr: 'avg(pg_up{ {{ $filter }} }) by (job, service, namespace) != 1'
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            {{`
+            summary: "PostgreSQL is not processing queries: {{ $labels.service }}.{{ $labels.namespace }}"
+            description: "{{ $labels.service }}.{{ $labels.namespace }} is rejecting query requests from the exporter, and thus probably not allowing DNS requests to work either. User services should not be effected provided at least 1 node is still alive."
+            `}}
+        - alert: "PostgreSQLHighConnections"
+          expr: 'sum(pg_stat_activity_count{ {{ $filter }} }) by (job, service, namespace) >= sum(pg_settings_max_connections{ {{ $filter }} }) by (job, service, namespace) - sum(pg_settings_superuser_reserved_connections{ {{ $filter }} }) by (job, service, namespace)'
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            {{`
+            summary: "{{ $labels.service }}.{{ $labels.namespace }} has maxed out Postgres connections."
+            description: "{{ $labels.service }}.{{ $labels.namespace }} is exceeding the currently configured maximum Postgres connection limit (current value: {{ $value }}s). Services may be degraded - please take immediate action (you probably need to increase max_connections in the Docker image and re-deploy."
+            `}}
+        - alert: "PostgreSQLHighConnections"
+          expr: 'sum(pg_stat_activity_count{ {{ $filter }} }) by (job, service, namespace) >= (sum(pg_settings_max_connections{ {{ $filter }} }) by (job, service, namespace) - sum(pg_settings_superuser_reserved_connections{ {{ $filter }} }) by (job, service, namespace) ) * 0.8'
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            {{`
+            summary: "{{ $labels.service }}.{{ $labels.namespace }} is over 80% of max Postgres connections."
+            description: "{{ $labels.service }}.{{ $labels.namespace }} is exceeding 80% of the currently configured maximum Postgres connection limit (current value: {{ $value }}s). Please check utilization graphs and confirm if this is normal service growth, abuse or an otherwise temporary condition or if new resources need to be provisioned (or the limits increased, which is mostly likely)."
+            `}}
+        - alert: "PostgreSQLSlowQueries"
+          expr: 'avg(rate(pg_stat_activity_max_tx_duration{ {{ $filter }},datname!~"template.*" }[2m])) by (job, service, namespace, datname) > 2 * 60'
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            {{`
+            summary: "PostgreSQL high number of slow on {{ $labels.service }}.{{ $labels.namespace }} for database {{ $labels.datname }}"
+            description: "PostgreSQL high number of slow queries {{ $labels.service }}.{{ $labels.namespace }} for database {{ $labels.datname }} with a value of {{ $value }}"
+            `}}
+        - alert: "PostgreSQLQPS"
+          expr: 'avg(irate(pg_stat_database_xact_commit{ {{ $filter }},datname!~"template.*"}[5m])+irate(pg_stat_database_xact_rollback{ {{ $filter }},datname!~"template.*"}[5m])) by (job, service, namespace, datname) > 10000'
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            {{`
+            description: "PostgreSQL high number of queries per second on {{ $labels.service }}.{{ $labels.namespace }} for database {{ $labels.datname }} with a value of {{ $value }}"
+            summary: "PostgreSQL high number of queries per second {{ $labels.service }}.{{ $labels.namespace }} for database {{ $labels.datname }}"
+            `}}
+        - alert: "PostgreSQLCacheHitRatio"
+          expr: 'avg(rate(pg_stat_database_blks_hit{ {{ $filter }},datname!~"template.*" }[5m])/(rate(pg_stat_database_blks_hit{ {{ $filter }},datname!~"template.*" }[5m])+rate(pg_stat_database_blks_read{ {{ $filter }},datname!~"template.*" }[5m]))) by (job,service, namespace, datname) < 0.98'
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            {{`
+            summary: "PostgreSQL low cache hit rate on {{ $labels.service }}.{{ $labels.namespace }} for database {{ $labels.datname }}"
+            description: "PostgreSQL low on cache hit rate on {{ $labels.service }}.{{ $labels.namespace }} for database {{ $labels.datname }} with a value of {{ $value }}"
+            `}}
+    {{- with .Values.prometheus.rules.additionalRules }}
+    - name: {{ $fullname }}-Additional
+      rules:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+{{- end }}

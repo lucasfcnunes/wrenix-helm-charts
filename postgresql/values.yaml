@@ -137,3 +137,51 @@ autoupgrade:
     # readOnlyRootFilesystem: true
     # runAsNonRoot: true
     # runAsUser: 1000
+
+prometheus:
+  # -- add prometheus exporter sidecar
+  # @section -- Monitoring
+  enabled: false
+  servicemonitor:
+    # -- deploy servicemonitor
+    # @section -- Monitoring
+    enabled: false
+    # -- label of servicemonitor
+    # @section -- Monitoring
+    labels: {}
+  rules:
+    # -- deploy prometheusrules
+    # @section -- Monitoring
+    enabled: false
+    # -- labels of prometheusrule
+    # @section -- Monitoring
+    labels: {}
+    # -- add own rules to prometheusrules (current no default alertrules are provided)
+    # @section -- Monitoring
+    additionalRules: []
+  image:
+    # -- image registry (could be overwritten by global.image.registry)
+    # @section -- Monitoring
+    registry: docker.io
+    # -- image repository
+    # @section -- Monitoring
+    repository: prometheuscommunity/postgres-exporter
+    # -- This sets the pull policy for images. (could be overwritten by global.image.pullPolicy)
+    # @section -- Monitoring
+    pullPolicy: IfNotPresent
+    # -- image tag
+    # @section -- Monitoring
+    tag: v0.17.1
+
+grafana:
+  dashboards:
+    # -- deploy grafana dashboard in configmap
+    # @section -- Monitoring
+    enabled: false
+    # -- label of configmap
+    # @section -- Monitoring
+    labels:
+      grafana_dashboard: "1"
+    # -- label of configmap
+    # @section -- Monitoring
+    annotations: {}

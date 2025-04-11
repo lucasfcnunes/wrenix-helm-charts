@@ -7,7 +7,7 @@ description: "A Helm chart for running PostgreSQL (Postgres) database"
 
 # postgresql
 
-![Version: 0.2.6](https://img.shields.io/badge/Version-0.2.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 17.4-alpine](https://img.shields.io/badge/AppVersion-17.4--alpine-informational?style=flat-square)
+![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 17.4-alpine](https://img.shields.io/badge/AppVersion-17.4--alpine-informational?style=flat-square)
 
 A Helm chart for running PostgreSQL (Postgres) database
 
@@ -40,6 +40,26 @@ helm uninstall postgresql-release
 ```
 
 ## Values
+
+### Monitoring
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| grafana.dashboards.annotations | object | `{}` | label of configmap |
+| grafana.dashboards.enabled | bool | `false` | deploy grafana dashboard in configmap |
+| grafana.dashboards.labels | object | `{"grafana_dashboard":"1"}` | label of configmap |
+| prometheus.enabled | bool | `false` | add prometheus exporter sidecar |
+| prometheus.image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. (could be overwritten by global.image.pullPolicy) |
+| prometheus.image.registry | string | `"docker.io"` | image registry (could be overwritten by global.image.registry) |
+| prometheus.image.repository | string | `"prometheuscommunity/postgres-exporter"` | image repository |
+| prometheus.image.tag | string | `"v0.17.1"` | image tag |
+| prometheus.rules.additionalRules | list | `[]` | add own rules to prometheusrules (current no default alertrules are provided) |
+| prometheus.rules.enabled | bool | `false` | deploy prometheusrules |
+| prometheus.rules.labels | object | `{}` | labels of prometheusrule |
+| prometheus.servicemonitor.enabled | bool | `false` | deploy servicemonitor |
+| prometheus.servicemonitor.labels | object | `{}` | label of servicemonitor |
+
+### Other Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|

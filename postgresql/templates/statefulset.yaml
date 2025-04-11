@@ -56,10 +56,16 @@ spec:
           imagePullPolicy: {{ coalesce $.Values.global.image.pullPolicy .pullPolicy }}
           {{- end }}
           env:
-            - name: "POSTGRES_PASSWORD"
-              value: {{ .Values.postgres.password | quote }}
             - name: "POSTGRES_USER"
-              value: {{ .Values.postgres.user | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "postgresql.fullname" . }}
+                  key: user
+            - name: "POSTGRES_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "postgresql.fullname" . }}
+                  key: password
             - name: "PGPORT"
               value: {{ .Values.service.port | quote }}
             - name: "PGDATA"
@@ -85,6 +91,32 @@ spec:
           volumeMounts:
             - name: "data"
               mountPath: "/var/lib/postgresql/data"
+        {{- if .Values.prometheus.enabled }}
+        - name: "exporter"
+          {{- with .Values.prometheus.image }}
+          image: "{{ coalesce $.Values.global.image.registry .registry }}/{{ .repository }}:{{ .tag }}"
+          imagePullPolicy: {{ coalesce $.Values.global.image.pullPolicy .pullPolicy }}
+          {{- end }}
+          args:
+            - --collector.stat_statements
+          env:
+            - name: "DATA_SOURCE_USER"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "postgresql.fullname" . }}
+                  key: user
+            - name: "DATA_SOURCE_PASS"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "postgresql.fullname" . }}
+                  key: password
+            - name: "DATA_SOURCE_URI"
+              value: {{ printf "127.0.0.1:%.0f/postgres?sslmode=disable" .Values.service.port }}
+          ports:
+            - name: metrics
+              containerPort: 9187
+              protocol: TCP
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

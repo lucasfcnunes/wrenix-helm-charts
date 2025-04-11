@@ -1213,7 +1213,7 @@
           "value": "$__all"
         },
         "datasource": "$datasource",
-        "definition": "label_values(up{namespace=~\"$namespace\"},service)",
+        "definition": "label_values(pg_up{namespace=~\"$namespace\"},service)",
         "description": "",
         "includeAll": true,
         "label": "Service",

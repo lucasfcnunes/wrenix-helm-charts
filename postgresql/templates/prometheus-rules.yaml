@@ -1,6 +1,6 @@
 {{- if and .Values.prometheus.rules.enabled }}
 {{- $fullname := include "postgresql.fullname" . }}
-{{- $filter := printf `namespace="%s",service=~"%s.*"` .Release.Namespace $fullname }}
+{{- $filter := printf `namespace="%s",job="%s"` .Release.Namespace $fullname }}
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule

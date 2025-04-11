@@ -98,7 +98,9 @@ spec:
           imagePullPolicy: {{ coalesce $.Values.global.image.pullPolicy .pullPolicy }}
           {{- end }}
           args:
+            - --collector.stat_activity_autovacuum
             - --collector.stat_statements
+            - --collector.stat_wal_receiver
           env:
             - name: "DATA_SOURCE_USER"
               valueFrom:

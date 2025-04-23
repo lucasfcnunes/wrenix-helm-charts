@@ -7,7 +7,7 @@ description: "Deploy mollysocket into kubernetes"
 
 # mollysocket
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.6.0](https://img.shields.io/badge/AppVersion-1.6.0-informational?style=flat-square)
+![Version: 0.1.1](https://img.shields.io/badge/Version-0.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.6.0](https://img.shields.io/badge/AppVersion-1.6.0-informational?style=flat-square)
 
 Deploy mollysocket into kubernetes
 
@@ -73,7 +73,7 @@ helm uninstall mollysocket-release
 | ingress.hosts[0].paths[0].path | string | `"/"` |  |
 | ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | ingress.tls | list | `[]` |  |
-| kubectl.image | object | `{"pullPolicy":"IfNotPresent","registry":"docker.io","repository":"bitnami/kubectl","tag":"1.32.3"}` | image needed for setup (store generated VAPID / WebPush keys) |
+| kubectl.image | object | `{"pullPolicy":"IfNotPresent","registry":"docker.io","repository":"bitnami/kubectl","tag":"1.32.4"}` | image needed for setup (store generated VAPID / WebPush keys) |
 | mollysocket.allowedEnpoints[0] | string | `"*"` |  |
 | mollysocket.allowedUUIDs[0] | string | `"*"` |  |
 | mollysocket.environment | string | `"Prod"` |  |

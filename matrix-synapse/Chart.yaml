@@ -4,7 +4,7 @@ name: matrix-synapse
 description: Matrix reference homeserver
 icon: https://matrix.org/images/matrix-logo.svg
 type: application
-version: "1.0.25"
+version: "1.0.26"
 # renovate: image=ghcr.io/element-hq/synapse
 appVersion: "1.128.0"
 maintainers:
@@ -17,6 +17,6 @@ dependencies:
     repository: "oci://docker.io/bitnamicharts"
     condition: postgresql.enabled
   - name: redis
-    version: "20.11.5"
+    version: "20.13.1"
     repository: "oci://docker.io/bitnamicharts"
     condition: redis.enabled

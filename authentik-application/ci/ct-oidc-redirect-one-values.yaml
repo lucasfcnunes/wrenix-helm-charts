@@ -1,0 +1,4 @@
+blueprint:
+  provider:
+    oidc:
+      redirectURL: "https://url"

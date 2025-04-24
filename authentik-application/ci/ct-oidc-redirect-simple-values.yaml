@@ -1,0 +1,7 @@
+blueprint:
+  provider:
+    oidc:
+      redirectURL:
+        - "https://url"
+        - matching_mode: "regex"
+          url: "https://regex.url"

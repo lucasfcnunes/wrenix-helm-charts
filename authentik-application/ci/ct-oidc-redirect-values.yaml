@@ -3,5 +3,5 @@ blueprint:
     oidc:
       redirectURL:
         - matching_mode: "regex"
-          url: "https://regex.url"  
+          url: "https://regex.url"
         - "https://url"

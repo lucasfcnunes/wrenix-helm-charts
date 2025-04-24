@@ -28,8 +28,20 @@
     client_id: {{ $clientID | quote }}
     client_secret: {{ $clientSecret | quote }}
     redirect_uris:
+      {{- if (kindIs "string" .redirectURL)  }}
       - matching_mode: "strict"
         url: {{ .redirectURL | quote }}
+      {{- else }}
+      {{- range $url := .redirectURL }}
+      {{- if (kindIs "string" $url)  }}
+      - matching_mode: "strict"
+        url: {{ $url | quote }}
+      {{- else }}
+      {{- toYaml (list $url) | nindent 6 }}
+      {{- end }}{{/* one of is a string -> else is a object */}}
+      {{- end }}{{/* one of range */}}
+      {{- end }}{{/* redirect is a string -> else is a slice */}}
+
     {{- with .tokenDuration }}
     access_token_validity: {{ . | quote }}
     {{- end }} 

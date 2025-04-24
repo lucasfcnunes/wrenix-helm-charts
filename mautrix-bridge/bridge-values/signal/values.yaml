@@ -1,6 +1,6 @@
 image:
   repository: mautrix/signal
-  tag: "v0.8.1"
+  tag: "v0.8.2"
 
 config:
   bridge:

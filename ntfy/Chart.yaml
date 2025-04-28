@@ -3,7 +3,7 @@ name: ntfy
 description: A Helm chart for Kubernetes
 icon: https://github.com/binwiederhier/ntfy/raw/main/web/public/static/images/pwa-512x512.png
 type: application
-version: "0.4.13"
+version: "0.4.14"
 # renovate: image=docker.io/binwiederhier/ntfy
 appVersion: "2.11.0"
 maintainers:

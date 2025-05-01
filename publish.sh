@@ -32,16 +32,16 @@ for p in * ; do
   if [ ! $lastTag == '' ]; then
     # check if changes since new version happen
     changes=$(git diff "${lastTag}" -- "${p}" | wc -l);
-    if [ "$changes" -gt "0" ]; then
-      ./scripts/bump-chart-version.sh "${p}" "${VERSION_UPDATE}"
-    else
+    if [ "$changes" -le "0" ]; then
       echo "nothing todo"
       echo
       continue;
     fi
   fi
+
   helm dependency update "./${p}"
-  ct lint --charts "./${p}" || continue
+  ct lint --charts "./${p}" --check-version-increment=false || continue
+  ./scripts/bump-chart-version.sh "${p}" "${VERSION_UPDATE}"
 
   # Chart version
   v=$(dasel -f "${p}/Chart.yaml" -s version)

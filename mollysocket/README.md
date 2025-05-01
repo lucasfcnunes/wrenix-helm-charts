@@ -7,7 +7,7 @@ description: "Deploy mollysocket into kubernetes"
 
 # mollysocket
 
-![Version: 0.1.2](https://img.shields.io/badge/Version-0.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.6.0](https://img.shields.io/badge/AppVersion-1.6.0-informational?style=flat-square)
+![Version: 0.1.4](https://img.shields.io/badge/Version-0.1.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.6.0](https://img.shields.io/badge/AppVersion-1.6.0-informational?style=flat-square)
 
 Deploy mollysocket into kubernetes
 
@@ -85,7 +85,9 @@ helm uninstall mollysocket-release
 | persistence.accessMode | string | `"ReadWriteOnce"` |  |
 | persistence.annotations | object | `{}` |  |
 | persistence.enabled | bool | `true` |  |
+| persistence.hostPath | string | `""` | Create a PV on Node with given hostPath storageClass has to be manual |
 | persistence.size | string | `"1Gi"` |  |
+| persistence.storageClass | string | `""` | mobilizon data Persistent Volume Storage Class If defined, storageClassName: <storageClass> If set to "-", storageClassName: "", which disables dynamic provisioning If undefined (the default) or set to null, no storageClassName spec is   set, choosing the default provisioner.  (gp2 on AWS, standard on   GKE, AWS & OpenStack)  |
 | podAnnotations | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
 | prometheus.rules.additionalRules | list | `[]` |  |

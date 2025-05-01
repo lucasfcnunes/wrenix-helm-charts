@@ -10,7 +10,7 @@ replicaCount: 1
 
 image:
   # -- image registry (could be overwritten by global.image.registry)
-  registry: docker.io
+  registry: ghcr.io
   # -- image repository
   repository: stalwartlabs/mail-server
   # -- This sets the pull policy for images. (could be overwritten by global.image.pullPolicy)

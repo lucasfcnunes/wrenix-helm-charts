@@ -5,7 +5,10 @@ HELM_REPO_URL="oci://${HELM_REPO}"
 COMMIT_SCOPE=${2:-fix}
 COMMIT_MESSAGE=${1:-"update appVersion"}
 
-
+VERSION_UPDATE="patch"
+if [ $COMMIT_SCOPE == "feat" ]; then
+  VERSION_UPDATE="minor"
+fi
 
 ct lint # || exit 1
 
@@ -25,31 +28,27 @@ for p in * ; do
   lastVersion=${lastTag#${p}-v}
   echo "last pkg: ${lastVersion}"
 
-  # Chart version
-  v=$(dasel -f "${p}/Chart.yaml" -s version)
-  echo "version: ${v}";
-
-  #  should be increased?
-  tag="${p}-v${v}"
   # check if a old version exists
   if [ ! $lastTag == '' ]; then
-  
     # check if changes since new version happen
     changes=$(git diff "${lastTag}" -- "${p}" | wc -l);
     if [ "$changes" -gt "0" ]; then
-      # check / lint if version was increased correct
-      if [ "$tag" == "$lastTag" ]; then
-        echo "changed helmchart should create new pkg - diff line count has:"
-        echo $(git diff "${lastTag}" -- "${p}" | wc -l);
-        echo
-        continue;
-      fi
+      ./scripts/bump-chart-version.sh "${p}" "${VERSION_UPDATE}"
     else
       echo "nothing todo"
       echo
       continue;
     fi
   fi
+  helm dependency update "./${p}"
+  ct lint --charts "./${p}" || continue
+
+  # Chart version
+  v=$(dasel -f "${p}/Chart.yaml" -s version)
+  echo "version: ${v}";
+
+  #  should be increased?
+  tag="${p}-v${v}"
 
   set -e
   echo "update docs"

@@ -7,7 +7,7 @@ description: "With GoToSocial, you can keep in touch with your friends, post, re
 
 # gotosocial
 
-![Version: 0.2.18](https://img.shields.io/badge/Version-0.2.18-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.19.1](https://img.shields.io/badge/AppVersion-0.19.1-informational?style=flat-square)
+![Version: 0.2.19](https://img.shields.io/badge/Version-0.2.19-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.19.1](https://img.shields.io/badge/AppVersion-0.19.1-informational?style=flat-square)
 
 With GoToSocial, you can keep in touch with your friends, post, read, and share images and articles. All without being tracked or advertised to!
 

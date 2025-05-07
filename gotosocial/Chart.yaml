@@ -1,9 +1,9 @@
 apiVersion: v2
 name: gotosocial
 description: With GoToSocial, you can keep in touch with your friends, post, read, and share images and articles. All without being tracked or advertised to!
-icon: https://docs.gotosocial.org/en/latest/assets/sloth.png
+icon: https://codeberg.org/repo-avatars/6d86cb1ab6cc9cfc4eae43e41a60f4488e70ea2c04d63f10e373b45293b0aed5
 type: application
-version: "0.2.18"
+version: "0.2.19"
 # renovate: image=docker.io/superseriousbusiness/gotosocial
 appVersion: "0.19.1"
 maintainers:

@@ -3,7 +3,7 @@ name: grampsweb
 description: A Helm chart for gramps web
 icon: https://raw.githubusercontent.com/gramps-project/Gramps.js/main/images/icon512.png
 type: application
-version: "0.2.15"
+version: "0.2.16"
 # renovate: image=ghcr.io/gramps-project/grampsweb
 appVersion: "25.5.0"
 maintainers:

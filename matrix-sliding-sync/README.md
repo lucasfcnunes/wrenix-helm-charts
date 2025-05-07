@@ -7,7 +7,7 @@ description: "Proxy implementation of MSC3575's sync protocol."
 
 # matrix-sliding-sync
 
-![Version: 0.2.2](https://img.shields.io/badge/Version-0.2.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.99.19](https://img.shields.io/badge/AppVersion-0.99.19-informational?style=flat-square)
+![Version: 0.2.3](https://img.shields.io/badge/Version-0.2.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.99.19](https://img.shields.io/badge/AppVersion-0.99.19-informational?style=flat-square)
 
 Proxy implementation of MSC3575's sync protocol.
 

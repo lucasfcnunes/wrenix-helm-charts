@@ -105,8 +105,8 @@ config:
       # -- auth rule for signing with dkim
       # @section -- DKIM
       sign:
-        - if: "listener != 'smtp'"
-          then: "['rsa', 'ed25519']"
+        - if: "listener != 'smtp' && is_local_domain('', sender_domain)"
+          then: "['rsa-' + sender_domain, 'ed25519-' + sender_domain]"
         - else: false
       # -- verify of dkim signature (relaxed, strict, disable)
       # @section -- DKIM

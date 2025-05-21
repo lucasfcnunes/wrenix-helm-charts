@@ -70,7 +70,7 @@ config:
 
   cluster:
     node-id: "%{env:POD_INDEX}%"
-    bind-addr: "[::]"
+    bind-addr: "::"
     advertise-addr: "%{env:POD_IP}%"
 
   storage:

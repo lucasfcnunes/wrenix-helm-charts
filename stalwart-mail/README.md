@@ -7,7 +7,7 @@ description: "Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One M
 
 # stalwart-mail
 
-![Version: 0.0.35](https://img.shields.io/badge/Version-0.0.35-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.11.8](https://img.shields.io/badge/AppVersion-0.11.8-informational?style=flat-square)
+![Version: 0.0.37](https://img.shields.io/badge/Version-0.0.37-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.11.8](https://img.shields.io/badge/AppVersion-0.11.8-informational?style=flat-square)
 
 Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One Mail Server (IMAP, JMAP, SMTP)
 
@@ -65,6 +65,21 @@ helm uninstall stalwart-mail-release
 | config.authentication.fallback-admin.user | string | `"admin"` | username for fallback authentfication |
 | secrets.env.FALLBACK_ADMIN_SECRET | string | `"supersecret"` | password for fallback authentfication (env) |
 
+### Monitoring
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| config.metrics.prometheus.auth.secret | string | `"%{env:METRICS_SECRET}%"` | basic auth metrics password in stalwart-mail |
+| config.metrics.prometheus.auth.username | string | `"%{env:METRICS_USERNAME}%"` | basic auth metrics username in stalwart-mail |
+| config.metrics.prometheus.enable | bool | `true` | enable prometheus in stalwart-mail |
+| grafana.dashboards.annotations | object | `{}` | label of configmap |
+| grafana.dashboards.enabled | bool | `false` | deploy grafana dashboard in configmap |
+| grafana.dashboards.labels | object | `{"grafana_dashboard":"1"}` | label of configmap |
+| prometheus.servicemonitor.enabled | bool | `false` | deploy servicemonitor |
+| prometheus.servicemonitor.labels | object | `{}` | label of servicemonitor |
+| secrets.env.METRICS_SECRET | string | `"scrape_metrics_password"` | basic auth metrics password in secret for stalwart-mail |
+| secrets.env.METRICS_USERNAME | string | `"scrape_metrics_user"` | basic auth metrics username in secret for stalwart-mail |
+
 ### Other Values
 
 | Key | Type | Default | Description |
@@ -85,9 +100,6 @@ helm uninstall stalwart-mail-release
 | config.cluster.node-id | string | `"%{env:POD_INDEX}%"` |  |
 | config.directory.internal.store | string | `"rocksdb"` |  |
 | config.directory.internal.type | string | `"internal"` |  |
-| config.metrics.prometheus.auth.secret | string | `"%{env:METRICS_SECRET}%"` |  |
-| config.metrics.prometheus.auth.username | string | `"%{env:METRICS_USERNAME}%"` |  |
-| config.metrics.prometheus.enable | bool | `true` |  |
 | config.server.allowed-ip."10.42.0.1/16" | string | `""` |  |
 | config.server.http.use-x-forwarded | bool | `true` |  |
 | config.server.listener.http.bind[0] | string | `"[::]:80"` |  |
@@ -164,16 +176,12 @@ helm uninstall stalwart-mail-release
 | podAnnotations | object | `{}` |  |
 | podLabels | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
-| prometheus.servicemonitor.enabled | bool | `false` |  |
-| prometheus.servicemonitor.labels | object | `{}` |  |
 | readinessProbe.httpGet.httpHeaders[0].name | string | `"X-Forwarded-For"` |  |
 | readinessProbe.httpGet.httpHeaders[0].value | string | `"127.0.0.1"` |  |
 | readinessProbe.httpGet.path | string | `"/healthz/ready"` |  |
 | readinessProbe.httpGet.port | string | `"http"` |  |
 | replicaCount | int | `1` | replicas |
 | resources | object | `{}` |  |
-| secrets.env.METRICS_SECRET | string | `"scrape_metrics_password"` |  |
-| secrets.env.METRICS_USERNAME | string | `"scrape_metrics_user"` |  |
 | securityContext | object | `{}` |  |
 | service.annotations | object | `{}` |  |
 | service.ipFamilies[0] | string | `"IPv4"` |  |

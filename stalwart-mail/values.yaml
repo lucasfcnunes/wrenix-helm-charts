@@ -129,9 +129,15 @@ config:
       secret: "%{env:FALLBACK_ADMIN_SECRET}%"
   metrics:
     prometheus:
+      # -- enable prometheus in stalwart-mail
+      # @section -- Monitoring
       enable: true
       auth:
+        # -- basic auth metrics username in stalwart-mail
+        # @section -- Monitoring
         username: "%{env:METRICS_USERNAME}%"
+        # -- basic auth metrics password in stalwart-mail
+        # @section -- Monitoring
         secret: "%{env:METRICS_SECRET}%"
 
 secrets:
@@ -139,7 +145,11 @@ secrets:
     # -- password for fallback authentfication (env)
     # @section -- Authentification
     FALLBACK_ADMIN_SECRET: supersecret
+    # -- basic auth metrics username in secret for stalwart-mail
+    # @section -- Monitoring
     METRICS_USERNAME: "scrape_metrics_user"
+    # -- basic auth metrics password in secret for stalwart-mail
+    # @section -- Monitoring
     METRICS_SECRET: "scrape_metrics_password"
 
 serviceAccount:
@@ -266,8 +276,25 @@ certificate:
 
 prometheus:
   servicemonitor:
+    # -- deploy servicemonitor
+    # @section -- Monitoring
     enabled: false
+    # -- label of servicemonitor
+    # @section -- Monitoring
     labels: {}
+
+grafana:
+  dashboards:
+    # -- deploy grafana dashboard in configmap
+    # @section -- Monitoring
+    enabled: false
+    # -- label of configmap
+    # @section -- Monitoring
+    labels:
+      grafana_dashboard: "1"
+    # -- label of configmap
+    # @section -- Monitoring
+    annotations: {}
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

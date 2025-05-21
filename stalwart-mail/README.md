@@ -7,7 +7,7 @@ description: "Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One M
 
 # stalwart-mail
 
-![Version: 0.0.34](https://img.shields.io/badge/Version-0.0.34-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.11.8](https://img.shields.io/badge/AppVersion-0.11.8-informational?style=flat-square)
+![Version: 0.0.35](https://img.shields.io/badge/Version-0.0.35-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.11.8](https://img.shields.io/badge/AppVersion-0.11.8-informational?style=flat-square)
 
 Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One Mail Server (IMAP, JMAP, SMTP)
 
@@ -19,17 +19,11 @@ Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One Mail Server (IM
 
 ## Alpha
 {{< callout type="warning" >}}
-We stop working on this Helm-Chart.
-There are still many breaking change like:
+Current stalwart is not stable and we are also not stable.
 
-* https://github.com/stalwartlabs/mail-server/issues/211[storage.fts in toml configuration has two meanings]
-
-* When configuring smtp relay conditions, each condition must be alphabetically correct, so the statement interpolates in the correct order. Use a new list to compensate:
-  - config.queue.outbound.next-hop[0].if
-  - config.queue.outbound.next-hop[0].then
-  - config.queue.outbound.next-hop[1].else
-
-We hope that stalward mail-server becomes more stable.
+We have current known issues:
+* cluster setup is not fully supported (so please keep replicas=1), see more in [issue for cluster](https://codeberg.org/wrenix/helm-charts/issues/294)
+* toml interpreter of stalwart and golang (helm) are different, so we remove all `.0` in the rendering to be compatible with stalwart-toml
 {{< /callout >}}
 
 ## Usage
@@ -87,7 +81,7 @@ helm uninstall stalwart-mail-release
 | certificate.certmanager.issuerRef.name | string | `"letsencrypt-prod"` |  |
 | certificate.secretName | string | `nil` | not needed if certmanager is used |
 | config.cluster.advertise-addr | string | `"%{env:POD_IP}%"` |  |
-| config.cluster.bind-addr | string | `"[::]"` |  |
+| config.cluster.bind-addr | string | `"::"` |  |
 | config.cluster.node-id | string | `"%{env:POD_INDEX}%"` |  |
 | config.directory.internal.store | string | `"rocksdb"` |  |
 | config.directory.internal.type | string | `"internal"` |  |

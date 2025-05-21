@@ -1,16 +1,10 @@
 {{ define "chart.prerequirements" -}}
 ## Alpha
 {{`{{< callout type="warning" >}}`}}
-We stop working on this Helm-Chart.
-There are still many breaking change like:
+Current stalwart is not stable and we are also not stable.
 
-* https://github.com/stalwartlabs/mail-server/issues/211[storage.fts in toml configuration has two meanings]
-
-* When configuring smtp relay conditions, each condition must be alphabetically correct, so the statement interpolates in the correct order. Use a new list to compensate:
-  - config.queue.outbound.next-hop[0].if
-  - config.queue.outbound.next-hop[0].then
-  - config.queue.outbound.next-hop[1].else
-
-We hope that stalward mail-server becomes more stable.
+We have current known issues:
+* cluster setup is not fully supported (so please keep replicas=1), see more in [issue for cluster](https://codeberg.org/wrenix/helm-charts/issues/294)
+* toml interpreter of stalwart and golang (helm) are different, so we remove all `.0` in the rendering to be compatible with stalwart-toml
 {{`{{< /callout >}}`}}
 {{ end }}

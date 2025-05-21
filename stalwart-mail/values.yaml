@@ -189,10 +189,17 @@ livenessProbe:
   httpGet:
     path: /healthz/live
     port: http
+    httpHeaders:
+      - name: "X-Forwarded-For"
+        value: "127.0.0.1"
+
 readinessProbe:
   httpGet:
     path: /healthz/ready
     port: http
+    httpHeaders:
+      - name: "X-Forwarded-For"
+        value: "127.0.0.1"
 
 ingress:
   enabled: false

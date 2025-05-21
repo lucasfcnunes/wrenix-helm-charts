@@ -7,7 +7,7 @@ description: "Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One M
 
 # stalwart-mail
 
-![Version: 0.0.32](https://img.shields.io/badge/Version-0.0.32-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.11.8](https://img.shields.io/badge/AppVersion-0.11.8-informational?style=flat-square)
+![Version: 0.0.33](https://img.shields.io/badge/Version-0.0.33-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.11.8](https://img.shields.io/badge/AppVersion-0.11.8-informational?style=flat-square)
 
 Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One Mail Server (IMAP, JMAP, SMTP)
 
@@ -86,6 +86,9 @@ helm uninstall stalwart-mail-release
 | certificate.certmanager.issuerRef.kind | string | `"ClusterIssuer"` |  |
 | certificate.certmanager.issuerRef.name | string | `"letsencrypt-prod"` |  |
 | certificate.secretName | string | `nil` | not needed if certmanager is used |
+| config.cluster.advertise-addr | string | `"%{env:POD_IP}%"` |  |
+| config.cluster.bind-addr | string | `"[::]"` |  |
+| config.cluster.node-id | string | `"%{env:POD_INDEX}%"` |  |
 | config.directory.internal.store | string | `"rocksdb"` |  |
 | config.directory.internal.type | string | `"internal"` |  |
 | config.metrics.prometheus.auth.secret | string | `"%{env:METRICS_SECRET}%"` |  |
@@ -150,6 +153,8 @@ helm uninstall stalwart-mail-release
 | ingress.hosts[0].paths[0].path | string | `"/"` |  |
 | ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | ingress.tls | list | `[]` |  |
+| livenessProbe.httpGet.httpHeaders[0].name | string | `"X-Forwarded-For"` |  |
+| livenessProbe.httpGet.httpHeaders[0].value | string | `"127.0.0.1"` |  |
 | livenessProbe.httpGet.path | string | `"/healthz/live"` |  |
 | livenessProbe.httpGet.port | string | `"http"` |  |
 | nameOverride | string | `""` |  |
@@ -166,6 +171,8 @@ helm uninstall stalwart-mail-release
 | podSecurityContext | object | `{}` |  |
 | prometheus.servicemonitor.enabled | bool | `false` |  |
 | prometheus.servicemonitor.labels | object | `{}` |  |
+| readinessProbe.httpGet.httpHeaders[0].name | string | `"X-Forwarded-For"` |  |
+| readinessProbe.httpGet.httpHeaders[0].value | string | `"127.0.0.1"` |  |
 | readinessProbe.httpGet.path | string | `"/healthz/ready"` |  |
 | readinessProbe.httpGet.port | string | `"http"` |  |
 | replicaCount | int | `1` | replicas |

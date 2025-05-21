@@ -18,6 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 52,
   "links": [],
   "panels": [
     {
@@ -454,6 +455,19 @@
           "legendFormat": "Write: {{namespace}}-{{job}}",
           "range": true,
           "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "sum(irate(store_data_iterate{namespace=~\"$namespace\",job=~\"$job\"}[$__rate_interval])) without (instance,pod,endpoint,container,service)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "Iterate: {{namespace}}-{{job}}",
+          "range": true,
+          "refId": "C"
         }
       ],
       "title": "Data",
@@ -1413,5 +1427,5 @@
   "timepicker": {},
   "timezone": "browser",
   "title": "Stalwart Mail",
-  "version": 1
+  "version": 2
 }

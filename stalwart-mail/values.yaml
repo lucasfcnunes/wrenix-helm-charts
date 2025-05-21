@@ -66,6 +66,11 @@ config:
     allowed-ip:
       "10.42.0.1/16": ""
 
+  cluster:
+    node-id: "%{env:POD_INDEX}%"
+    bind-addr: "[::]"
+    advertise-addr: "%{env:POD_IP}%"
+
   storage:
     data: "rocksdb"
     fts: "rocksdb"

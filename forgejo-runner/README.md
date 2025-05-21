@@ -7,7 +7,7 @@ description: "Deploy runner for an forgejo instance (default codeberg.org)"
 
 # forgejo-runner
 
-![Version: 0.4.30](https://img.shields.io/badge/Version-0.4.30-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.3.1](https://img.shields.io/badge/AppVersion-6.3.1-informational?style=flat-square)
+![Version: 0.4.31](https://img.shields.io/badge/Version-0.4.31-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.3.1](https://img.shields.io/badge/AppVersion-6.3.1-informational?style=flat-square)
 
 Deploy runner for an forgejo instance (default codeberg.org)
 
@@ -51,6 +51,40 @@ runner:
           - /certs/client
 
 ```
+
+## Manipulating the docker configuration
+For some setups, for example using IPv6 only, you might need to adjust the docker configuration in `/etc/docker/daemon.json`.
+
+This can be done using volumes and configmaps:
+
+First, create a configmap with the docker configuration in your namespace:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: etc-docker
+data:
+  daemon.json: |
+    {
+      "ipv6": true,
+      "fixed-cidr-v6": "2001:db8:1::/64"
+    }
+```
+
+Then, adjust the values.yaml for this chart to actually mount the config:
+
+```yaml
+volumes:
+- configMap:
+    name: etc-docker
+  name: etc-docker
+volumeMounts:
+- mountPath: /etc/docker
+  name: etc-docker
+```
+
+Using this example, the docker in docker container executing your jobs now has IPv6 enabled with the fixed CIDR of `2001:db8:1::/64`.
 
 ## Usage
 

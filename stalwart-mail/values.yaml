@@ -23,6 +23,11 @@ nameOverride: ""
 fullnameOverride: ""
 
 config:
+  cluster:
+    node-id: "%{env:POD_INDEX}%"
+    bind-addr: "::"
+    advertise-addr: "%{env:POD_IP}%"
+
   server:
     listener:
       smtp:
@@ -68,10 +73,11 @@ config:
     allowed-ip:
       "10.42.0.1/16": ""
 
-  cluster:
-    node-id: "%{env:POD_INDEX}%"
-    bind-addr: "::"
-    advertise-addr: "%{env:POD_IP}%"
+  certificate:
+    default:
+      default: true
+      cert: "%{file:/opt/stalwart-mail/etc/certs/tls.crt}%"
+      private-key: "%{file:/opt/stalwart-mail/etc/certs/tls.key}%"
 
   storage:
     data: "rocksdb"
@@ -127,6 +133,7 @@ config:
       # -- password for fallback authentfication (use env for store in secrets of kubernetes)
       # @section -- Authentification
       secret: "%{env:FALLBACK_ADMIN_SECRET}%"
+
   metrics:
     prometheus:
       # -- enable prometheus in stalwart-mail

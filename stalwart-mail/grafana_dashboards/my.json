@@ -1070,6 +1070,73 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
+          "expr": "sum(increase(security_ip_blocked{namespace=~\"$namespace\",job=~\"$job\"}[$__range]))",
+          "legendFormat": "IP Blocked",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Security",
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "fieldMinMax": true,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 2,
+        "x": 4,
+        "y": 31
+      },
+      "id": 18,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": true,
+        "text": {},
+        "textMode": "value_and_name",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
           "expr": "sum(increase(tls_handshake_error{namespace=~\"$namespace\",job=~\"$job\"}[$__range]))",
           "legendFormat": "Handshake",
           "range": true,
@@ -1107,7 +1174,7 @@
       "gridPos": {
         "h": 5,
         "w": 5,
-        "x": 4,
+        "x": 6,
         "y": 31
       },
       "id": 10,
@@ -1200,7 +1267,7 @@
       "gridPos": {
         "h": 5,
         "w": 7,
-        "x": 9,
+        "x": 11,
         "y": 31
       },
       "id": 11,
@@ -1306,7 +1373,7 @@
       "gridPos": {
         "h": 5,
         "w": 2,
-        "x": 16,
+        "x": 18,
         "y": 31
       },
       "id": 13,
@@ -1427,5 +1494,5 @@
   "timepicker": {},
   "timezone": "browser",
   "title": "Stalwart Mail",
-  "version": 2
+  "version": 3
 }

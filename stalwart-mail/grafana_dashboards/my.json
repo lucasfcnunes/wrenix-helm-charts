@@ -1039,7 +1039,7 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 2,
+        "w": 4,
         "x": 2,
         "y": 31
       },
@@ -1074,6 +1074,18 @@
           "legendFormat": "IP Blocked",
           "range": true,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "sum(increase(security_authentication_ban{namespace=~\"$namespace\",job=~\"$job\"}[$__range]))",
+          "hide": false,
+          "legendFormat": "Auth Ban",
+          "range": true,
+          "refId": "B"
         }
       ],
       "title": "Security",
@@ -1107,7 +1119,7 @@
       "gridPos": {
         "h": 5,
         "w": 2,
-        "x": 4,
+        "x": 6,
         "y": 31
       },
       "id": 18,
@@ -1174,7 +1186,7 @@
       "gridPos": {
         "h": 5,
         "w": 5,
-        "x": 6,
+        "x": 8,
         "y": 31
       },
       "id": 10,
@@ -1267,7 +1279,7 @@
       "gridPos": {
         "h": 5,
         "w": 7,
-        "x": 11,
+        "x": 13,
         "y": 31
       },
       "id": 11,
@@ -1373,7 +1385,7 @@
       "gridPos": {
         "h": 5,
         "w": 2,
-        "x": 18,
+        "x": 20,
         "y": 31
       },
       "id": 13,

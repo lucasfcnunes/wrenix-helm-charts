@@ -7,7 +7,7 @@ description: "Home Assistant with tooling to run on an k3s pi"
 
 # home-assistant
 
-![Version: 0.3.23](https://img.shields.io/badge/Version-0.3.23-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2025.5.1](https://img.shields.io/badge/AppVersion-2025.5.1-informational?style=flat-square)
+![Version: 0.3.24](https://img.shields.io/badge/Version-0.3.24-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2025.5.1](https://img.shields.io/badge/AppVersion-2025.5.1-informational?style=flat-square)
 
 Home Assistant with tooling to run on an k3s pi
 
@@ -70,7 +70,7 @@ helm uninstall home-assistant-release
 | nats.image.pullPolicy | string | `"IfNotPresent"` |  |
 | nats.image.registry | string | `"docker.io"` |  |
 | nats.image.repository | string | `"library/nats"` |  |
-| nats.image.tag | string | `"2.11.3-scratch"` |  |
+| nats.image.tag | string | `"2.11.4-scratch"` |  |
 | nats.livenessProbe.tcpSocket.port | string | `"nats"` |  |
 | nats.readinessProbe.tcpSocket.port | string | `"nats"` |  |
 | nats.resources.limits.cpu | string | `"100m"` |  |

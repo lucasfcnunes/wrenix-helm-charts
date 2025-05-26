@@ -24,7 +24,7 @@ nats:
     registry: docker.io
     repository: library/nats
     pullPolicy: IfNotPresent
-    tag: "2.11.3-scratch"
+    tag: "2.11.4-scratch"
   service:
     port:
       nats: 4222

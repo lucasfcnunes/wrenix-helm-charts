@@ -16,16 +16,17 @@ major=$(echo "$version" | cut -d. -f1)
 minor=$(echo "$version" | cut -d. -f2)
 patch=$(echo "$version" | cut -d. -f3)
 
-# if [[ "$update_type" =~ (major|replacement) ]]; then
-#   major=$(( major + 1 ))
-#   minor=0
-#   patch=0
-# elif [[ "$update_type" =~ 'minor' ]]; then
-#   minor=$(( minor + 1 ))
-#   patch=0
-# else
+if [[ "$update_type" =~ (major|replacement) ]]; then
+  major=$(( major + 1 ))
+  minor=0
+  patch=0
+elif [[ "$update_type" =~ 'minor' ]]; then
+  minor=$(( minor + 1 ))
+  patch=0
+else
   patch=$(( patch + 1 ))
-# fi
+fi
+version_new="${major}.${minor}.${patch}"
 
-echo "Bumping version for $parent_dir from $version to $major.$minor.$patch"
-sed -i "s/^version:.*/version: \"${major}.${minor}.${patch}\"/g" "${parent_dir}/Chart.yaml"
+echo "Bumping version for ${parent_dir} by ${update_type} from ${version} to ${version_new}"
+sed -i "s/^version:.*/version: \"${version_new}\"/g" "${parent_dir}/Chart.yaml"

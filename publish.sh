@@ -5,8 +5,8 @@ HELM_REPO_URL="oci://${HELM_REPO}"
 COMMIT_SCOPE=${2:-fix}
 COMMIT_MESSAGE=${1:-"update appVersion"}
 
-VERSION_UPDATE="patch"
-if [ $COMMIT_SCOPE == "feat" ]; then
+VERSION_UPDATE=${3:-patch}
+if [ "${COMMIT_SCOPE}" == "feat" ] && [ "${VERSION_UPDATE}" == "patch" ]; then
   VERSION_UPDATE="minor"
 fi
 

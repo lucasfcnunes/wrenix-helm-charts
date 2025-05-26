@@ -4,6 +4,6 @@ dependencies:
   version: 16.7.4
 - name: redis
   repository: oci://docker.io/bitnamicharts
-  version: 21.1.2
-digest: sha256:775fbfe9673d9ee73b256490bd1fc4941665c7dc83faa2a83d4ba32e8f173057
-generated: "2025-05-16T08:43:44.382337151+02:00"
+  version: 21.1.6
+digest: sha256:a61aaa19232b120f10aa0659c9555e43662d2ea249fc414da856314773ab654c
+generated: "2025-05-26T18:57:06.685121091+02:00"

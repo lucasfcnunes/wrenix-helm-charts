@@ -12,7 +12,7 @@ image:
   # -- image registry (could be overwritten by global.image.registry)
   registry: ghcr.io
   # -- image repository
-  repository: stalwartlabs/mail-server
+  repository: stalwartlabs/stalwart
   # -- This sets the pull policy for images. (could be overwritten by global.image.pullPolicy)
   pullPolicy: IfNotPresent
   # -- image tag - Overrides the image tag whose default is the chart appVersion.
@@ -68,10 +68,11 @@ config:
         bind: ["[::]:443"]
         tls:
           implicit: true
-    http:
-      use-x-forwarded: true
     allowed-ip:
       "10.42.0.1/16": ""
+
+  http:
+    use-x-forwarded: true
 
   certificate:
     default:

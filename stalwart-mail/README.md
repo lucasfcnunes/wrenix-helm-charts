@@ -7,7 +7,7 @@ description: "Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One M
 
 # stalwart-mail
 
-![Version: 0.0.43](https://img.shields.io/badge/Version-0.0.43-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.11.8](https://img.shields.io/badge/AppVersion-0.11.8-informational?style=flat-square)
+![Version: 0.0.44](https://img.shields.io/badge/Version-0.0.44-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.12.0](https://img.shields.io/badge/AppVersion-0.12.0-informational?style=flat-square)
 
 Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One Mail Server (IMAP, JMAP, SMTP)
 
@@ -103,8 +103,8 @@ helm uninstall stalwart-mail-release
 | config.cluster.node-id | string | `"%{env:POD_INDEX}%"` |  |
 | config.directory.internal.store | string | `"rocksdb"` |  |
 | config.directory.internal.type | string | `"internal"` |  |
+| config.http.use-x-forwarded | bool | `true` |  |
 | config.server.allowed-ip."10.42.0.1/16" | string | `""` |  |
-| config.server.http.use-x-forwarded | bool | `true` |  |
 | config.server.listener.http.bind[0] | string | `"[::]:80"` |  |
 | config.server.listener.http.protocol | string | `"http"` |  |
 | config.server.listener.https.bind[0] | string | `"[::]:443"` |  |
@@ -153,7 +153,7 @@ helm uninstall stalwart-mail-release
 | global.image.registry | string | `nil` | if set it will overwrite all registry entries |
 | image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. (could be overwritten by global.image.pullPolicy) |
 | image.registry | string | `"ghcr.io"` | image registry (could be overwritten by global.image.registry) |
-| image.repository | string | `"stalwartlabs/mail-server"` | image repository |
+| image.repository | string | `"stalwartlabs/stalwart"` | image repository |
 | image.tag | string | `""` | image tag - Overrides the image tag whose default is the chart appVersion. |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |

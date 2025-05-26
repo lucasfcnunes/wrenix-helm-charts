@@ -77,8 +77,8 @@ config:
   certificate:
     default:
       default: true
-      cert: "%{file:/opt/stalwart-mail/etc/certs/tls.crt}%"
-      private-key: "%{file:/opt/stalwart-mail/etc/certs/tls.key}%"
+      cert: "%{file:/opt/stalwart/etc/certs/tls.crt}%"
+      private-key: "%{file:/opt/stalwart/etc/certs/tls.key}%"
 
   storage:
     data: "rocksdb"

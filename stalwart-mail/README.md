@@ -7,7 +7,7 @@ description: "Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One M
 
 # stalwart-mail
 
-![Version: 0.0.44](https://img.shields.io/badge/Version-0.0.44-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.12.0](https://img.shields.io/badge/AppVersion-0.12.0-informational?style=flat-square)
+![Version: 0.0.45](https://img.shields.io/badge/Version-0.0.45-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.12.0](https://img.shields.io/badge/AppVersion-0.12.0-informational?style=flat-square)
 
 Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One Mail Server (IMAP, JMAP, SMTP)
 
@@ -95,9 +95,9 @@ helm uninstall stalwart-mail-release
 | certificate.certmanager.issuerRef.kind | string | `"ClusterIssuer"` |  |
 | certificate.certmanager.issuerRef.name | string | `"letsencrypt-prod"` |  |
 | certificate.secretName | string | `nil` | not needed if certmanager is used |
-| config.certificate.default.cert | string | `"%{file:/opt/stalwart-mail/etc/certs/tls.crt}%"` |  |
+| config.certificate.default.cert | string | `"%{file:/opt/stalwart/etc/certs/tls.crt}%"` |  |
 | config.certificate.default.default | bool | `true` |  |
-| config.certificate.default.private-key | string | `"%{file:/opt/stalwart-mail/etc/certs/tls.key}%"` |  |
+| config.certificate.default.private-key | string | `"%{file:/opt/stalwart/etc/certs/tls.key}%"` |  |
 | config.cluster.advertise-addr | string | `"%{env:POD_IP}%"` |  |
 | config.cluster.bind-addr | string | `"::"` |  |
 | config.cluster.node-id | string | `"%{env:POD_INDEX}%"` |  |

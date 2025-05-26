@@ -94,12 +94,12 @@ spec:
               mountPath: "/data/reports"
               subPath: reports
             - name: config
-              mountPath: "/opt/stalwart-mail/etc/config.toml"
+              mountPath: "/opt/stalwart/etc/config.toml"
               subPath: "config.toml"
               readOnly: true
             {{- if or .Values.certificate.secretName .Values.certificate.certmanager.enabled }}
             - name: certificate
-              mountPath: "/opt/stalwart-mail/etc/certs"
+              mountPath: "/opt/stalwart/etc/certs"
             {{- end }}
             {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}

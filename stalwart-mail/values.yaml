@@ -23,6 +23,31 @@ nameOverride: ""
 fullnameOverride: ""
 
 config:
+  config:
+    local-keys:
+      - "store.*"
+      - "directory.*"
+      - "tracer.*"
+      - "!server.blocked-ip.*"
+      # - "!server.allowed-ip.*"
+      - "server.*"
+      - "authentication.fallback-admin.*"
+      - "cluster.*"
+      - "config.local-keys.*"
+      - "storage.data"
+      - "storage.blob"
+      - "storage.lookup"
+      - "storage.fts"
+      - "storage.directory"
+      - "certificate.*"
+      # added
+      - "server.allowed-ip.*"
+      - "metrics.prometheus.*"
+      - "auth.dkim.sign.*"
+      - "auth.dkim.verify"
+      - "http.use-x-forwarded"
+      - "report.domain"
+
   cluster:
     node-id: "%{env:POD_INDEX}%"
     bind-addr: "::"

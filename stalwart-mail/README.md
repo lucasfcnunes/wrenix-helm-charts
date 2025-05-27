@@ -7,7 +7,7 @@ description: "Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One M
 
 # stalwart-mail
 
-![Version: 0.0.46](https://img.shields.io/badge/Version-0.0.46-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.12.2](https://img.shields.io/badge/AppVersion-0.12.2-informational?style=flat-square)
+![Version: 0.0.47](https://img.shields.io/badge/Version-0.0.47-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.12.2](https://img.shields.io/badge/AppVersion-0.12.2-informational?style=flat-square)
 
 Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One Mail Server (IMAP, JMAP, SMTP)
 
@@ -101,6 +101,26 @@ helm uninstall stalwart-mail-release
 | config.cluster.advertise-addr | string | `"%{env:POD_IP}%"` |  |
 | config.cluster.bind-addr | string | `"::"` |  |
 | config.cluster.node-id | string | `"%{env:POD_INDEX}%"` |  |
+| config.config.local-keys[0] | string | `"store.*"` |  |
+| config.config.local-keys[10] | string | `"storage.lookup"` |  |
+| config.config.local-keys[11] | string | `"storage.fts"` |  |
+| config.config.local-keys[12] | string | `"storage.directory"` |  |
+| config.config.local-keys[13] | string | `"certificate.*"` |  |
+| config.config.local-keys[14] | string | `"server.allowed-ip.*"` |  |
+| config.config.local-keys[15] | string | `"metrics.prometheus.*"` |  |
+| config.config.local-keys[16] | string | `"auth.dkim.sign.*"` |  |
+| config.config.local-keys[17] | string | `"auth.dkim.verify"` |  |
+| config.config.local-keys[18] | string | `"http.use-x-forwarded"` |  |
+| config.config.local-keys[19] | string | `"report.domain"` |  |
+| config.config.local-keys[1] | string | `"directory.*"` |  |
+| config.config.local-keys[2] | string | `"tracer.*"` |  |
+| config.config.local-keys[3] | string | `"!server.blocked-ip.*"` |  |
+| config.config.local-keys[4] | string | `"server.*"` |  |
+| config.config.local-keys[5] | string | `"authentication.fallback-admin.*"` |  |
+| config.config.local-keys[6] | string | `"cluster.*"` |  |
+| config.config.local-keys[7] | string | `"config.local-keys.*"` |  |
+| config.config.local-keys[8] | string | `"storage.data"` |  |
+| config.config.local-keys[9] | string | `"storage.blob"` |  |
 | config.directory.internal.store | string | `"rocksdb"` |  |
 | config.directory.internal.type | string | `"internal"` |  |
 | config.http.use-x-forwarded | bool | `true` |  |

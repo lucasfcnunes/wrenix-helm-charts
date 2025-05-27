@@ -62,10 +62,14 @@ spec:
           command:
             - sh
             - -c
+            {{- $version := semver .Chart.AppVersion }}
             - |
-              B_PATH="/data/backup/{{ .Chart.Version }}"
+              B_PATH="/data/backup/{{ printf "v%d.%d" $version.Major $version.Minor }}"
               mkdir -p "${B_PATH}";
-              if [ "${POD_INDEX}" -eq "1" ]; then
+              if \
+                [ "${POD_INDEX}" -eq "1" ] && \
+                [ ! -f "${B_PATH}/complete" ];
+              then
                 /usr/local/bin/stalwart --config /opt/stalwart/etc/config.toml --export "${B_PATH}" && \
                 touch "${B_PATH}/complete";
               fi

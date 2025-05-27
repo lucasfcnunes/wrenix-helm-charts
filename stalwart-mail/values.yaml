@@ -50,8 +50,7 @@ config:
 
   cluster:
     node-id: "%{env:POD_INDEX}%"
-    bind-addr: "::"
-    advertise-addr: "%{env:POD_IP}%"
+    coordinator: "nats"
 
   server:
     listener:
@@ -117,6 +116,8 @@ config:
       type: rocksdb
       path: "/data"
       compression: "lz4"
+    nats:
+      type: nats
 
   directory:
     internal:
@@ -173,11 +174,6 @@ config:
         # @section -- Monitoring
         secret: "%{env:METRICS_SECRET}%"
 
-backup:
-  # -- enable a init of statefulset to create a backup on /data
-  # @section -- Backup
-  enabled: true
-
 secrets:
   env:
     # -- password for fallback authentfication (env)
@@ -189,6 +185,36 @@ secrets:
     # -- basic auth metrics password in secret for stalwart-mail
     # @section -- Monitoring
     METRICS_SECRET: "scrape_metrics_password"
+
+backup:
+  # -- enable a init of statefulset to create a backup on /data
+  # @section -- Backup
+  enabled: true
+
+nats:
+  enabled: true
+  image:
+    registry: docker.io
+    repository: library/nats
+    pullPolicy: IfNotPresent
+    tag: "2.11.4-scratch"
+  service:
+    port:
+      nats: 4222
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+  livenessProbe:
+    tcpSocket:
+      port: nats
+  readinessProbe:
+    tcpSocket:
+      port: nats
 
 serviceAccount:
   # Specifies whether a service account should be created

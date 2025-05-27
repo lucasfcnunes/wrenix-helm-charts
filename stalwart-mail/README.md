@@ -7,7 +7,7 @@ description: "Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One M
 
 # stalwart-mail
 
-![Version: 0.1.2](https://img.shields.io/badge/Version-0.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.12.2](https://img.shields.io/badge/AppVersion-0.12.2-informational?style=flat-square)
+![Version: 0.1.3](https://img.shields.io/badge/Version-0.1.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.12.2](https://img.shields.io/badge/AppVersion-0.12.2-informational?style=flat-square)
 
 Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One Mail Server (IMAP, JMAP, SMTP)
 
@@ -104,8 +104,7 @@ helm uninstall stalwart-mail-release
 | config.certificate.default.cert | string | `"%{file:/opt/stalwart/etc/certs/tls.crt}%"` |  |
 | config.certificate.default.default | bool | `true` |  |
 | config.certificate.default.private-key | string | `"%{file:/opt/stalwart/etc/certs/tls.key}%"` |  |
-| config.cluster.advertise-addr | string | `"%{env:POD_IP}%"` |  |
-| config.cluster.bind-addr | string | `"::"` |  |
+| config.cluster.coordinator | string | `"nats"` |  |
 | config.cluster.node-id | string | `"%{env:POD_INDEX}%"` |  |
 | config.config.local-keys[0] | string | `"store.*"` |  |
 | config.config.local-keys[10] | string | `"storage.lookup"` |  |
@@ -160,6 +159,7 @@ helm uninstall stalwart-mail-release
 | config.storage.directory | string | `"internal"` |  |
 | config.storage.fts | string | `"rocksdb"` |  |
 | config.storage.lookup | string | `"rocksdb"` |  |
+| config.store.nats.type | string | `"nats"` |  |
 | config.store.rocksdb.compression | string | `"lz4"` |  |
 | config.store.rocksdb.path | string | `"/data"` |  |
 | config.store.rocksdb.type | string | `"rocksdb"` |  |
@@ -196,6 +196,18 @@ helm uninstall stalwart-mail-release
 | livenessProbe.initialDelaySeconds | int | `5` |  |
 | livenessProbe.periodSeconds | int | `10` |  |
 | nameOverride | string | `""` |  |
+| nats.enabled | bool | `true` |  |
+| nats.image.pullPolicy | string | `"IfNotPresent"` |  |
+| nats.image.registry | string | `"docker.io"` |  |
+| nats.image.repository | string | `"library/nats"` |  |
+| nats.image.tag | string | `"2.11.4-scratch"` |  |
+| nats.livenessProbe.tcpSocket.port | string | `"nats"` |  |
+| nats.readinessProbe.tcpSocket.port | string | `"nats"` |  |
+| nats.resources.limits.cpu | string | `"100m"` |  |
+| nats.resources.limits.memory | string | `"128Mi"` |  |
+| nats.resources.requests.cpu | string | `"100m"` |  |
+| nats.resources.requests.memory | string | `"128Mi"` |  |
+| nats.service.port.nats | int | `4222` |  |
 | nodeSelector | object | `{}` |  |
 | persistence.accessMode | string | `"ReadWriteOnce"` | accessMode |
 | persistence.annotations | object | `{}` |  |

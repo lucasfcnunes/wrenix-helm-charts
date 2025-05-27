@@ -6,5 +6,8 @@ metadata:
   labels:
     {{- include "stalwart-mail.labels" . | nindent 4 }}
 data:
+  {{- $config := mustDeepCopy .Values.config }}
+  {{- $natsAddr := list (printf "%s-nats:4222" (include "stalwart-mail.fullname" .)) }}
+  {{- $patch :=  (dict "store" (dict "nats" (dict "address" $natsAddr))) }}
   "config.toml": |
-    {{- toToml .Values.config | replace ".0\n" "\n" | nindent 4 }}
+    {{- merge $config $patch | toToml | replace ".0\n" "\n" | nindent 4 }}

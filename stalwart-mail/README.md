@@ -7,7 +7,7 @@ description: "Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One M
 
 # stalwart-mail
 
-![Version: 0.1.3](https://img.shields.io/badge/Version-0.1.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.12.2](https://img.shields.io/badge/AppVersion-0.12.2-informational?style=flat-square)
+![Version: 0.1.4](https://img.shields.io/badge/Version-0.1.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.12.2](https://img.shields.io/badge/AppVersion-0.12.2-informational?style=flat-square)
 
 Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One Mail Server (IMAP, JMAP, SMTP)
 
@@ -203,6 +203,7 @@ helm uninstall stalwart-mail-release
 | nats.image.tag | string | `"2.11.4-scratch"` |  |
 | nats.livenessProbe.tcpSocket.port | string | `"nats"` |  |
 | nats.readinessProbe.tcpSocket.port | string | `"nats"` |  |
+| nats.replicaCount | int | `1` | replicas |
 | nats.resources.limits.cpu | string | `"100m"` |  |
 | nats.resources.limits.memory | string | `"128Mi"` |  |
 | nats.resources.requests.cpu | string | `"100m"` |  |

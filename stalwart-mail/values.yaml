@@ -193,6 +193,8 @@ backup:
 
 nats:
   enabled: true
+  # -- replicas
+  replicaCount: 1
   image:
     registry: docker.io
     repository: library/nats

@@ -63,11 +63,11 @@ spec:
             - sh
             - -c
             - |
-              B_PATH=/data/backup/{{ .Chart.Version}}
-              mkdir -p "${B_PATH}"
-              if [ "${POD_INDEX}" == "1" ]; then
-                /opt/stalwart/bin/stalwart --config /opt/stalwart/etc/config.toml --export "${B_PATH}"
-                touch "${B_PATH}/complete"
+              B_PATH="/data/backup/{{ .Chart.Version }}"
+              mkdir -p "${B_PATH}";
+              if [ "${POD_INDEX}" -eq "1" ]; then
+                /usr/local/bin/stalwart --config /opt/stalwart/etc/config.toml --export "${B_PATH}" && \
+                touch "${B_PATH}/complete";
               fi
               while [ ! -f "${B_PATH}/complete" ]; do
                 echo "Waiting for key.."

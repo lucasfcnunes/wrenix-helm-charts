@@ -7,7 +7,7 @@ description: "Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One M
 
 # stalwart-mail
 
-![Version: 0.0.45](https://img.shields.io/badge/Version-0.0.45-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.12.0](https://img.shields.io/badge/AppVersion-0.12.0-informational?style=flat-square)
+![Version: 0.0.46](https://img.shields.io/badge/Version-0.0.46-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.12.2](https://img.shields.io/badge/AppVersion-0.12.2-informational?style=flat-square)
 
 Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One Mail Server (IMAP, JMAP, SMTP)
 
@@ -167,6 +167,8 @@ helm uninstall stalwart-mail-release
 | livenessProbe.httpGet.httpHeaders[0].value | string | `"127.0.0.1"` |  |
 | livenessProbe.httpGet.path | string | `"/healthz/live"` |  |
 | livenessProbe.httpGet.port | string | `"http"` |  |
+| livenessProbe.initialDelaySeconds | int | `5` |  |
+| livenessProbe.periodSeconds | int | `10` |  |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
 | persistence.accessMode | string | `"ReadWriteOnce"` | accessMode |
@@ -183,6 +185,8 @@ helm uninstall stalwart-mail-release
 | readinessProbe.httpGet.httpHeaders[0].value | string | `"127.0.0.1"` |  |
 | readinessProbe.httpGet.path | string | `"/healthz/ready"` |  |
 | readinessProbe.httpGet.port | string | `"http"` |  |
+| readinessProbe.initialDelaySeconds | int | `30` |  |
+| readinessProbe.periodSeconds | int | `10` |  |
 | replicaCount | int | `1` | replicas |
 | resources | object | `{}` |  |
 | securityContext | object | `{}` |  |

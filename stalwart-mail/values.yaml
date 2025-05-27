@@ -212,6 +212,8 @@ livenessProbe:
     httpHeaders:
       - name: "X-Forwarded-For"
         value: "127.0.0.1"
+  initialDelaySeconds: 5
+  periodSeconds: 10
 
 readinessProbe:
   httpGet:
@@ -220,6 +222,8 @@ readinessProbe:
     httpHeaders:
       - name: "X-Forwarded-For"
         value: "127.0.0.1"
+  initialDelaySeconds: 30
+  periodSeconds: 10
 
 ingress:
   enabled: false

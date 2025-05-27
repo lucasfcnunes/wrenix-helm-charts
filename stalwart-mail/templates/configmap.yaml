@@ -5,6 +5,7 @@ metadata:
   name: {{ include "stalwart-mail.fullname" . }}
   labels:
     {{- include "stalwart-mail.labels" . | nindent 4 }}
+    app.kubernetes.io/component: main
 data:
   {{- $config := mustDeepCopy .Values.config }}
   {{- $natsAddr := list (printf "%s-nats:4222" (include "stalwart-mail.fullname" .)) }}

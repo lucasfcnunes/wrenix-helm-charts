@@ -6,6 +6,7 @@ metadata:
   name: {{ include "stalwart-mail.fullname" . }}-nats
   labels:
     {{- include "stalwart-mail.labels" . | nindent 4 }}
+    app.kubernetes.io/component: nats
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.nats.replicaCount }}
@@ -13,7 +14,7 @@ spec:
   selector:
     matchLabels:
       {{- include "stalwart-mail.selectorLabels" . | nindent 6 }}
-      type: nats
+      app.kubernetes.io/component: nats
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -22,7 +23,7 @@ spec:
       {{- end }}
       labels:
         {{- include "stalwart-mail.labels" . | nindent 8 }}
-        type: nats
+        app.kubernetes.io/component: nats
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}

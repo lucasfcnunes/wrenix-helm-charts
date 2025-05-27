@@ -5,11 +5,12 @@ metadata:
   name: {{ include "stalwart-mail.fullname" . }}-nats
   labels:
     {{- include "stalwart-mail.labels" . | nindent 4 }}
+    app.kubernetes.io/component: nats
 spec:
   type: ClusterIP
   selector:
     {{- include "stalwart-mail.selectorLabels" . | nindent 4 }}
-    type: nats
+    app.kubernetes.io/component: nats
   ports:
     - name: nats
       port: {{ .Values.nats.service.port.nats }}

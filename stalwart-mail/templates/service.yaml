@@ -4,6 +4,7 @@ metadata:
   name: {{ include "stalwart-mail.fullname" . }}
   labels:
     {{- include "stalwart-mail.labels" . | nindent 4 }}
+    app.kubernetes.io/component: main
   {{- with .Values.service.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -24,3 +25,4 @@ spec:
   {{- end }}{{/* end-with .service */}}
   selector:
     {{- include "stalwart-mail.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: main

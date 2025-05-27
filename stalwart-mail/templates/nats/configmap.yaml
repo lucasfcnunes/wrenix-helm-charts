@@ -5,6 +5,7 @@ metadata:
   name: {{ include "stalwart-mail.fullname" . }}-nats
   labels:
     {{- include "stalwart-mail.labels" . | nindent 4 }}
+    app.kubernetes.io/component: nats
 data:
   server.conf: |-
     port: 4222

@@ -1,5 +1,5 @@
 {{- with .Values.persistence }}
-{{- if and .enabled (not .existingClaim) }}
+{{- if and .enabled (not .existingClaim) (not .hostPath) }}
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1

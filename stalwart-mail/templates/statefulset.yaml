@@ -34,6 +34,75 @@ spec:
       serviceAccountName: {{ include "stalwart-mail.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.backup.enabled }}
+      initContainers:
+        - name: "stalwart-backup"
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- with .Values.image }}
+          image: "{{ coalesce $.Values.global.image.registry .registry }}/{{ .repository }}:{{ .tag | default (printf "v%s" $.Chart.AppVersion) }}"
+          imagePullPolicy: {{ coalesce $.Values.global.image.pullPolicy .pullPolicy }}
+          {{- end }}
+          env:
+            - name: POD_INDEX
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: URL
+              value: "http://localhost:{{ .Values.service.ports.http }}"
+            - name: CREDENTIALS
+              value: "{{ (get .Values.config.authentication "fallback-admin").user }}:$(FALLBACK_ADMIN_SECRET)"
+            {{- with .Values.env }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          command:
+            - sh
+            - -c
+            - |
+              B_PATH=/data/backup/{{ .Chart.Version}}
+              mkdir -p "${B_PATH}"
+              if [ "${POD_INDEX}" == "1" ]; then
+                /opt/stalwart/bin/stalwart --config /opt/stalwart/etc/config.toml --export "${B_PATH}"
+                touch "${B_PATH}/complete"
+              fi
+              while [ ! -f "${B_PATH}/complete" ]; do
+                echo "Waiting for key.."
+                sleep 5;
+              done
+                
+          envFrom:
+            - secretRef:
+                name: {{ include "stalwart-mail.fullname" . }}-env
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: data
+              mountPath: "/data"
+            - name: data
+              mountPath: "/data/blobs"
+              subPath: "blobs"
+            - name: data
+              mountPath: "/data/queue"
+              subPath: "queue"
+            - name: data
+              mountPath: "/data/reports"
+              subPath: reports
+            - name: config
+              mountPath: "/opt/stalwart/etc/config.toml"
+              subPath: "config.toml"
+              readOnly: true
+            {{- if or .Values.certificate.secretName .Values.certificate.certmanager.enabled }}
+            - name: certificate
+              mountPath: "/opt/stalwart/etc/certs"
+            {{- end }}
+            {{- with .Values.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:

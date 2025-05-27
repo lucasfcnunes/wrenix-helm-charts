@@ -173,6 +173,11 @@ config:
         # @section -- Monitoring
         secret: "%{env:METRICS_SECRET}%"
 
+backup:
+  # -- enable a init of statefulset to create a backup on /data
+  # @section -- Backup
+  enabled: true
+
 secrets:
   env:
     # -- password for fallback authentfication (env)

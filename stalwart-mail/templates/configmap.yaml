@@ -9,7 +9,7 @@ metadata:
 data:
   {{- $config := mustDeepCopy .Values.config }}
   {{- if .Values.nats.enabled }}
-  {{- $natsAddr := list (printf "nats://%s-nats" .Release.Name) }}
+  {{- $natsAddr := list (printf "%s-nats:4222" .Release.Name) }}
   {{- $patch :=  (dict
     "cluster" (dict
       "coordinator" "nats"

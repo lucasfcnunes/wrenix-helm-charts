@@ -65,7 +65,7 @@ for p in * ; do
   echo "update artifacthub.io"
   set +e
   oras push "${HELM_REPO}/${p}:artifacthub.io" \
-    --config /dev/null:application/vnd.cncf.artifacthub.config.v1+yaml \
+    --config artifacthub.config.json:application/vnd.cncf.artifacthub.config.v1+yaml \
     "${p}/artifacthub-repo.yml":application/vnd.cncf.artifacthub.repository-metadata.layer.v1.yaml
   echo
 

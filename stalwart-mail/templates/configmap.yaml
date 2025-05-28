@@ -8,7 +8,20 @@ metadata:
     app.kubernetes.io/component: main
 data:
   {{- $config := mustDeepCopy .Values.config }}
-  {{- $natsAddr := list (printf "%s-nats:4222" (include "stalwart-mail.fullname" .)) }}
-  {{- $patch :=  (dict "store" (dict "nats" (dict "address" $natsAddr))) }}
+  {{- if .Values.nats.enabled }}
+  {{- $natsAddr := list (printf "nats://%s-nats" .Release.Name) }}
+  {{- $patch :=  (dict
+    "cluster" (dict
+      "coordinator" "nats"
+    )
+    "store" (dict
+      "nats" (dict
+        "type" "nats"
+        "address" $natsAddr
+      )
+    )
+  ) }}
+  {{- $config = merge $config $patch }}
+  {{- end }}
   "config.toml": |
-    {{- merge $config $patch | toToml | replace ".0\n" "\n" | nindent 4 }}
+    {{- $config | toToml | replace ".0\n" "\n" | nindent 4 }}

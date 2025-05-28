@@ -52,7 +52,6 @@ config:
 
   cluster:
     node-id: "%{env:POD_INDEX}%"
-    coordinator: "nats"
 
   server:
     listener:
@@ -118,8 +117,6 @@ config:
       type: rocksdb
       path: "/data"
       compression: "lz4"
-    nats:
-      type: nats
 
   directory:
     internal:
@@ -194,31 +191,14 @@ backup:
   enabled: true
 
 nats:
-  enabled: true
-  # -- replicas
-  replicaCount: 1
-  image:
-    registry: docker.io
-    repository: library/nats
-    pullPolicy: IfNotPresent
-    tag: "2.11.4-scratch"
-  service:
-    port:
-      nats: 4222
-  resources:
-    limits:
-      cpu: 100m
-      memory: 128Mi
-    requests:
-      cpu: 100m
-      memory: 128Mi
-
-  livenessProbe:
-    tcpSocket:
-      port: nats
-  readinessProbe:
-    tcpSocket:
-      port: nats
+  enabled: false
+  config:
+    jetstream:
+      enabled: false
+  promExporter:
+    enabled: false
+    podMonitor:
+      enabled: false
 
 serviceAccount:
   # Specifies whether a service account should be created

@@ -7,9 +7,8 @@ global:
 
 # -- replicas
 replicaCount: 1
-# -- updateStrategy (should be OnDelete during update with breaking changes)
-updateStrategy:
-  type: OnDelete
+# -- updateStrategy
+updateStrategy: {}
 
 image:
   # -- image registry (could be overwritten by global.image.registry)

@@ -7,7 +7,7 @@ description: "Deploy runner for an forgejo instance (default codeberg.org)"
 
 # forgejo-runner
 
-![Version: 0.4.28](https://img.shields.io/badge/Version-0.4.28-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.3.1](https://img.shields.io/badge/AppVersion-6.3.1-informational?style=flat-square)
+![Version: 0.4.29](https://img.shields.io/badge/Version-0.4.29-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.3.1](https://img.shields.io/badge/AppVersion-6.3.1-informational?style=flat-square)
 
 Deploy runner for an forgejo instance (default codeberg.org)
 

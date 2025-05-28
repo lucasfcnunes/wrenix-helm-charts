@@ -7,7 +7,7 @@ description: "Conduit is a simple, fast and reliable chat server powered by Matr
 
 # conduit
 
-![Version: 1.0.10](https://img.shields.io/badge/Version-1.0.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.10.3](https://img.shields.io/badge/AppVersion-0.10.3-informational?style=flat-square)
+![Version: 1.0.11](https://img.shields.io/badge/Version-1.0.11-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.10.3](https://img.shields.io/badge/AppVersion-0.10.3-informational?style=flat-square)
 
 Conduit is a simple, fast and reliable chat server powered by Matrix.
 
@@ -95,8 +95,8 @@ helm uninstall conduit-release
 | global.image.pullPolicy | string | `nil` | if set it will overwrite all pullPolicy |
 | global.image.registry | string | `nil` | if set it will overwrite all registry entries |
 | image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. (could be overwritten by global.image.pullPolicy) |
-| image.registry | string | `"docker.io"` | image registry (could be overwritten by global.image.registry) |
-| image.repository | string | `"matrixconduit/matrix-conduit"` | image repository |
+| image.registry | string | `"registry.gitlab.com"` | image registry (could be overwritten by global.image.registry) |
+| image.repository | string | `"famedly/conduit/matrix-conduit"` | image repository |
 | image.tag | string | `""` | image tag - Overrides the image tag whose default is the chart appVersion. |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |

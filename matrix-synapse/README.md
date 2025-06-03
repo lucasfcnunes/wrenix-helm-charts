@@ -7,7 +7,7 @@ description: "Matrix reference homeserver"
 
 # matrix-synapse
 
-![Version: 1.0.37](https://img.shields.io/badge/Version-1.0.37-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.129.0](https://img.shields.io/badge/AppVersion-1.129.0-informational?style=flat-square)
+![Version: 1.0.38](https://img.shields.io/badge/Version-1.0.38-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.129.0](https://img.shields.io/badge/AppVersion-1.129.0-informational?style=flat-square)
 
 Matrix reference homeserver
 
@@ -158,7 +158,7 @@ helm uninstall matrix-synapse-release
 | volumePermissions.image.pullPolicy | string | `"Always"` |  |
 | volumePermissions.image.registry | string | `"docker.io"` |  |
 | volumePermissions.image.repository | string | `"library/alpine"` |  |
-| volumePermissions.image.tag | string | `"3.21.3"` |  |
+| volumePermissions.image.tag | string | `"3.22.0"` |  |
 | volumePermissions.resources | object | `{}` |  |
 | volumePermissions.uid | int | `666` |  |
 | wellknown.affinity | object | `{}` |  |

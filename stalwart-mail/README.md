@@ -7,7 +7,7 @@ description: "Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One M
 
 # stalwart-mail
 
-![Version: 0.2.3](https://img.shields.io/badge/Version-0.2.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.12.4](https://img.shields.io/badge/AppVersion-0.12.4-informational?style=flat-square)
+![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.12.4](https://img.shields.io/badge/AppVersion-0.12.4-informational?style=flat-square)
 
 Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One Mail Server (IMAP, JMAP, SMTP)
 
@@ -104,6 +104,18 @@ helm uninstall stalwart-mail-release
 | secrets.env.METRICS_SECRET | string | `"scrape_metrics_password"` | basic auth metrics password in secret for stalwart-mail |
 | secrets.env.METRICS_USERNAME | string | `"scrape_metrics_user"` | basic auth metrics username in secret for stalwart-mail |
 
+### Twake Webmail Client
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| twake.enabled | bool | `false` | deploy a |
+| twake.image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. (could be overwritten by global.image.pullPolicy) |
+| twake.image.registry | string | `"ghcr.io"` | image registry (could be overwritten by global.image.registry) |
+| twake.image.repository | string | `"linagora/tmail-web"` | image repository |
+| twake.image.tag | string | `"v0.15.5"` | image tag |
+| twake.volumeMounts | list | `[]` | Additional volumeMounts on the output Deployment definition. |
+| twake.volumes | list | `[]` | Additional volumes on the output Deployment definition. |
+
 ### Other Values
 
 | Key | Type | Default | Description |
@@ -181,9 +193,12 @@ helm uninstall stalwart-mail-release
 | ingress.annotations | object | `{}` |  |
 | ingress.className | string | `""` |  |
 | ingress.enabled | bool | `false` |  |
-| ingress.hosts[0].host | string | `"chart-example.local"` |  |
+| ingress.hosts[0].host | string | `"admin.chart-example.local"` |  |
 | ingress.hosts[0].paths[0].path | string | `"/"` |  |
 | ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
+| ingress.hosts[1].host | string | `"chart-example.local"` |  |
+| ingress.hosts[1].paths[0].path | string | `"/"` |  |
+| ingress.hosts[1].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | ingress.tls | list | `[]` |  |
 | livenessProbe.httpGet.httpHeaders[0] | object | `{"name":"X-Forwarded-For","value":"127.0.0.1"}` | send fake X-Forwarded-For for not generate warnings |
 | livenessProbe.httpGet.path | string | `"/healthz/live"` |  |
@@ -252,6 +267,47 @@ helm uninstall stalwart-mail-release
 | traefik.ports.submissions.match | string | `nil` |  |
 | traefik.ports.submissions.passthroughTLS | bool | `true` |  |
 | traefik.ports.submissions.proxyProtocol | bool | `true` |  |
+| twake.affinity | object | `{}` |  |
+| twake.config.dashboard.apps[0].appLink | string | `"https://{{ (.Values.ingress.hosts | first).host }}"` |  |
+| twake.config.dashboard.apps[0].name | string | `"Administration"` |  |
+| twake.config.dashboard.apps[0].publicIconUri | string | `"https://{{ (.Values.ingress.hosts | first).host }}/apple-touch-icon.png"` |  |
+| twake.config.env.APP_GRID_AVAILABLE | string | `"supported"` |  |
+| twake.config.env.DOMAIN_REDIRECT_URL | string | `"https://{{ (.Values.twake.ingress.hosts | first).host }}"` |  |
+| twake.config.env.FORWARD_WARNING_MESSAGE | string | `""` |  |
+| twake.config.env.OIDC_SCOPES[0] | string | `"openid"` |  |
+| twake.config.env.OIDC_SCOPES[1] | string | `"profile"` |  |
+| twake.config.env.OIDC_SCOPES[2] | string | `"email"` |  |
+| twake.config.env.OIDC_SCOPES[3] | string | `"offline_access"` |  |
+| twake.config.env.PLATFORM | string | `"other"` |  |
+| twake.config.env.SERVER_URL | string | `"https://{{ (.Values.ingress.hosts | first).host }}/"` |  |
+| twake.config.env.WEB_OIDC_CLIENT_ID | string | `"teammail-web"` |  |
+| twake.config.env.WS_ECHO_PING | bool | `true` |  |
+| twake.ingress.annotations | object | `{}` |  |
+| twake.ingress.className | string | `""` |  |
+| twake.ingress.enabled | bool | `false` |  |
+| twake.ingress.hosts[0].host | string | `"chart-example.local"` |  |
+| twake.ingress.hosts[0].paths[0].path | string | `"/"` |  |
+| twake.ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
+| twake.ingress.tls | list | `[]` |  |
+| twake.livenessProbe.httpGet.path | string | `"/"` |  |
+| twake.livenessProbe.httpGet.port | string | `"http"` |  |
+| twake.livenessProbe.initialDelaySeconds | int | `5` |  |
+| twake.livenessProbe.periodSeconds | int | `10` |  |
+| twake.nodeSelector | object | `{}` |  |
+| twake.podAnnotations | object | `{}` |  |
+| twake.podLabels | object | `{}` |  |
+| twake.podSecurityContext | object | `{}` |  |
+| twake.readinessProbe.httpGet.path | string | `"/"` |  |
+| twake.readinessProbe.httpGet.port | string | `"http"` |  |
+| twake.readinessProbe.initialDelaySeconds | int | `30` |  |
+| twake.readinessProbe.periodSeconds | int | `10` |  |
+| twake.resources | object | `{}` |  |
+| twake.securityContext | object | `{}` |  |
+| twake.service.annotations | object | `{}` |  |
+| twake.service.ipFamilies[0] | string | `"IPv4"` |  |
+| twake.service.ipFamilyPolicy | string | `"SingleStack"` | other option is RequireDualStack |
+| twake.service.type | string | `"ClusterIP"` |  |
+| twake.tolerations | list | `[]` |  |
 | volumeMounts | list | `[]` | Additional volumeMounts on the output Deployment definition. |
 | volumes | list | `[]` | Additional volumes on the output Deployment definition. |
 

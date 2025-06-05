@@ -7,7 +7,7 @@ description: "Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One M
 
 # stalwart-mail
 
-![Version: 0.2.2](https://img.shields.io/badge/Version-0.2.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.12.4](https://img.shields.io/badge/AppVersion-0.12.4-informational?style=flat-square)
+![Version: 0.2.3](https://img.shields.io/badge/Version-0.2.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.12.4](https://img.shields.io/badge/AppVersion-0.12.4-informational?style=flat-square)
 
 Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One Mail Server (IMAP, JMAP, SMTP)
 
@@ -122,26 +122,7 @@ helm uninstall stalwart-mail-release
 | config.certificate.default.cert | string | `"%{file:/opt/stalwart/etc/certs/tls.crt}%"` |  |
 | config.certificate.default.default | bool | `true` |  |
 | config.certificate.default.private-key | string | `"%{file:/opt/stalwart/etc/certs/tls.key}%"` |  |
-| config.config.local-keys[0] | string | `"store.*"` |  |
-| config.config.local-keys[10] | string | `"storage.lookup"` |  |
-| config.config.local-keys[11] | string | `"storage.fts"` |  |
-| config.config.local-keys[12] | string | `"storage.directory"` |  |
-| config.config.local-keys[13] | string | `"certificate.*"` |  |
-| config.config.local-keys[14] | string | `"server.allowed-ip.*"` |  |
-| config.config.local-keys[15] | string | `"metrics.prometheus.*"` |  |
-| config.config.local-keys[16] | string | `"auth.dkim.sign.*"` |  |
-| config.config.local-keys[17] | string | `"auth.dkim.verify"` |  |
-| config.config.local-keys[18] | string | `"http.use-x-forwarded"` |  |
-| config.config.local-keys[19] | string | `"report.domain"` |  |
-| config.config.local-keys[1] | string | `"directory.*"` |  |
-| config.config.local-keys[2] | string | `"tracer.*"` |  |
-| config.config.local-keys[3] | string | `"!server.blocked-ip.*"` |  |
-| config.config.local-keys[4] | string | `"server.*"` |  |
-| config.config.local-keys[5] | string | `"authentication.fallback-admin.*"` |  |
-| config.config.local-keys[6] | string | `"cluster.*"` |  |
-| config.config.local-keys[7] | string | `"config.local-keys.*"` |  |
-| config.config.local-keys[8] | string | `"storage.data"` |  |
-| config.config.local-keys[9] | string | `"storage.blob"` |  |
+| config.config.local-keys | list | `["store.*","directory.*","tracer.*","!server.blocked-ip.*","server.*","authentication.fallback-admin.*","cluster.*","config.local-keys.*","storage.data","storage.blob","storage.lookup","storage.fts","storage.directory","certificate.*","server.allowed-ip.*","metrics.prometheus.*","auth.dkim.sign.*","auth.dkim.verify","http.use-x-forwarded","report.domain"]` | values configure here (and not per database) |
 | config.directory.internal.store | string | `"rocksdb"` |  |
 | config.directory.internal.type | string | `"internal"` |  |
 | config.http.use-x-forwarded | bool | `true` |  |
@@ -204,8 +185,7 @@ helm uninstall stalwart-mail-release
 | ingress.hosts[0].paths[0].path | string | `"/"` |  |
 | ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | ingress.tls | list | `[]` |  |
-| livenessProbe.httpGet.httpHeaders[0].name | string | `"X-Forwarded-For"` |  |
-| livenessProbe.httpGet.httpHeaders[0].value | string | `"127.0.0.1"` |  |
+| livenessProbe.httpGet.httpHeaders[0] | object | `{"name":"X-Forwarded-For","value":"127.0.0.1"}` | send fake X-Forwarded-For for not generate warnings |
 | livenessProbe.httpGet.path | string | `"/healthz/live"` |  |
 | livenessProbe.httpGet.port | string | `"http"` |  |
 | livenessProbe.initialDelaySeconds | int | `5` |  |
@@ -222,8 +202,7 @@ helm uninstall stalwart-mail-release
 | podAnnotations | object | `{}` |  |
 | podLabels | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
-| readinessProbe.httpGet.httpHeaders[0].name | string | `"X-Forwarded-For"` |  |
-| readinessProbe.httpGet.httpHeaders[0].value | string | `"127.0.0.1"` |  |
+| readinessProbe.httpGet.httpHeaders[0] | object | `{"name":"X-Forwarded-For","value":"127.0.0.1"}` | send fake X-Forwarded-For for not generate warnings |
 | readinessProbe.httpGet.path | string | `"/healthz/ready"` |  |
 | readinessProbe.httpGet.port | string | `"http"` |  |
 | readinessProbe.initialDelaySeconds | int | `30` |  |
@@ -244,10 +223,10 @@ helm uninstall stalwart-mail-release
 | service.ports.submission | int | `587` |  |
 | service.ports.submissions | int | `465` |  |
 | service.type | string | `"ClusterIP"` |  |
-| serviceAccount.annotations | object | `{}` |  |
-| serviceAccount.automount | bool | `true` |  |
-| serviceAccount.create | bool | `false` |  |
-| serviceAccount.name | string | `""` |  |
+| serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
+| serviceAccount.automount | bool | `true` | Automatically mount a ServiceAccount's API credentials? |
+| serviceAccount.create | bool | `false` | Specifies whether a service account should be created |
+| serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
 | tolerations | list | `[]` |  |
 | traefik.enabled | bool | `false` |  |
 | traefik.ports.https.entrypoint | string | `"websecure"` |  |
@@ -273,8 +252,8 @@ helm uninstall stalwart-mail-release
 | traefik.ports.submissions.match | string | `nil` |  |
 | traefik.ports.submissions.passthroughTLS | bool | `true` |  |
 | traefik.ports.submissions.proxyProtocol | bool | `true` |  |
-| volumeMounts | list | `[]` |  |
-| volumes | list | `[]` |  |
+| volumeMounts | list | `[]` | Additional volumeMounts on the output Deployment definition. |
+| volumes | list | `[]` | Additional volumes on the output Deployment definition. |
 
 Autogenerated from chart metadata using [helm-docs](https://github.com/norwoodj/helm-docs)
 

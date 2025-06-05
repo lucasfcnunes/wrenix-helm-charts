@@ -6,8 +6,10 @@ global:
     pullPolicy:
 
 # -- replicas
+# @section -- Cluster
 replicaCount: 1
 # -- updateStrategy
+# @section -- Cluster
 updateStrategy: {}
 
 image:
@@ -51,6 +53,8 @@ config:
       - "report.domain"
 
   cluster:
+    # -- configure stalwart to set correct node-id based on statefulset id
+    # @section -- Cluster
     node-id: "%{env:POD_INDEX}%"
 
   server:
@@ -163,14 +167,14 @@ config:
   metrics:
     prometheus:
       # -- enable prometheus in stalwart-mail
-      # @section -- Monitoring
+      # @section -- Observability
       enable: true
       auth:
         # -- basic auth metrics username in stalwart-mail
-        # @section -- Monitoring
+        # @section -- Observability
         username: "%{env:METRICS_USERNAME}%"
         # -- basic auth metrics password in stalwart-mail
-        # @section -- Monitoring
+        # @section -- Observability
         secret: "%{env:METRICS_SECRET}%"
 
 secrets:
@@ -179,10 +183,10 @@ secrets:
     # @section -- Authentification
     FALLBACK_ADMIN_SECRET: supersecret
     # -- basic auth metrics username in secret for stalwart-mail
-    # @section -- Monitoring
+    # @section -- Observability
     METRICS_USERNAME: "scrape_metrics_user"
     # -- basic auth metrics password in secret for stalwart-mail
-    # @section -- Monitoring
+    # @section -- Observability
     METRICS_SECRET: "scrape_metrics_password"
 
 backup:
@@ -191,13 +195,19 @@ backup:
   enabled: true
 
 nats:
+  # -- deploy a NATS and configure stalwart to use it as coordinator
+  # @section -- Cluster
   enabled: false
-  config:
-    jetstream:
-      enabled: false
+  # -- NATS configure
+  # @section -- Cluster
+  config: {}
   promExporter:
+    # -- deploy prometheus exporter to NATS (in coordinator setup)
+    # @section -- Observability
     enabled: false
     podMonitor:
+      # -- deploy pod monitor for NATS prometheus exporter (in coordinator setup)
+      # @section -- Observability
       enabled: false
 
 serviceAccount:
@@ -329,23 +339,23 @@ certificate:
 prometheus:
   servicemonitor:
     # -- deploy servicemonitor
-    # @section -- Monitoring
+    # @section -- Observability
     enabled: false
     # -- label of servicemonitor
-    # @section -- Monitoring
+    # @section -- Observability
     labels: {}
 
 grafana:
   dashboards:
     # -- deploy grafana dashboard in configmap
-    # @section -- Monitoring
+    # @section -- Observability
     enabled: false
     # -- label of configmap
-    # @section -- Monitoring
+    # @section -- Observability
     labels:
       grafana_dashboard: "1"
     # -- label of configmap
-    # @section -- Monitoring
+    # @section -- Observability
     annotations: {}
 
 resources: {}

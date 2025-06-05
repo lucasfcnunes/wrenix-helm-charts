@@ -7,7 +7,7 @@ description: "Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One M
 
 # stalwart-mail
 
-![Version: 0.2.1](https://img.shields.io/badge/Version-0.2.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.12.4](https://img.shields.io/badge/AppVersion-0.12.4-informational?style=flat-square)
+![Version: 0.2.2](https://img.shields.io/badge/Version-0.2.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.12.4](https://img.shields.io/badge/AppVersion-0.12.4-informational?style=flat-square)
 
 Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One Mail Server (IMAP, JMAP, SMTP)
 
@@ -77,7 +77,17 @@ helm uninstall stalwart-mail-release
 | config.authentication.fallback-admin.user | string | `"admin"` | username for fallback authentfication |
 | secrets.env.FALLBACK_ADMIN_SECRET | string | `"supersecret"` | password for fallback authentfication (env) |
 
-### Monitoring
+### Cluster
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| config.cluster.node-id | string | `"%{env:POD_INDEX}%"` | configure stalwart to set correct node-id based on statefulset id |
+| nats.config | object | `{}` | NATS configure |
+| nats.enabled | bool | `false` | deploy a NATS and configure stalwart to use it as coordinator |
+| replicaCount | int | `1` | replicas |
+| updateStrategy | object | `{}` | updateStrategy |
+
+### Observability
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -87,6 +97,8 @@ helm uninstall stalwart-mail-release
 | grafana.dashboards.annotations | object | `{}` | label of configmap |
 | grafana.dashboards.enabled | bool | `false` | deploy grafana dashboard in configmap |
 | grafana.dashboards.labels | object | `{"grafana_dashboard":"1"}` | label of configmap |
+| nats.promExporter.enabled | bool | `false` | deploy prometheus exporter to NATS (in coordinator setup) |
+| nats.promExporter.podMonitor.enabled | bool | `false` | deploy pod monitor for NATS prometheus exporter (in coordinator setup) |
 | prometheus.servicemonitor.enabled | bool | `false` | deploy servicemonitor |
 | prometheus.servicemonitor.labels | object | `{}` | label of servicemonitor |
 | secrets.env.METRICS_SECRET | string | `"scrape_metrics_password"` | basic auth metrics password in secret for stalwart-mail |
@@ -110,7 +122,6 @@ helm uninstall stalwart-mail-release
 | config.certificate.default.cert | string | `"%{file:/opt/stalwart/etc/certs/tls.crt}%"` |  |
 | config.certificate.default.default | bool | `true` |  |
 | config.certificate.default.private-key | string | `"%{file:/opt/stalwart/etc/certs/tls.key}%"` |  |
-| config.cluster.node-id | string | `"%{env:POD_INDEX}%"` |  |
 | config.config.local-keys[0] | string | `"store.*"` |  |
 | config.config.local-keys[10] | string | `"storage.lookup"` |  |
 | config.config.local-keys[11] | string | `"storage.fts"` |  |
@@ -200,10 +211,6 @@ helm uninstall stalwart-mail-release
 | livenessProbe.initialDelaySeconds | int | `5` |  |
 | livenessProbe.periodSeconds | int | `10` |  |
 | nameOverride | string | `""` |  |
-| nats.config.jetstream.enabled | bool | `false` |  |
-| nats.enabled | bool | `false` |  |
-| nats.promExporter.enabled | bool | `false` |  |
-| nats.promExporter.podMonitor.enabled | bool | `false` |  |
 | nodeSelector | object | `{}` |  |
 | persistence.accessMode | string | `"ReadWriteOnce"` | accessMode |
 | persistence.annotations | object | `{}` |  |
@@ -221,7 +228,6 @@ helm uninstall stalwart-mail-release
 | readinessProbe.httpGet.port | string | `"http"` |  |
 | readinessProbe.initialDelaySeconds | int | `30` |  |
 | readinessProbe.periodSeconds | int | `10` |  |
-| replicaCount | int | `1` | replicas |
 | resources | object | `{}` |  |
 | securityContext | object | `{}` |  |
 | service.annotations | object | `{}` |  |
@@ -267,7 +273,6 @@ helm uninstall stalwart-mail-release
 | traefik.ports.submissions.match | string | `nil` |  |
 | traefik.ports.submissions.passthroughTLS | bool | `true` |  |
 | traefik.ports.submissions.proxyProtocol | bool | `true` |  |
-| updateStrategy | object | `{}` | updateStrategy |
 | volumeMounts | list | `[]` |  |
 | volumes | list | `[]` |  |
 

@@ -3,9 +3,9 @@ name: cinny
 description: A Helm Chart to install cinny (yet another matrix client)
 icon: https://cinny.in/assets/favicon-48x48.png
 type: application
-version: "0.2.6"
+version: "0.2.7"
 # renovate: image=ghcr.io/cinnyapp/cinny
-appVersion: "4.6.0"
+appVersion: "4.8.0"
 maintainers:
   - name: WrenIX
     url: https://wrenix.eu

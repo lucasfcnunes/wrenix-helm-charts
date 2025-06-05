@@ -17,5 +17,5 @@ data:
     {{- end }}
     {{- end }}
   "app_dashboard.json": |
-    {{- tpl (toJson .Values.twake.config.dashboard.apps) . | nindent 4 }}
+    {{- tpl (toJson .Values.twake.config.dashboard) . | nindent 4 }}
 {{- end }}

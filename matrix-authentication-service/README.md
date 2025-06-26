@@ -7,7 +7,7 @@ description: "OAuth2.0 + OpenID Provider for Matrix Homeservers (per MSC3861)"
 
 # matrix-authentication-service
 
-![Version: 0.0.13](https://img.shields.io/badge/Version-0.0.13-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.16.0-rc.0](https://img.shields.io/badge/AppVersion-0.16.0--rc.0-informational?style=flat-square)
+![Version: 0.0.14](https://img.shields.io/badge/Version-0.0.14-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.18.0](https://img.shields.io/badge/AppVersion-0.18.0-informational?style=flat-square)
 
 OAuth2.0 + OpenID Provider for Matrix Homeservers (per MSC3861)
 

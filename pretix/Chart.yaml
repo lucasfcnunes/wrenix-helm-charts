@@ -3,9 +3,9 @@ name: pretix
 description: Reinventing ticket presales, one ticket at a time.
 icon: https://static.pretix.space/static/pretixbase/img/icons/favicon-32x32.png
 type: application
-version: "0.1.28"
+version: "0.1.29"
 # renovate: image=docker.io/pretix/standalone
-appVersion: "2025.4.0"
+appVersion: "2025.5.0"
 keywords:
   - event-tickets
 maintainers:

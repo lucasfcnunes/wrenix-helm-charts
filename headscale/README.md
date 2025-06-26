@@ -7,7 +7,7 @@ description: "An open source, self-hosted implementation of the Tailscale contro
 
 # headscale
 
-![Version: 1.0.2](https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.26.1](https://img.shields.io/badge/AppVersion-0.26.1-informational?style=flat-square)
+![Version: 1.0.3](https://img.shields.io/badge/Version-1.0.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.26.1](https://img.shields.io/badge/AppVersion-0.26.1-informational?style=flat-square)
 
 An open source, self-hosted implementation of the Tailscale control server.
 
@@ -72,6 +72,7 @@ helm uninstall headscale-release
 | headscale.config.derp.urls | list | `[]` |  |
 | headscale.config.disable_check_updates | bool | `true` |  |
 | headscale.config.dns.base_domain | string | `"example.com"` |  |
+| headscale.config.dns.override_local_dns | bool | `false` |  |
 | headscale.config.grpc_listen_addr | string | `":50443"` |  |
 | headscale.config.listen_addr | string | `":8080"` |  |
 | headscale.config.metrics_listen_addr | string | `":9090"` |  |

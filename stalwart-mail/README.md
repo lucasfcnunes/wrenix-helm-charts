@@ -7,7 +7,7 @@ description: "Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One M
 
 # stalwart-mail
 
-![Version: 0.3.3](https://img.shields.io/badge/Version-0.3.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.12.5](https://img.shields.io/badge/AppVersion-0.12.5-informational?style=flat-square)
+![Version: 0.3.4](https://img.shields.io/badge/Version-0.3.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.12.5](https://img.shields.io/badge/AppVersion-0.12.5-informational?style=flat-square)
 
 Helm Chart for Stalwart Mail Server - Secure & Modern All-in-One Mail Server (IMAP, JMAP, SMTP)
 
@@ -112,7 +112,7 @@ helm uninstall stalwart-mail-release
 | twake.image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. (could be overwritten by global.image.pullPolicy) |
 | twake.image.registry | string | `"ghcr.io"` | image registry (could be overwritten by global.image.registry) |
 | twake.image.repository | string | `"linagora/tmail-web"` | image repository |
-| twake.image.tag | string | `"v0.15.5"` | image tag |
+| twake.image.tag | string | `"v0.16.3"` | image tag |
 | twake.volumeMounts | list | `[]` | Additional volumeMounts on the output Deployment definition. |
 | twake.volumes | list | `[]` | Additional volumes on the output Deployment definition. |
 

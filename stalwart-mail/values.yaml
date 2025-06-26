@@ -226,7 +226,7 @@ twake:
     pullPolicy: IfNotPresent
     # -- image tag
     # @section -- Twake Webmail Client
-    tag: "v0.15.5"
+    tag: "v0.16.3"
 
   config:
     env:

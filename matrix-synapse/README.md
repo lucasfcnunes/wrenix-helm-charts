@@ -7,7 +7,7 @@ description: "Matrix reference homeserver"
 
 # matrix-synapse
 
-![Version: 1.0.39](https://img.shields.io/badge/Version-1.0.39-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.129.0](https://img.shields.io/badge/AppVersion-1.129.0-informational?style=flat-square)
+![Version: 1.0.40](https://img.shields.io/badge/Version-1.0.40-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.129.0](https://img.shields.io/badge/AppVersion-1.129.0-informational?style=flat-square)
 
 Matrix reference homeserver
 
@@ -170,7 +170,7 @@ helm uninstall matrix-synapse-release
 | wellknown.image.pullPolicy | string | `"IfNotPresent"` |  |
 | wellknown.image.registry | string | `"docker.io"` |  |
 | wellknown.image.repository | string | `"library/nginx"` |  |
-| wellknown.image.tag | string | `"1.28.0"` |  |
+| wellknown.image.tag | string | `"1.29.0"` |  |
 | wellknown.nodeSelector | object | `{}` |  |
 | wellknown.podAnnotations | list | `[]` |  |
 | wellknown.podLabels | object | `{}` |  |

@@ -615,7 +615,7 @@ wellknown:
   image:
     registry: docker.io
     repository: library/nginx
-    tag: 1.28.0
+    tag: 1.29.0
     pullPolicy: IfNotPresent
 
   replicaCount: 1

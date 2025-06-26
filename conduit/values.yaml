@@ -70,7 +70,7 @@ wellknown:
     pullPolicy: IfNotPresent
     # -- image tag
     # @section -- well known
-    tag: "1.28.0"
+    tag: "1.29.0"
 
   # -- replicas
   # @section -- well known

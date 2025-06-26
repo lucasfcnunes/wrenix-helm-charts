@@ -7,7 +7,7 @@ description: "Conduit is a simple, fast and reliable chat server powered by Matr
 
 # conduit
 
-![Version: 1.0.11](https://img.shields.io/badge/Version-1.0.11-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.10.3](https://img.shields.io/badge/AppVersion-0.10.3-informational?style=flat-square)
+![Version: 1.0.12](https://img.shields.io/badge/Version-1.0.12-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.10.5](https://img.shields.io/badge/AppVersion-0.10.5-informational?style=flat-square)
 
 Conduit is a simple, fast and reliable chat server powered by Matrix.
 

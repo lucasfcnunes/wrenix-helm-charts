@@ -4,9 +4,9 @@ name: matrix-synapse
 description: Matrix reference homeserver
 icon: https://matrix.org/images/matrix-logo.svg
 type: application
-version: "1.0.42"
+version: "1.0.43"
 # renovate: image=ghcr.io/element-hq/synapse
-appVersion: "1.132.0"
+appVersion: "1.133.0"
 maintainers:
   - name: WrenIX
     url: https://wrenix.eu

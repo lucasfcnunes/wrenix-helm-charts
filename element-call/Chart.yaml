@@ -3,9 +3,9 @@ name: element-call
 description: Run Element-Call and his dependencies
 icon: https://element.io/images/webclip.png
 type: application
-version: "0.1.18"
+version: "0.1.19"
 # renovate: image=ghcr.io/element-hq/element-call
-appVersion: "0.13.0"
+appVersion: "0.13.1"
 maintainers:
   - name: WrenIX
     url: https://wrenix.eu

@@ -7,7 +7,7 @@ description: "Matrix reference homeserver"
 
 # matrix-synapse
 
-![Version: 1.0.43](https://img.shields.io/badge/Version-1.0.43-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.133.0](https://img.shields.io/badge/AppVersion-1.133.0-informational?style=flat-square)
+![Version: 1.0.44](https://img.shields.io/badge/Version-1.0.44-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.133.0](https://img.shields.io/badge/AppVersion-1.133.0-informational?style=flat-square)
 
 Matrix reference homeserver
 
@@ -44,7 +44,7 @@ helm uninstall matrix-synapse-release
 | Repository | Name | Version |
 |------------|------|---------|
 | oci://docker.io/bitnamicharts | postgresql | ^16.3.1 |
-| oci://docker.io/bitnamicharts | redis | 21.2.6 |
+| oci://docker.io/bitnamicharts | redis | 21.2.7 |
 
 ## Values
 

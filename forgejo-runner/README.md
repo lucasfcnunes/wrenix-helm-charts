@@ -7,7 +7,7 @@ description: "Deploy runner for an forgejo instance (default codeberg.org)"
 
 # forgejo-runner
 
-![Version: 0.4.35](https://img.shields.io/badge/Version-0.4.35-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 7.0.0](https://img.shields.io/badge/AppVersion-7.0.0-informational?style=flat-square)
+![Version: 0.4.36](https://img.shields.io/badge/Version-0.4.36-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 7.0.0](https://img.shields.io/badge/AppVersion-7.0.0-informational?style=flat-square)
 
 Deploy runner for an forgejo instance (default codeberg.org)
 
@@ -172,7 +172,7 @@ helm uninstall forgejo-runner-release
 | kubectl.image.pullPolicy | string | `"IfNotPresent"` |  |
 | kubectl.image.registry | string | `"docker.io"` |  |
 | kubectl.image.repository | string | `"bitnami/kubectl"` |  |
-| kubectl.image.tag | string | `"1.33.1"` |  |
+| kubectl.image.tag | string | `"1.33.2"` |  |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |

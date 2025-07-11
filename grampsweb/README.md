@@ -7,7 +7,7 @@ description: "A Helm chart for gramps web"
 
 # grampsweb
 
-![Version: 0.2.22](https://img.shields.io/badge/Version-0.2.22-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 25.7.0](https://img.shields.io/badge/AppVersion-25.7.0-informational?style=flat-square)
+![Version: 0.2.23](https://img.shields.io/badge/Version-0.2.23-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 25.7.0](https://img.shields.io/badge/AppVersion-25.7.0-informational?style=flat-square)
 
 A Helm chart for gramps web
 
@@ -52,6 +52,7 @@ helm uninstall grampsweb-release
 | global.image.pullPolicy | string | `nil` | if set it will overwrite all pullPolicy |
 | global.image.registry | string | `nil` | if set it will overwrite all registry entries |
 | gramps.baseURL | string | `"https://gramps.example.org"` | Base URL where the API can be reached (e.g. https://mygramps.mydomain.com/). This is necessary e.g. to build correct passwort reset links |
+| gramps.disableTelemetry | bool | `true` | disable telemetry (overwrite default False to True) |
 | gramps.mail.from | string | `nil` | "From" address for automated e-mails |
 | gramps.mail.host | string | `nil` | SMTP server host (e.g. for sending password reset e-mails) |
 | gramps.mail.password | string | `nil` | SMTP server password |
@@ -59,6 +60,7 @@ helm uninstall grampsweb-release
 | gramps.mail.useTLS | bool | `true` | Boolean, whether to use TLS for sending e-mails. Defaults to true. When using STARTTLS, set this to false and use a port different from 25. |
 | gramps.mail.username | string | `nil` | SMTP server username |
 | gramps.mediaPrefixTree | bool | `false` | whether or not to use a separate subfolder for the media files of each tree. Defaults to False, but strongly recommend to use True in a multi-tree setup |
+| gramps.registrationDisabled | bool | `true` | disable registration (overwrite default False to True) |
 | gramps.tree | string | `"Gramps Web"` | To enable multi-tree support, the TREE config option must be set to a single asterisk `*` |
 | image.pullPolicy | string | `"IfNotPresent"` | This sets the pull policy for images. (could be overwritten by global.image.pullPolicy) |
 | image.registry | string | `"ghcr.io"` | image registry (could be overwritten by global.image.registry) |

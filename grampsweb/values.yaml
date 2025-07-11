@@ -43,6 +43,10 @@ gramps:
     useTLS: true
     # -- "From" address for automated e-mails
     from:
+  # -- disable registration (overwrite default False to True)
+  registrationDisabled: true
+  # -- disable telemetry (overwrite default False to True)
+  disableTelemetry: true
 
 ## Enable persistence using Persistent Volume Claims
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/

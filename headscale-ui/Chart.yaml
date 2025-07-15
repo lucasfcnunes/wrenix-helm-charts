@@ -3,9 +3,9 @@ name: headscale-ui
 description: A simple Headscale web UI for small-scale deployments.
 icon: https://raw.githubusercontent.com/gurucomputing/headscale-ui/master/static/favicon.png
 type: application
-version: "0.2.6"
+version: "0.2.7"
 # renovate: image=ghcr.io/gurucomputing/headscale-ui
-appVersion: "2025.05.22"
+appVersion: "2025.07.12"
 maintainers:
   - name: WrenIX
     url: https://wrenix.eu

@@ -336,6 +336,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
+  externalTrafficPolicy:
   ipFamilies: ["IPv4"]
   # -- other option is RequireDualStack
   ipFamilyPolicy: "SingleStack"

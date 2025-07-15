@@ -12,6 +12,9 @@ metadata:
 spec:
   {{- with .Values.service }}
   type: {{ .type }}
+  {{- with .externalTrafficPolicy }}
+  externalTrafficPolicy: {{ . }}
+  {{- end }}
   ipFamilyPolicy: {{ .ipFamilyPolicy }}
   ipFamilies:
     {{- toYaml .ipFamilies | nindent 4 }}

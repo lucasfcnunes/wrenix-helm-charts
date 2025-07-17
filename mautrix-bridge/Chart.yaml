@@ -3,7 +3,7 @@ name: mautrix-bridge
 description: A Matrix puppeting bridge mautrix.
 icon: https://avatars.githubusercontent.com/u/88519669
 type: application
-version: "0.0.24"
+version: "0.0.25"
 maintainers:
   - name: WrenIX
     url: https://wrenix.eu

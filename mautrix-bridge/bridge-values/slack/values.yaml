@@ -1,6 +1,6 @@
 image:
   repository: mautrix/slack
-  tag: "v0.2.1"
+  tag: "v0.2.2"
 
 config:
   bridge:

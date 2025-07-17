@@ -13,6 +13,8 @@ spec:
   updateStrategy:
     {{- toYaml . | nindent 4 }}
   {{- end }}
+  # OrderedReady start at last container and not first
+  podManagementPolicy: Parallel
   ordinals:
     start: 1
   selector:
@@ -81,7 +83,7 @@ spec:
                 touch "${B_PATH}/complete";
               fi
               while [ ! -f "${B_PATH}/complete" ]; do
-                echo "Waiting for key.."
+                echo "Waiting for complete backup on first pod.."
                 sleep 5;
               done
                 

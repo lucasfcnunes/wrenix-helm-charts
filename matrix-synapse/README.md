@@ -7,7 +7,7 @@ description: "Matrix reference homeserver"
 
 # matrix-synapse
 
-![Version: 1.0.45](https://img.shields.io/badge/Version-1.0.45-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.133.0](https://img.shields.io/badge/AppVersion-1.133.0-informational?style=flat-square)
+![Version: 1.0.46](https://img.shields.io/badge/Version-1.0.46-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.134.0](https://img.shields.io/badge/AppVersion-1.134.0-informational?style=flat-square)
 
 Matrix reference homeserver
 
@@ -44,7 +44,7 @@ helm uninstall matrix-synapse-release
 | Repository | Name | Version |
 |------------|------|---------|
 | oci://docker.io/bitnamicharts | postgresql | ^16.3.1 |
-| oci://docker.io/bitnamicharts | redis | 21.2.10 |
+| oci://docker.io/bitnamicharts | redis | 21.2.12 |
 
 ## Values
 
@@ -131,7 +131,7 @@ helm uninstall matrix-synapse-release
 | signingkey.job.publishImage.pullPolicy | string | `"IfNotPresent"` |  |
 | signingkey.job.publishImage.registry | string | `"docker.io"` |  |
 | signingkey.job.publishImage.repository | string | `"bitnami/kubectl"` |  |
-| signingkey.job.publishImage.tag | string | `"latest"` |  |
+| signingkey.job.publishImage.tag | string | `"1.33.3"` |  |
 | signingkey.resources | object | `{}` |  |
 | synapse.affinity | object | `{}` |  |
 | synapse.annotations | object | `{}` |  |
@@ -158,7 +158,7 @@ helm uninstall matrix-synapse-release
 | volumePermissions.image.pullPolicy | string | `"Always"` |  |
 | volumePermissions.image.registry | string | `"docker.io"` |  |
 | volumePermissions.image.repository | string | `"library/alpine"` |  |
-| volumePermissions.image.tag | string | `"3.22.0"` |  |
+| volumePermissions.image.tag | string | `"3.22.1"` |  |
 | volumePermissions.resources | object | `{}` |  |
 | volumePermissions.uid | int | `666` |  |
 | wellknown.affinity | object | `{}` |  |

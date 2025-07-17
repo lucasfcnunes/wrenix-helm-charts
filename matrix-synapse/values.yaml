@@ -59,7 +59,7 @@ signingkey:
     publishImage:
       registry: docker.io
       repository: bitnami/kubectl
-      tag: latest
+      tag: 1.33.3
       pullPolicy: IfNotPresent
 
   ## Specify an existing signing key secret, will need to be created in advance.
@@ -795,7 +795,7 @@ volumePermissions:
   image:
     registry: docker.io
     repository: library/alpine
-    tag: 3.22.0
+    tag: 3.22.1
     pullPolicy: Always
 
     ## Optionally specify an array of imagePullSecrets.

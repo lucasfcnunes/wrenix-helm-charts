@@ -3,7 +3,7 @@ name: autopush
 description: A Helm chart for Kubernetes
 icon:
 type: application
-version: "0.0.30"
+version: "0.0.31"
 # renovate: image=docker.io/mozilla-services/autopush-rs
 appVersion: "1.72.2"
 maintainers:
@@ -12,6 +12,6 @@ maintainers:
 
 dependencies:
   - name: redis
-    version: "21.2.10"
+    version: "21.2.12"
     repository: "oci://docker.io/bitnamicharts"
     condition: redis.internal

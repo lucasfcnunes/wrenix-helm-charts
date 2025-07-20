@@ -153,6 +153,10 @@ prometheus:
     # -- deploy prometheusrules
     # @section -- Monitoring
     enabled: false
+    defaults:
+      # -- enable default prometheus rules for caching in PostgreSQL
+      # @section -- Monitoring
+      caching: false
     # -- labels of prometheusrule
     # @section -- Monitoring
     labels: {}

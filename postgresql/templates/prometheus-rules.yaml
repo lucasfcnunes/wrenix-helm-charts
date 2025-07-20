@@ -65,6 +65,7 @@ spec:
             description: "PostgreSQL high number of queries per second on {{ $labels.service }}.{{ $labels.namespace }} for database {{ $labels.datname }} with a value of {{ $value }}"
             summary: "PostgreSQL high number of queries per second {{ $labels.service }}.{{ $labels.namespace }} for database {{ $labels.datname }}"
             `}}
+        {{- if .Values.prometheus.rules.defaults.caching }}
         - alert: "PostgreSQLCacheHitRatio"
           expr: 'avg(rate(pg_stat_database_blks_hit{ {{ $filter }},datname!~"template.*" }[5m])/(rate(pg_stat_database_blks_hit{ {{ $filter }},datname!~"template.*" }[5m])+rate(pg_stat_database_blks_read{ {{ $filter }},datname!~"template.*" }[5m]))) by (job,service, namespace, datname) < 0.98'
           for: 5m
@@ -75,6 +76,7 @@ spec:
             summary: "PostgreSQL low cache hit rate on {{ $labels.service }}.{{ $labels.namespace }} for database {{ $labels.datname }}"
             description: "PostgreSQL low on cache hit rate on {{ $labels.service }}.{{ $labels.namespace }} for database {{ $labels.datname }} with a value of {{ $value }}"
             `}}
+        {{- end }}
     {{- with .Values.prometheus.rules.additionalRules }}
     - name: {{ $fullname }}-Additional
       rules:

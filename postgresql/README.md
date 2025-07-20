@@ -7,7 +7,7 @@ description: "A Helm chart for running PostgreSQL (Postgres) database"
 
 # postgresql
 
-![Version: 0.3.6](https://img.shields.io/badge/Version-0.3.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 17.5-alpine](https://img.shields.io/badge/AppVersion-17.5--alpine-informational?style=flat-square)
+![Version: 0.3.7](https://img.shields.io/badge/Version-0.3.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 17.5-alpine](https://img.shields.io/badge/AppVersion-17.5--alpine-informational?style=flat-square)
 
 A Helm chart for running PostgreSQL (Postgres) database
 
@@ -54,6 +54,7 @@ helm uninstall postgresql-release
 | prometheus.image.repository | string | `"prometheuscommunity/postgres-exporter"` | image repository |
 | prometheus.image.tag | string | `"v0.17.1"` | image tag |
 | prometheus.rules.additionalRules | list | `[]` | add own rules to prometheusrules (current no default alertrules are provided) |
+| prometheus.rules.defaults.caching | bool | `false` | enable default prometheus rules for caching in PostgreSQL |
 | prometheus.rules.enabled | bool | `false` | deploy prometheusrules |
 | prometheus.rules.labels | object | `{}` | labels of prometheusrule |
 | prometheus.servicemonitor.enabled | bool | `false` | deploy servicemonitor |

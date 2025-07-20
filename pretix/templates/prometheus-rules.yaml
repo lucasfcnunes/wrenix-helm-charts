@@ -1,8 +1,11 @@
 {{- if and .Values.prometheus.rules.enabled }}
+---
+{{- $fullname := include "pretix.fullname" . }}
+{{- $filter := printf `namespace="%s",job="%s"` .Release.Namespace $fullname }}
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
-  name: {{ include "pretix.fullname" . }}
+  name: {{ $fullname }}
   labels:
     {{- include "pretix.labels" . | nindent 4 }}
     {{- with .Values.prometheus.rules.labels }}
@@ -10,10 +13,10 @@ metadata:
     {{- end }}
 spec:
   groups:
-    - name: {{ template "pretix.fullname" . }}-Additional
+    - name: {{ $fullname }}-Default
       rules:
         - alert: "pretix: error in task"
-          expr: rate(pretix_task_runs_total{status!="success"}[1h])!=0
+          expr: rate(pretix_task_runs_total{status!="success", {{ $filter }} }[1h])!=0
           for: 5m
           labels:
             severity: critical
@@ -22,7 +25,7 @@ spec:
             summary: "pretix task of {{ $labels.instance }} has an error on {{ $labels.task_name }} in the last hour"
             `}}
     {{- with .Values.prometheus.rules.additionalRules }}
-    - name: {{ template "pretix.fullname" $ }}-Additional
+    - name: {{ $fullname }}-Additional
       rules:
         {{- toYaml . | nindent 8 }}
     {{- end }}

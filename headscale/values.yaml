@@ -9,18 +9,18 @@ image:
   repository: juanfont/headscale
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: ''
 
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: ''
+fullnameOverride: ''
 
 headscale:
   keys:
     # -- Create a new private key, if not exists
     create: true
     # -- Use an existing secret
-    existingSecret: ""
+    existingSecret: ''
 
   certmanager:
     enabled: true
@@ -31,16 +31,17 @@ headscale:
       kind: ClusterIssuer
       name: letsencrypt-prod
   config:
-    listen_addr: ":8080"
-    metrics_listen_addr: ":9090"
-    grpc_listen_addr: ":50443"
+    # https://github.com/juanfont/headscale/blob/main/config-example.yaml
+    listen_addr: ':8080'
+    metrics_listen_addr: ':9090'
+    grpc_listen_addr: ':50443'
 
     server_url: http://127.0.0.1:8080
     disable_check_updates: true
 
     # SQLite config
     database:
-      type: sqlite
+      type: postgres
       sqlite:
         # For production:
         path: /var/lib/headscale/db.sqlite
@@ -50,14 +51,14 @@ headscale:
         name: headscale
         user: foo
         pass: bar
-    private_key_path: "/etc/headscale/secrets/wireguard.key"
+    private_key_path: '/etc/headscale/secrets/wireguard.key'
     noise:
-      private_key_path: "/etc/headscale/secrets/noise.key"
+      private_key_path: '/etc/headscale/secrets/noise.key'
     # # certs
     # use certmanager instatt of internal acme:
     ## Use already defined certificates:
-    tls_cert_path: "/etc/headscale/certs/tls.crt"
-    tls_key_path: "/etc/headscale/certs/tls.key"
+    tls_cert_path: '/etc/headscale/certs/tls.crt'
+    tls_key_path: '/etc/headscale/certs/tls.key'
     prefixes:
       v6: fd7a:115c:a1e0::/48
       v4: 100.64.0.0/10
@@ -66,19 +67,47 @@ headscale:
       server:
         enabled: true
         region_id: 999
-        region_code: "headscale"
-        region_name: "Headscale Embedded DERP"
-        stun_listen_addr: "0.0.0.0:3478"
-        private_key_path: "/etc/headscale/secrets/derp.key"
+        region_code: 'headscale'
+        region_name: 'Headscale Embedded DERP'
+        stun_listen_addr: '0.0.0.0:3478'
+        private_key_path: '/etc/headscale/secrets/derp.key'
       urls: []
       # - https://controlplane.tailscale.com/derpmap/default
       paths: []
       # auto_update_enabled: true
       update_frequency: 24h
+    policy:
+      mode: database
     dns:
       base_domain: example.com
       override_local_dns: false
 
+headplane:
+  enabled: false
+  image:
+    registry: ghcr.io
+    repository: tale/headplane
+    pullPolicy: IfNotPresent
+    tag: 0.6.0
+  oidc:
+    enabled: false
+  config:
+    # https://github.com/tale/headplane/blob/main/config.example.yaml
+    server:
+      host: 0.0.0.0
+      port: 3000
+      cookie_secure: false
+      cookie_secret: ''
+    headscale:
+      config_strict: true
+      config_path: /etc/headscale/config.yaml
+      url: https://127.0.0.1
+      # public_url: https://headscale.example.com
+    integration:
+      kubernetes:
+        enabled: true
+        validate_manifest: true
+        pod_name: ''
 prometheus:
   servicemonitor:
     enabled: false
@@ -88,7 +117,7 @@ prometheus:
     labels: {}
     defaults:
       enabled: true
-      filter: ""
+      filter: ''
       lastUpdates:
         critical: 3600
         warning: 600
@@ -127,15 +156,17 @@ serviceAccount:
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: ""
+  name: ''
 
 podLabels: {}
 podAnnotations: {}
 
-podSecurityContext: {}
+podSecurityContext:
+  {}
   # fsGroup: 2000
 
-securityContext: {}
+securityContext:
+  {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -190,8 +221,9 @@ networkPolicy:
 
 ingress:
   enabled: false
-  className: ""
-  annotations: {}
+  className: ''
+  annotations:
+    {}
     # for usage with certmanager (pod certs) and nginx
     # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     #
@@ -207,7 +239,8 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-resources: {}
+resources:
+  {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following

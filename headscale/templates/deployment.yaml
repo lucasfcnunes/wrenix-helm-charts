@@ -28,17 +28,65 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if .Values.headplane.enabled }}
+      shareProcessNamespace: true
+      {{- end }}
       serviceAccountName: {{ include "headscale.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
+        {{- if .Values.headplane.enabled }}
+        - name: headplane
+          {{- with .Values.headplane.image }}
+          image: {{ .registry }}/{{ .repository }}:{{ .tag | default "latest" }}
+          imagePullPolicy: {{ .pullPolicy }}
+          {{- end }}
+          ports:
+            - name: ui-http
+              containerPort: {{ .Values.headplane.config.server.port }}
+              protocol: TCP
+          envFrom:
+            - secretRef:
+                name: {{ include "headscale.fullname" . }}-api-key
+          env:
+            - name: HEADPLANE_LOAD_ENV_OVERRIDES
+              value: 'true'
+            - name: HEADPLANE_INTEGRATION__KUBERNETES__POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: HEADPLANE_OIDC__HEADSCALE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "headscale.fullname" . }}-api-key
+                  key: HEADPLANE_OIDC__HEADSCALE_API_KEY
+            # - name: HEADPLANE_INTEGRATION__AGENT__PRE_AUTHKEY
+            #     secretKeyRef:
+            #       name: {{ include "headscale.fullname" . }}-api-key
+            #       key: HEADPLANE_INTEGRATION__AGENT__PRE_AUTHKEY
+          volumeMounts:
+            # {{- if .Values.headscale.certmanager.enabled }}
+            # - name: headscale-certs
+            #   mountPath: "/etc/headscale/certs"
+            #   readOnly: true
+            # {{- end }}
+            - name: config
+              mountPath: /etc/headscale/
+              readOnly: true
+            - name: headplane-config
+              mountPath: /etc/headplane/
+              readOnly: true
+            - name: data
+              mountPath: /var/lib/headplane/
+              subPath: headplane
+        {{- end }}
+        - name: headscale
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           {{- with .Values.image }}
           image: "{{ .registry }}/{{ .repository }}:{{ .tag | default $.Chart.AppVersion }}"
+          imagePullPolicy: {{ .pullPolicy }}
           {{- end }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
             - "serve"
           ports:
@@ -82,6 +130,7 @@ spec:
             {{- end }}
             - name: "data"
               mountPath: "/var/lib/headscale"
+              subPath: headscale
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -101,6 +150,14 @@ spec:
             items:
              - key: "config.yaml"
                path: "config.yaml"
+        {{- if .Values.headplane.enabled }}
+        - name: headplane-config
+          secret:
+            secretName: {{ include "headscale.fullname" . }}-headplane
+            items:
+             - key: config.yaml
+               path: config.yaml
+        {{- end }}
         - name: keys
           secret:
             secretName: {{ default (print ( include "headscale.fullname" . ) "-keys") $.Values.headscale.keys.existingSecret | quote }}

@@ -6,6 +6,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   annotations:
+    helm.sh/hook: pre-install,pre-upgrade
     helm.sh/resource-policy: keep
   name: {{ $name }}
 type: Opaque
@@ -18,8 +19,8 @@ metadata:
     app.kubernetes.io/component: keys-job
     {{- include "headscale.labels" . | nindent 4 }}
   annotations:
-    "helm.sh/hook": "pre-install,pre-upgrade"
-    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -29,8 +30,8 @@ metadata:
     app.kubernetes.io/component: keys-job
     {{- include "headscale.labels" . | nindent 4 }}
   annotations:
-    "helm.sh/hook": "pre-install,pre-upgrade"
-    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
 rules:
   - apiGroups:
       - ""
@@ -51,8 +52,8 @@ metadata:
     app.kubernetes.io/component: keys-job
     {{- include "headscale.labels" . | nindent 4 }}
   annotations:
-    "helm.sh/hook": "pre-install,pre-upgrade"
-    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -69,21 +70,21 @@ metadata:
   labels:
     {{- include "headscale.labels" . | nindent 4 }}
   annotations:
-    "helm.sh/hook": "pre-install,pre-upgrade"
-    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
 spec:
   template:
     spec:
-      restartPolicy: "Never"
+      restartPolicy: Never
       serviceAccount: {{ $name }}
       initContainers:
        - name: generate-key
          {{- with .Values.image }}
-         image: "{{ .registry }}/{{ .repository }}:{{ .tag | default $.Chart.AppVersion }}-debug"
+         image: {{ .registry }}/{{ .repository }}:{{ .tag | default $.Chart.AppVersion }}-debug
          {{- end }}
          imagePullPolicy: {{ .Values.image.pullPolicy }}
          command:
-          - sh 
+          - sh
           - -c
           - |
             set -e
@@ -94,9 +95,9 @@ spec:
             ls /etc/headscale/secrets/
          volumeMounts:
           - name: config
-            mountPath: "/etc/headscale"
+            mountPath: /etc/headscale
             readOnly: true
-          - mountPath: "/etc/headscale/secrets"
+          - mountPath: /etc/headscale/secrets
             name: secrets
       containers:
        - name: upload-key
@@ -135,10 +136,129 @@ spec:
          secret:
            secretName: {{ include "headscale.fullname" . }}
            items:
-            - key: "config.yaml"
-              path: "config.yaml"
+            - key: config.yaml
+              path: config.yaml
        - name: secrets
          emptyDir: {}
+  parallelism: 1
+  completions: 1
+  backoffLimit: 1
+{{ end }}
+{{ if .Values.headplane.enabled }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/resource-policy: keep
+  name: {{ include "headscale.fullname" . }}-api-key
+type: Opaque
+stringData:
+  HEADPLANE_OIDC__HEADSCALE_API_KEY: placeholder-token-will-be-replaced-by-job
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "headscale.fullname" . }}-api-key
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "headscale.fullname" . }}-api-key
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["create"]
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["create", "get", "update", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "headscale.fullname" . }}-api-key
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "headscale.fullname" . }}-api-key
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: Role
+  name: {{ include "headscale.fullname" . }}-api-key
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+  name: {{ include "headscale.fullname" . }}-api-key
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      serviceAccountName: {{ include "headscale.fullname" . }}-api-key
+      containers:
+        - name: {{ include "headscale.fullname" . }}-api-key
+          image: bitnami/kubectl:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+
+              echo "Waiting for headscale container to be Ready..."
+              while [ -z "$CONTAINER_STATUS" ]; do
+              POD_NAME=$(kubectl -n {{ .Release.Namespace }} get pod -l app.kubernetes.io/name={{ include "headscale.fullname" . }} -o=jsonpath="{.items[0].metadata.name}")
+              CONTAINER_STATUS=$(kubectl -n {{ .Release.Namespace }} get pod/${POD_NAME} -o=jsonpath="{.status.containerStatuses[?(@.name==\"headscale\")].state.running}")
+                sleep 1
+              done
+
+              echo "Checking if API token needs to be generated..."
+              if kubectl get secret {{ include "headscale.fullname" . }}-api-key -n {{ .Release.Namespace }} >/dev/null 2>&1; then
+                CURRENT_TOKEN=$(kubectl get secret {{ include "headscale.fullname" . }}-api-key -n {{ .Release.Namespace }} -o jsonpath='{.data.HEADPLANE_OIDC__HEADSCALE_API_KEY}' | base64 -d)
+                echo "Current token value: '$CURRENT_TOKEN'"
+                echo "Current token length: ${#CURRENT_TOKEN}"
+                echo "Expected placeholder: 'placeholder-token-will-be-replaced-by-job'"
+                echo "Expected length: 42"
+                if [[ "$CURRENT_TOKEN" != "placeholder-token-will-be-replaced-by-job" ]]; then
+                  echo "Real API token already exists. Skipping token generation."
+                  exit 0
+                else
+                  echo "Placeholder token found. Generating real API token..."
+                fi
+              else
+                echo "Secret not found. Generating API token..."
+              fi
+
+              echo "Generating Headscale API token..."
+              TOKEN=$(kubectl -n {{ .Release.Namespace }} exec -i pod/${POD_NAME} -c headscale -- headscale apikeys create -e 100y)
+
+              if [ -z "$TOKEN" ]; then
+                echo "Failed to retrieve API token"
+                exit 1
+              fi
+
+              echo "Updating {{ include "headscale.fullname" . }}-api-key secret with generated API token..."
+              kubectl patch secret {{ include "headscale.fullname" . }}-api-key -n {{ .Release.Namespace }} -p="{\"data\":{\"HEADPLANE_OIDC__HEADSCALE_API_KEY\":\"$(echo -n "$TOKEN" | base64)\"}}"
+
+              echo "Successfully updated {{ include "headscale.fullname" . }}-api-key secret with real API token"
   parallelism: 1
   completions: 1
   backoffLimit: 1
